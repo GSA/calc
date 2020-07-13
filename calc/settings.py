@@ -366,9 +366,7 @@ UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
 
 UAA_CLIENT_ID = os.environ.get('UAA_CLIENT_ID', 'calc-dev')
 
-# UAA_LOGOUT_URL = 'https://login.fr.cloud.gov/logout.do'
-
-UAA_LOGOUT_URL = 'https://calc-staging.app.cloud.gov/'
+UAA_LOGOUT_URL = '/logout'
 
 UAA_CLIENT_SECRET = os.environ.get('UAA_CLIENT_SECRET')
 
