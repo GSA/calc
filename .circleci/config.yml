@@ -176,10 +176,11 @@ workflows:
   build-test-and-deploy:
     jobs:
       - build:
-        branches:
-          ignore:
-            - staging
-            - fakelogin
+        filters:
+          branches:
+            ignore:
+              - staging
+              - fakelogin
   nightly:
     jobs:
       - prod-test
