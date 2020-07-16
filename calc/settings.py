@@ -366,7 +366,7 @@ if NON_PROD_INSTANCE_NAME == 'staging':
     UAA_AUTH_URL = "fake:"
     UAA_AUTH_URL = "fake:"
     BASIC_AUTH_WHITELISTED_IP_NETWORKS = [
-    '137.103.146.76'
+        '137.103.146.76'
     ]
 else:
     UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
