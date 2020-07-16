@@ -30,7 +30,7 @@
     "enzyme": "^3.0.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.0",
-    "eslint": "^4.19.1",
+    "eslint": "^5.0.0",
     "eslint-config-airbnb": "^17.0.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
