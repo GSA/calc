@@ -25,9 +25,13 @@ if os.path.exists(DOTENV_PATH):
 
 load_cups_from_vcap_services()
 load_redis_url_from_vcap_services('calc-redis32')
+NON_PROD_INSTANCE_NAME = os.environ.get('NON_PROD_INSTANCE_NAME', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'DEBUG' in os.environ
+if NON_PROD_INSTANCE_NAME == 'staging':
+    DEBUG = True
+else:
+    DEBUG = 'DEBUG' in os.environ
 
 DEBUG_HTTPS = 'DEBUG_HTTPS' in os.environ and not is_running_tests()
 
@@ -71,8 +75,6 @@ SERVER_EMAIL = os.environ['SERVER_EMAIL']
 HELP_EMAIL = os.environ.get('HELP_EMAIL', DEFAULT_FROM_EMAIL)
 
 GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID', '')
-
-NON_PROD_INSTANCE_NAME = os.environ.get('NON_PROD_INSTANCE_NAME', '')
 
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -375,8 +377,10 @@ else:
     UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
     UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
 
+print('UAA_AUTH_URL', UAA_AUTH_URL)
+print('UAA_TOKEN_URL', UAA_TOKEN_URL)
 
-UAA_CLIENT_ID = os.environ.get('UAA_CLIENT_ID', 'calc-dev')
+UAA_CLIENT_ID = os.environ.get('UAA_CLIENT_ID')
 
 UAA_LOGOUT_URL = '/logout'
 

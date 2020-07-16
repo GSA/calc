@@ -111,7 +111,7 @@ jobs:
            - node_modules
            - ~/.yarn-cache
       - run:
-          name: Build front end and run front end tests
+          name: Build front end
           command: |
             yarn gulp build
 
