@@ -16,6 +16,7 @@ describe('<Highlights>', () => {
 
     expect(wrapper.find('.sd-highlight').first().text()).toBe('$1');
     expect(wrapper.find('.avg-price-highlight').text()).toBe('$2');
+    expect(wrapper.find('.sd-highlight').first().text()).toBe('$1');
     expect(wrapper.find('.sd-highlight').last().text()).toBe('$3');
   });
 

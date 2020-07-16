@@ -45,7 +45,7 @@
     "gulp-uglify": "^3.0.1",
     "gulp-util": "^3.0.7",
     "jest": "23.5.0",
-    "jquery": "^3.5.0",
+    "jquery": "^3.5.1",
     "prop-types": "^15.6.1",
     "raf": "^3.4.0",
     "rc-slider": "^8.6.1",
