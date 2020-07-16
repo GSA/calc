@@ -361,14 +361,13 @@ if DEBUG and not HIDE_DEBUG_UI:
     DATA_CAPTURE_SCHEDULES += (
         'data_capture.schedules.fake_schedule.FakeSchedulePriceList',
     )
-    
-BASIC_AUTH_WHITELISTED_IP_NETWORKS = [
-    '137.103.146.76'
-]
 
 if NON_PROD_INSTANCE_NAME == 'staging':
     UAA_AUTH_URL = "fake:"
     UAA_AUTH_URL = "fake:"
+    BASIC_AUTH_WHITELISTED_IP_NETWORKS = [
+    '137.103.146.76'
+    ]
 else:
     UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
     UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
