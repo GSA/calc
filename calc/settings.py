@@ -180,6 +180,8 @@ MIDDLEWARE_CLASSES = (
     'calc.middleware.DebugOnlyDebugToolbarMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'admin_reorder.middleware.ModelAdminReorder',
+
+    'baipw.middleware.BasicAuthIPWhitelistMiddleware'
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -360,9 +362,19 @@ if DEBUG and not HIDE_DEBUG_UI:
         'data_capture.schedules.fake_schedule.FakeSchedulePriceList',
     )
 
-UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
+if NON_PROD_INSTANCE_NAME == 'staging':
+    UAA_AUTH_URL = "fake:"
+    UAA_AUTH_URL = "fake:"
+    # todo: put these in an environment variable so they aren't exposed through the code
+    BASIC_AUTH_WHITELISTED_IP_NETWORKS = [
+        '137.103.146.76',
+        '69.243.1.128',
+        '34.196.74.17'
+    ]
+else:
+    UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
+    UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
 
-UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
 
 UAA_CLIENT_ID = os.environ.get('UAA_CLIENT_ID', 'calc-dev')
 
