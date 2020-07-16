@@ -371,7 +371,6 @@ if NON_PROD_INSTANCE_NAME == 'staging':
         '69.243.1.128',
         '34.196.74.17',
         '127.0.0.1'
-
     ]
 else:
     UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
