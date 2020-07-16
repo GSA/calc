@@ -178,8 +178,9 @@ workflows:
       - build:
         filters:
           branches:
-            ignore: staging
-            ignore: fakelogin
+            ignore: 
+              - fakelogin
+              - staging
   nightly:
     jobs:
       - prod-test
