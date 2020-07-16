@@ -250,11 +250,11 @@ workflows:
   build-staging:
     jobs:
       - build_without_tests:
-        filters:
-          branches:
-            only:
-              - staging
-              - fakelogin
+          filters:
+            branches:
+              only:
+                - staging
+                - fakelogin
 
   nightly: 
     jobs:
