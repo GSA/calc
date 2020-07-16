@@ -58,10 +58,10 @@ jobs:
     steps:
       - checkout
 
-    - restore_cache:
-        key: v1-py-cache-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}-{{ checksum "requirements.txt" }}
+      - restore_cache:
+          key: v1-py-cache-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}-{{ checksum "requirements.txt" }}
     
-    - run:
+      - run:
         name: Activate venv and install requirements
         command: |
           python3 -m venv ~/venv
@@ -70,13 +70,13 @@ jobs:
           source $BASH_ENV
 
           pip install -r requirements-dev.txt
-    - save_cache:
+      - save_cache:
         name: Save python deps cache
         key: v1-py-cache-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}-{{ checksum "requirements.txt" }}
         paths:
           - ~/venv
 
-    - run:
+      - run:
         name: Install nvm and node @ CI_NODE_VERSION
         command: |
           curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
@@ -84,37 +84,37 @@ jobs:
           source $BASH_ENV
           nvm install $CI_NODE_VERSION
 
-    - run:
+      - run:
         name: Uninstall any old version of gulp (only needed for upgrade)
         command: |
           npm rm --g gulp
     
-    - run:
+      - run:
         name: Install yarn and gulp
         command: |
           npm install -g yarn gulp-cli
     
-    - run:
+      - run:
         name: Ensure gulp4 is installed
         command: |
           npm install -g gulp4
 
-    - run:
+      - run:
         name: Install node dependencies
         command: |
           yarn --frozen-lockfile
-    - save_cache:
+      - save_cache:
         name: Save node deps cache
         key: v1-node-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
         paths:
           - node_modules
           - ~/.yarn-cache
-    - run:
+      - run:
         name: Build front end and run front end tests
         command: |
           yarn gulp build
 
-    - deploy:
+      - deploy:
         name: Deploy to staging
         command: |
           if [[ "${CIRCLE_BRANCH}" == "staging" ]]; then
@@ -249,7 +249,7 @@ workflows:
   
   build-staging:
     jobs:
-      -build_without_tests:
+      - build_without_tests:
         filters:
           branches:
             only:
