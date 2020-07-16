@@ -179,7 +179,6 @@ workflows:
         filters:
           branches:
             ignore: 
-              - fakelogin
               - staging
   nightly:
     jobs:
