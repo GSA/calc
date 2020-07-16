@@ -365,8 +365,10 @@ if DEBUG and not HIDE_DEBUG_UI:
 if NON_PROD_INSTANCE_NAME == 'staging':
     UAA_AUTH_URL = "fake:"
     UAA_AUTH_URL = "fake:"
+    # todo: put these in an environment variable so they aren't exposed through the code
     BASIC_AUTH_WHITELISTED_IP_NETWORKS = [
-        '137.103.146.76'
+        '137.103.146.76',
+        '69.243.1.128'
     ]
 else:
     UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
