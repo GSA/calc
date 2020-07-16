@@ -180,6 +180,8 @@ MIDDLEWARE_CLASSES = (
     'calc.middleware.DebugOnlyDebugToolbarMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'admin_reorder.middleware.ModelAdminReorder',
+
+    'baipw.middleware.BasicAuthIPWhitelistMiddleware'
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -359,20 +361,24 @@ if DEBUG and not HIDE_DEBUG_UI:
     DATA_CAPTURE_SCHEDULES += (
         'data_capture.schedules.fake_schedule.FakeSchedulePriceList',
     )
+    
+BASIC_AUTH_WHITELISTED_IP_NETWORKS = [
+    '137.103.146.76'
+]
 
-UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
+if NON_PROD_INSTANCE_NAME == 'staging':
+    UAA_AUTH_URL = "fake:"
+    UAA_AUTH_URL = "fake:"
+else:
+    UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
+    UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
 
-UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
 
-# STAGING ID -@TODO fix
-UAA_CLIENT_ID = '45021bd6-c98b-4580-b4c7-ec0498b1ba63'
-# os.environ.get('UAA_CLIENT_ID', 'calc-dev')
+os.environ.get('UAA_CLIENT_ID', '')
 
 UAA_LOGOUT_URL = 'https://login.fr.cloud.gov/logout.do'
 
-# staging ID -@todo fix
-UAA_CLIENT_SECRET = 'oxYSZ.NA_Shka,9RSpWfrZPxpk3Vjnk.'
-# os.environ.get('UAA_CLIENT_SECRET')
+os.environ.get('UAA_CLIENT_SECRET','')
 
 LOGIN_URL = 'uaa_client:login'
 
