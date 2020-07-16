@@ -178,7 +178,7 @@ workflows:
       - build:
         filters:
           branches:
-            only: 
+            only:
               - master
               - develop
   nightly:
