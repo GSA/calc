@@ -74,7 +74,7 @@ DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
 SERVER_EMAIL = os.environ['SERVER_EMAIL']
 HELP_EMAIL = os.environ.get('HELP_EMAIL', DEFAULT_FROM_EMAIL)
 
-GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID', '')
+GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID')
 
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -170,6 +170,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+
+    'ip_restriction.IpWhitelister',
+
     # 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'uaa_client.middleware.UaaRefreshMiddleware',
@@ -368,10 +371,10 @@ if NON_PROD_INSTANCE_NAME == 'staging':
     UAA_AUTH_URL = "fake:"
     UAA_TOKEN_URL = "fake:"
     # todo: put these in an environment variable so they aren't exposed through the code
-    BASIC_AUTH_WHITELISTED_IP_NETWORKS = [
+    RESTRICT_IPS = True
+    ALLOWED_IPS = [
         '137.103.146.76',
-        '69.243.1.128',
-        '34.196.74.17'
+        '69.243.1.128'
     ]
 else:
     UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
