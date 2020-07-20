@@ -371,11 +371,11 @@ if NON_PROD_INSTANCE_NAME == 'staging':
     UAA_AUTH_URL = "fake:"
     UAA_TOKEN_URL = "fake:"
     # todo: put these in an environment variable so they aren't exposed through the code
-    RESTRICT_IPS = True
-    ALLOWED_IPS = [
-        '137.103.146.76',
-        '69.243.1.128'
-    ]
+    # RESTRICT_IPS = True
+    # ALLOWED_IPS = [
+      #  '137.103.146.76',
+      #  '69.243.1.128'
+    #]
 else:
     UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
     UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
