@@ -184,10 +184,9 @@ MIDDLEWARE_CLASSES = (
     # http://django-debug-toolbar.readthedocs.io/en/stable/panels.html#profiling
     'calc.middleware.DebugOnlyDebugToolbarMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
-    'admin_reorder.middleware.ModelAdminReorder',
-
-    'baipw.middleware.BasicAuthIPWhitelistMiddleware'
-)
+    'admin_reorder.middleware.ModelAdminReorder'
+    
+    )
 
 AUTHENTICATION_BACKENDS = (
     'uaa_client.authentication.UaaBackend',
