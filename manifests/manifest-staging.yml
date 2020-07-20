@@ -17,6 +17,9 @@ applications:
   routes:
     - route: calc-staging.app.cloud.gov
   command: bash cf.sh
+  environment:
+    ALLOWED_IPS: 137.103.146.76,69.243.1.128
+
 
 - name: calc-rqworker
   <<: *defaults
