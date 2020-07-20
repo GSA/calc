@@ -373,9 +373,7 @@ if NON_PROD_INSTANCE_NAME == 'staging':
     UAA_CLIENT_ID = 'fakeclientid'
     UAA_CLIENT_SECRET = 'fakeclientsecret'
     RESTRICT_IPS = True
-    ALLOWED_IPS = os.environ.get('WHITELISTED_IPS')
-    test_ips = os.environ.get('WHITELISTED_IPS',"not found")
-    print('test ips var:', test_ips)
+    ALLOWED_IPS = os.environ.get('WHITELISTED_IPS').split(',')
 else:
     UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
     UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
