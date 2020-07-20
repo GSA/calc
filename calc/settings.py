@@ -369,6 +369,7 @@ if DEBUG and not HIDE_DEBUG_UI:
 if NON_PROD_INSTANCE_NAME == 'staging':
     UAA_AUTH_URL = "fake:"
     UAA_TOKEN_URL = "fake:"
+    UAA_APPROVED_DOMAINS=['gsa.gov']
     # todo: put these in an environment variable so they aren't exposed through the code
     RESTRICT_IPS = True
     ALLOWED_IPS = [
