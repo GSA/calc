@@ -369,13 +369,13 @@ if DEBUG and not HIDE_DEBUG_UI:
 if NON_PROD_INSTANCE_NAME == 'staging':
     UAA_AUTH_URL = "fake:"
     UAA_TOKEN_URL = "fake:"
-    UAA_APPROVED_DOMAINS=['gsa.gov']
+    UAA_APPROVED_DOMAINS=['gsa.gov','example.com']
     UAA_CLIENT_ID = 'fakeclientid'
     UAA_CLIENT_SECRET = 'fakeclientsecret'
     # todo: put these in an environment variable so they aren't exposed through the code
     RESTRICT_IPS = True
     ALLOWED_IPS = [
-      #'137.103.146.76',
+      '137.103.146.76',
       #'69.243.1.128'
     ]
     test_ips = os.environ.get('ALLOWED_IPS',"not found")
