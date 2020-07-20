@@ -375,9 +375,11 @@ if NON_PROD_INSTANCE_NAME == 'staging':
     # todo: put these in an environment variable so they aren't exposed through the code
     RESTRICT_IPS = True
     ALLOWED_IPS = [
-      '137.103.146.76',
-      '69.243.1.128'
+      #'137.103.146.76',
+      #'69.243.1.128'
     ]
+    test_ips = os.environ.get('ALLOWED_IPS',"not found")
+    print('test ips var:', test_ips)
 else:
     UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
     UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
