@@ -370,6 +370,8 @@ if NON_PROD_INSTANCE_NAME == 'staging':
     UAA_AUTH_URL = "fake:"
     UAA_TOKEN_URL = "fake:"
     UAA_APPROVED_DOMAINS=['gsa.gov']
+    UAA_CLIENT_ID = 'fakeclientid'
+    UAA_CLIENT_SECRET = 'fakeclientsecret'
     # todo: put these in an environment variable so they aren't exposed through the code
     RESTRICT_IPS = True
     ALLOWED_IPS = [
@@ -379,15 +381,10 @@ if NON_PROD_INSTANCE_NAME == 'staging':
 else:
     UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
     UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
-
-print('UAA_AUTH_URL', UAA_AUTH_URL)
-print('UAA_TOKEN_URL', UAA_TOKEN_URL)
-
-UAA_CLIENT_ID = os.environ.get('UAA_CLIENT_ID')
+    UAA_CLIENT_ID = os.environ.get('UAA_CLIENT_ID')
+    UAA_CLIENT_SECRET = os.environ.get('UAA_CLIENT_SECRET')
 
 UAA_LOGOUT_URL = '/logout'
-
-UAA_CLIENT_SECRET = os.environ.get('UAA_CLIENT_SECRET')
 
 LOGIN_URL = 'uaa_client:login'
 
