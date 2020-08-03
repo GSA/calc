@@ -1,0 +1,1244 @@
+{% extends "base.html" %}
+{% load staticfiles data_explorer_tags %}
+
+{% block head_meta %}
+  {% head_meta title="BLS Info" description="BLS Info, the Contract-Awarded Labor Category tool" %}
+  
+  
+{% endblock %}
+
+{% block body_class %}content--skinny{% endblock %}
+
+{% block body %}
+<style>
+   /* .assist-textBox{
+   } */
+   .required{
+      color:red;
+   }
+   .box_custom{
+      width: 80%;
+      margin: 0% 10%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+   }
+   .box_custom .box-content{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-direction: column;
+   }
+   .box_custom .box-content .eachfield{
+      width: 100%;
+      margin-bottom: 10px;
+   }
+   .box_custom .box-content .eachfield .readonly input{
+      border:none;
+   }
+   .box_custom .box-content .eachrows{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width:100%
+   }
+   .box_custom .box-content .eachrows .labelList{
+      width: 25%;
+   }
+   .box_custom .box-content .eachrows .valueList{
+      width: 65%;
+   }
+   .box_custom .box-content .button_submit{
+      width: 80%;
+      margin: 0px 10%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+   }
+   .box_custom .box-content .eachfield input{
+      width: 100%;
+   }
+   select[disabled=true]{
+      background: #dbdbdb;
+   }
+   .calc_loader{
+      width:100%;
+      height: 100%;
+      position: absolute;
+      top:0;
+      left:0;
+      background: rgba(255,255,255,0.7);
+      display:none;
+      justify-content: center;
+      align-items: center;
+   }
+   .calc_loader.active{
+      display:flex;
+   }
+   .calc_loader .loader_item{
+      width:100px;
+      height: 100px;
+      background: url('https://thumbs.gfycat.com/RelievedSilentArcticwolf-small.gif');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+   }
+   .bls_result .result_header{
+      width: 100%;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+   }
+   .bls_result .gobackbtn{
+      float: right;
+      margin-right: 50px;
+   }
+   .warnningbanner{
+      width: 90%;
+      margin: auto;
+      height: 200px;
+      position: relative;
+      border: 8px solid #2d4d59;
+   }
+   .warnningbanner h3{
+      padding: 0;
+      margin: 0;
+      position: absolute;
+      top:50%;
+      left:50%;
+      transform: translate(-50%,-50%);
+      width: 100%;
+      height: auto;
+      margin: 0 auto;
+      text-align: center;
+   }
+</style>
+<div class="container">
+<div class="row">
+  
+  <div class="card" style="position: relative;">
+
+   <form class="primary_form"  autocomplete="off" onsubmit="return validatePrimary(this)">
+      <div class="box box_custom" >
+         <div class="box-title">Pricing Control Information</div>
+         <div id="" class="box-content">
+            
+   
+            <div class="eachfield">
+               <div class="left column labelList " id="price_module_title_lable">
+                  <label for="price_module_title">Title<span class="required">*</span></label>
+               </div>
+               <div class="left column valueList ">
+                  <input id="price_module_title" type="text" name="price_module_title" required>
+               </div>
+            </div>
+            
+            <div class="eachfield">
+               <div class="left column labelList" id="cpetId_lable">
+                  <label for="cpetId">CPET Id<span class="required">*</span></label>
+               </div>
+               <div class="left column valueList ">
+                  <input id="cpetId" type="text" name="cpetId" required value="105495">
+               </div>
+            </div>
+            <div class="eachfield">
+               <div class="left column labelList " id="task_order_id_lable">
+                  <label for="task_order_id">Task Order Id<span class="required">*</span></label>
+               </div>
+               <div class="left column valueList ">
+                  <input id="task_order_id" type="text" name="task_order_id" required>
+               </div>
+            </div>
+            <div class="eachfield">
+               <div class="left column labelList " id="igce_name_label">
+                  <label for="igce_name">IGCE Requester Name<span class="required">*</span></label>
+               </div>
+               <div class="left column valueList ">
+                  <input id="igce_name" type="text" name="igce_name" required>
+               </div>
+            </div>
+   
+            <div class="eachfield">
+               <div class="left column labelList " id="contract_family_label">
+                  <label for="contract_family">Contract Family</label>
+               </div>
+               <div class="left column valueList readonly">
+                  <input id="contract_family" type="text" value="OASIS"  name="contract_family" readonly >
+               </div>
+            </div>
+            <div class="eachfield">
+               <div class="left column labelList" id="selectContractYear_lable">
+                  <label for="selectContractYear">Contract Year<span class="required">*</span></label>
+               </div>
+               <div class="left column valueList">
+                  <select id="selectContractYear" name="selectContractYear" required>
+                     <option value="">Choose one...</option>
+                     <option value="1" selected="selected">Base</option>
+                     <option value="2">2</option>
+                     <option value="3">3</option>
+                     <option value="4">4</option>
+                     <option value="5">5</option>
+                     <option value="6">6</option>
+                     <option value="7">7</option>
+                     <option value="8">8</option>
+                     <option value="9">9</option>
+                     <option value="10">10</option>
+                  </select>
+               </div>
+            </div>
+   
+            <div class="eachfield">
+               <div class="left column labelList " id="no_of_years_label">
+                  <label for="no_of_years">Number of Years</label>
+               </div>
+               <div class="left column valueList readonly">
+                  <input id="no_of_years" type="text" value="5" name="no_of_years" readonly >
+               </div>
+            </div>
+   
+            <div class="eachfield">
+               <div class="left column labelList " id="created_date_label">
+                  <label for="created_date">Creation Date</label>
+               </div>
+               <div class="left column valueList readonly">
+                  <input id="created_date" type="text" value="06/04/2020, 00:00:00 AM" name="created_date" readonly >
+               </div>
+            </div>
+            <div id="columns" class="eachfield">
+               <div class="left column labelList " id="comments_top_label">
+                  <label for="comments_top">Comments</label>
+               </div>
+               <div class="left column valueList ">
+                  <textarea id="comments_top" name="comments_top" style="height: 100px;" rows="3" maxlength="2000"></textarea>
+               </div>
+            </div>
+            <div id="columns" class="button_submit">
+               <button id="launchbtn" type="submit" class="ux-btn ux-btn-primary pull-right">Launch Price Index Tool</button>
+            </div>
+         </div>
+      </div>
+   </form>
+
+   <form class="secondary_form hidden" autocomplete="off" onsubmit="return validateSecondary(this)">
+      <div class="box box_custom" >
+         <div class="box-title">Price Estimating Tool</div>
+         <div id="" class="box-content">
+            <div class="eachfield">
+               <div id="selectOccupation_label">
+                  <label for="selectOccupation">Occupation<span class="required">*</span></label>
+               </div>
+               <div class="left column valueList ">
+                  <select id="selectOccupation" name="socCode" required onchange="getLACTTitle(this)">
+                     <option value="">Choose one...</option>
+                     <option value="13-2011">Accountants and Auditors (SOC: 13-2011)</option>
+                     <option value="27-2011">Actors (SOC: 27-2011)</option>
+                     <option value="15-2011">Actuary (SOC: 15-2011)</option>
+                     <option value="51-9191">Adhesive Bonding Machine Operators and Tenders (SOC: 51-9191)</option>
+                     <option value="23-1021">Administrative Law Judges, Adjudicators, and Hearing Officers (SOC: 23-1021)</option>
+                     <option value="43-6011">Administrative Professional (SOC: 43-6011)</option>
+                     <option value="11-3011">Administrative Services Managers (SOC: 11-3011)</option>
+                     <option value="25-3011">Adult Basic and Secondary Education and Literacy Teachers and Instructors (SOC: 25-3011)</option>
+                     <option value="11-2011">Advertising and Promotions Managers (SOC: 11-2011)</option>
+                     <option value="41-3011">Advertising Sales Agents (SOC: 41-3011)</option>
+                     <option value="17-3021">Aerospace Engineering and Operations Technicians (SOC: 17-3021)</option>
+                     <option value="17-2011">Aerospace Engineers (SOC: 17-2011)</option>
+                     <option value="13-1011">Agents and Business Managers of Artists, Performers, and Athletes (SOC: 13-1011)</option>
+                     <option value="19-4011">Agricultural and Food Science Technicians (SOC: 19-4011)</option>
+                     <option value="17-2021">Agricultural Engineers (SOC: 17-2021)</option>
+                     <option value="45-2091">Agricultural Equipment Operators (SOC: 45-2091)</option>
+                     <option value="45-2011">Agricultural Inspectors (SOC: 45-2011)</option>
+                     <option value="45-2099">Agricultural Workers, All Other (SOC: 45-2099)</option>
+                     <option value="53-1011">Aircraft Cargo Handling Supervisors (SOC: 53-1011)</option>
+                     <option value="49-3011">Aircraft Mechanics and Service Technicians (SOC: 49-3011)</option>
+                     <option value="51-2011">Aircraft Structure, Surfaces, Rigging, and Systems Assemblers (SOC: 51-2011)</option>
+                     <option value="53-2022">Airfield Operations Specialists (SOC: 53-2022)</option>
+                     <option value="53-2021">Air Traffic Controllers (SOC: 53-2021)</option>
+                     <option value="53-3011">Ambulance Drivers and Attendants, Except Emergency Medical Technicians (SOC: 53-3011)</option>
+                     <option value="39-3091">Amusement and Recreation Attendants (SOC: 39-3091)</option>
+                     <option value="29-1061">Anesthesiologists (SOC: 29-1061)</option>
+                     <option value="45-2021">Animal Breeders (SOC: 45-2021)</option>
+                     <option value="33-9011">Animal Control Workers (SOC: 33-9011)</option>
+                     <option value="19-1011">Animal Scientists (SOC: 19-1011)</option>
+                     <option value="39-2011">Animal Trainers (SOC: 39-2011)</option>
+                     <option value="19-3091">Anthropologists and Archeologists (SOC: 19-3091)</option>
+                     <option value="13-2021">Appraisers and Assessors of Real Estate (SOC: 13-2021)</option>
+                     <option value="23-1022">Arbitrators, Mediators, and Conciliators (SOC: 23-1022)</option>
+                     <option value="17-1011">Architects, Except Landscape and Naval (SOC: 17-1011)</option>
+                     <option value="17-3011">Architectural and Civil Drafters (SOC: 17-3011)</option>
+                     <option value="11-9041">Architectural and Engineering Managers (SOC: 11-9041)</option>
+                     <option value="25-4011">Archivists (SOC: 25-4011)</option>
+                     <option value="27-1011">Art Directors (SOC: 27-1011)</option>
+                     <option value="27-1019">Artists and Related Workers, All Other (SOC: 27-1019)</option>
+                     <option value="51-2099">Assemblers and Fabricators, All Other (SOC: 51-2099)</option>
+                     <option value="19-2011">Astronomers (SOC: 19-2011)</option>
+                     <option value="19-2021">Atmospheric and Space Scientists (SOC: 19-2021)</option>
+                     <option value="27-4011">Audio and Video Equipment Technicians (SOC: 27-4011)</option>
+                     <option value="29-1181">Audiologists (SOC: 29-1181)</option>
+                     <option value="25-9011">Audio-Visual and Multimedia Collections Specialists (SOC: 25-9011)</option>
+                     <option value="53-6031">Automotive and Watercraft Service Attendants (SOC: 53-6031)</option>
+                     <option value="49-3021">Automotive Body and Related Repairers (SOC: 49-3021)</option>
+                     <option value="49-3022">Automotive Glass Installers and Repairers (SOC: 49-3022)</option>
+                     <option value="49-3023">Automotive Service Technicians and Mechanics (SOC: 49-3023)</option>
+                     <option value="49-2091">Avionics Technicians (SOC: 49-2091)</option>
+                     <option value="39-6011">Baggage Porters and Bellhops (SOC: 39-6011)</option>
+                     <option value="33-3011">Bailiffs (SOC: 33-3011)</option>
+                     <option value="51-3011">Bakers (SOC: 51-3011)</option>
+                     <option value="39-5011">Barbers (SOC: 39-5011)</option>
+                     <option value="35-3011">Bartenders (SOC: 35-3011)</option>
+                     <option value="49-3091">Bicycle Repairers (SOC: 49-3091)</option>
+                     <option value="43-3011">Bill and Account Collectors (SOC: 43-3011)</option>
+                     <option value="43-3021">Billing and Posting Clerks (SOC: 43-3021)</option>
+                     <option value="19-1021">Biochemists and Biophysicists (SOC: 19-1021)</option>
+                     <option value="19-1029">Biological Scientists, All Other (SOC: 19-1029)</option>
+                     <option value="19-4021">Biological Technicians (SOC: 19-4021)</option>
+                     <option value="17-2031">Biomedical Engineers (SOC: 17-2031)</option>
+                     <option value="47-2011">Boilermakers (SOC: 47-2011)</option>
+                     <option value="43-3031">Bookkeeping, Accounting, and Auditing Clerks (SOC: 43-3031)</option>
+                     <option value="47-2021">Brickmasons and Blockmasons (SOC: 47-2021)</option>
+                     <option value="53-6011">Bridge and Lock Tenders (SOC: 53-6011)</option>
+                     <option value="27-3021">Broadcast News Analysts (SOC: 27-3021)</option>
+                     <option value="27-4012">Broadcast Technicians (SOC: 27-4012)</option>
+                     <option value="43-4011">Brokerage Clerks (SOC: 43-4011)</option>
+                     <option value="13-2031">Budget Analysts (SOC: 13-2031)</option>
+                     <option value="37-2019">Building Cleaning Workers, All Other (SOC: 37-2019)</option>
+                     <option value="49-3031">Bus and Truck Mechanics and Diesel Engine Specialists (SOC: 49-3031)</option>
+                     <option value="53-3022">Bus Drivers, School or Special Client (SOC: 53-3022)</option>
+                     <option value="53-3021">Bus Drivers, Transit and Intercity (SOC: 53-3021)</option>
+                     <option value="13-1199">Business Operations Specialists, All Other (SOC: 13-1199)</option>
+                     <option value="51-3021">Butchers and Meat Cutters (SOC: 51-3021)</option>
+                     <option value="13-1021">Buyers and Purchasing Agents, Farm Products (SOC: 13-1021)</option>
+                     <option value="51-7011">Cabinetmakers and Bench Carpenters (SOC: 51-7011)</option>
+                     <option value="49-9061">Camera and Photographic Equipment Repairers (SOC: 49-9061)</option>
+                     <option value="27-4031">Camera Operators, Television, Video, and Motion Picture (SOC: 27-4031)</option>
+                     <option value="53-5021">Captains, Mates, and Pilots of Water Vessels (SOC: 53-5021)</option>
+                     <option value="29-2031">Cardiovascular Technologists and Technicians (SOC: 29-2031)</option>
+                     <option value="43-5011">Cargo and Freight Agents (SOC: 43-5011)</option>
+                     <option value="47-2031">Carpenters (SOC: 47-2031)</option>
+                     <option value="47-2041">Carpet Installers (SOC: 47-2041)</option>
+                     <option value="17-1021">Cartographers and Photogrammetrists (SOC: 17-1021)</option>
+                     <option value="41-2011">Cashiers (SOC: 41-2011)</option>
+                     <option value="47-2051">Cement Masons and Concrete Finishers (SOC: 47-2051)</option>
+                     <option value="35-1011">Chefs and Head Cooks (SOC: 35-1011)</option>
+                     <option value="17-2041">Chemical Engineers (SOC: 17-2041)</option>
+                     <option value="51-9011">Chemical Equipment Operators and Tenders (SOC: 51-9011)</option>
+                     <option value="51-8091">Chemical Plant and System Operators (SOC: 51-8091)</option>
+                     <option value="19-4031">Chemical Technicians (SOC: 19-4031)</option>
+                     <option value="19-2031">Chemists (SOC: 19-2031)</option>
+                     <option value="11-1011">Chief Executives (SOC: 11-1011)</option>
+                     <option value="39-9011">Childcare Workers (SOC: 39-9011)</option>
+                     <option value="21-1021">Child, Family, and School Social Workers (SOC: 21-1021)</option>
+                     <option value="29-1011">Chiropractors (SOC: 29-1011)</option>
+                     <option value="27-2032">Choreographers (SOC: 27-2032)</option>
+                     <option value="17-3022">Civil Engineering Technicians (SOC: 17-3022)</option>
+                     <option value="17-2051">Civil Engineers (SOC: 17-2051)</option>
+                     <option value="13-1031">Claims Adjusters, Examiners, and Investigators (SOC: 13-1031)</option>
+                     <option value="53-7061">Cleaners of Vehicles and Equipment (SOC: 53-7061)</option>
+                     <option value="51-9192">Cleaning, Washing, and Metal Pickling Equipment Operators and Tenders (SOC: 51-9192)</option>
+                     <option value="21-2011">Clergy (SOC: 21-2011)</option>
+                     <option value="19-3031">Clinical, Counseling, and School Psychologists (SOC: 19-3031)</option>
+                     <option value="51-9121">Coating, Painting, and Spraying Machine Setters, Operators, and Tenders (SOC: 51-9121)</option>
+                     <option value="51-2021">Coil Winders, Tapers, and Finishers (SOC: 51-2021)</option>
+                     <option value="49-9091">Coin, Vending, and Amusement Machine Servicers and Repairers (SOC: 49-9091)</option>
+                     <option value="35-3021">Combined Food Preparation and Serving Workers, Including Fast Food (SOC: 35-3021)</option>
+                     <option value="27-1021">Commercial and Industrial Designers (SOC: 27-1021)</option>
+                     <option value="49-9092">Commercial Divers (SOC: 49-9092)</option>
+                     <option value="43-2099">Communications Equipment Operators, All Other (SOC: 43-2099)</option>
+                     <option value="21-1099">Community and Social Service Specialists, All Other (SOC: 21-1099)</option>
+                     <option value="21-1094">Community Health Workers (SOC: 21-1094)</option>
+                     <option value="11-3111">Compensation and Benefits Managers (SOC: 11-3111)</option>
+                     <option value="13-1141">Compensation, Benefits, and Job Analysis Specialists (SOC: 13-1141)</option>
+                     <option value="13-1041">Compliance Officers (SOC: 13-1041)</option>
+                     <option value="15-1111">Computer and Information Research Scientists (SOC: 15-1111)</option>
+                     <option value="11-3021">Computer and Information Systems Managers (SOC: 11-3021)</option>
+                     <option value="49-2011">Computer, Automated Teller, and Office Machine Repairers (SOC: 49-2011)</option>
+                     <option value="51-4011">Computer-Controlled Machine Tool Operators, Metal and Plastic (SOC: 51-4011)</option>
+                     <option value="17-2061">Computer Hardware Engineers (SOC: 17-2061)</option>
+                     <option value="15-1143">Computer Network Architects (SOC: 15-1143)</option>
+                     <option value="15-1152">Computer Network Support Specialists (SOC: 15-1152)</option>
+                     <option value="51-4012">Computer Numerically Controlled Machine Tool Programmers, Metal and Plastic (SOC: 51-4012)</option>
+                     <option value="15-1199">Computer Occupations, All Other (SOC: 15-1199)</option>
+                     <option value="43-9011">Computer Operators (SOC: 43-9011)</option>
+                     <option value="15-1131">Computer Programmers (SOC: 15-1131)</option>
+                     <option value="15-1121">Computer Systems Analysts (SOC: 15-1121)</option>
+                     <option value="15-1151">Computer User Support Specialists (SOC: 15-1151)</option>
+                     <option value="39-6012">Concierges (SOC: 39-6012)</option>
+                     <option value="19-1031">Conservation Scientists (SOC: 19-1031)</option>
+                     <option value="47-4011">Construction and Building Inspectors (SOC: 47-4011)</option>
+                     <option value="47-4099">Construction and Related Workers, All Other (SOC: 47-4099)</option>
+                     <option value="47-2061">Construction Laborers (SOC: 47-2061)</option>
+                     <option value="11-9021">Construction Managers (SOC: 11-9021)</option>
+                     <option value="47-5041">Continuous Mining Machine Operators (SOC: 47-5041)</option>
+                     <option value="49-9012">Control and Valve Installers and Repairers, Except Mechanical Door (SOC: 49-9012)</option>
+                     <option value="53-7011">Conveyor Operators and Tenders (SOC: 53-7011)</option>
+                     <option value="35-2019">Cooks, All Other (SOC: 35-2019)</option>
+                     <option value="35-2011">Cooks, Fast Food (SOC: 35-2011)</option>
+                     <option value="35-2012">Cooks, Institution and Cafeteria (SOC: 35-2012)</option>
+                     <option value="35-2013">Cooks, Private Household (SOC: 35-2013)</option>
+                     <option value="35-2014">Cooks, Restaurant (SOC: 35-2014)</option>
+                     <option value="35-2015">Cooks, Short Order (SOC: 35-2015)</option>
+                     <option value="51-9193">Cooling and Freezing Equipment Operators and Tenders (SOC: 51-9193)</option>
+                     <option value="33-3012">Correctional Officers and Jailers (SOC: 33-3012)</option>
+                     <option value="43-4021">Correspondence Clerks (SOC: 43-4021)</option>
+                     <option value="13-1051">Cost Estimators (SOC: 13-1051)</option>
+                     <option value="39-3092">Costume Attendants (SOC: 39-3092)</option>
+                     <option value="21-1019">Counselors, All Other (SOC: 21-1019)</option>
+                     <option value="41-2021">Counter and Rental Clerks (SOC: 41-2021)</option>
+                     <option value="35-3022">Counter Attendants, Cafeteria, Food Concession, and Coffee Shop (SOC: 35-3022)</option>
+                     <option value="43-5021">Couriers and Messengers (SOC: 43-5021)</option>
+                     <option value="43-4031">Court, Municipal, and License Clerks (SOC: 43-4031)</option>
+                     <option value="23-2091">Court Reporters (SOC: 23-2091)</option>
+                     <option value="27-1012">Craft Artists (SOC: 27-1012)</option>
+                     <option value="53-7021">Crane and Tower Operators (SOC: 53-7021)</option>
+                     <option value="13-2041">Credit Analysts (SOC: 13-2041)</option>
+                     <option value="43-4041">Credit Authorizers, Checkers, and Clerks (SOC: 43-4041)</option>
+                     <option value="13-2071">Credit Counselors (SOC: 13-2071)</option>
+                     <option value="33-9091">Crossing Guards (SOC: 33-9091)</option>
+                     <option value="51-9021">Crushing, Grinding, and Polishing Machine Setters, Operators, and Tenders (SOC: 51-9021)</option>
+                     <option value="25-4012">Curators (SOC: 25-4012)</option>
+                     <option value="43-4051">Customer Service Representatives (SOC: 43-4051)</option>
+                     <option value="51-9031">Cutters and Trimmers, Hand (SOC: 51-9031)</option>
+                     <option value="51-9032">Cutting and Slicing Machine Setters, Operators, and Tenders (SOC: 51-9032)</option>
+                     <option value="51-4031">Cutting, Punching, and Press Machine Setters, Operators, and Tenders, Metal and Plastic (SOC: 51-4031)</option>
+                     <option value="27-2031">Dancers (SOC: 27-2031)</option>
+                     <option value="15-1141">Database Administrators (SOC: 15-1141)</option>
+                     <option value="43-9021">Data Entry Keyers (SOC: 43-9021)</option>
+                     <option value="41-9011">Demonstrators and Product Promoters (SOC: 41-9011)</option>
+                     <option value="29-2021">Dental Hygienists (SOC: 29-2021)</option>
+                     <option value="51-9081">Dental Laboratory Technicians (SOC: 51-9081)</option>
+                     <option value="31-9091">Dental petants (SOC: 31-9091)</option>
+                     <option value="29-1029">Dentists, All Other Specialists (SOC: 29-1029)</option>
+                     <option value="29-1021">Dentists, General (SOC: 29-1021)</option>
+                     <option value="47-5011">Derrick Operators, Oil and Gas (SOC: 47-5011)</option>
+                     <option value="27-1029">Designers, All Other (SOC: 27-1029)</option>
+                     <option value="43-9031">Desktop Publishers (SOC: 43-9031)</option>
+                     <option value="33-3021">Detectives and Criminal Investigators (SOC: 33-3021)</option>
+                     <option value="29-2032">Diagnostic Medical Sonographers (SOC: 29-2032)</option>
+                     <option value="29-2051">Dietetic Technicians (SOC: 29-2051)</option>
+                     <option value="29-1031">Dietitians and Nutritionists (SOC: 29-1031)</option>
+                     <option value="35-9011">Dining Room and Cafeteria Attendants and Bartender Helpers (SOC: 35-9011)</option>
+                     <option value="21-2021">Directors, Religious Activities and Education (SOC: 21-2021)</option>
+                     <option value="35-9021">Dishwashers (SOC: 35-9021)</option>
+                     <option value="43-5032">Dispatchers, Except Police, Fire, and Ambulance (SOC: 43-5032)</option>
+                     <option value="41-9091">Door-to-Door Sales Workers, News and Street Vendors, and Related Workers (SOC: 41-9091)</option>
+                     <option value="17-3019">Drafters, All Other (SOC: 17-3019)</option>
+                     <option value="53-7031">Dredge Operators (SOC: 53-7031)</option>
+                     <option value="51-4032">Drilling and Boring Machine Tool Setters, Operators, and Tenders, Metal and Plastic (SOC: 51-4032)</option>
+                     <option value="53-3031">Driver/Sales Workers (SOC: 53-3031)</option>
+                     <option value="47-2081">Drywall and Ceiling Tile Installers (SOC: 47-2081)</option>
+                     <option value="47-5021">Earth Drillers, Except Oil and Gas (SOC: 47-5021)</option>
+                     <option value="19-3011">Economists (SOC: 19-3011)</option>
+                     <option value="27-3041">Editors (SOC: 27-3041)</option>
+                     <option value="11-9039">Education Administrators, All Other (SOC: 11-9039)</option>
+                     <option value="11-9033">Education Administrators, Postsecondary (SOC: 11-9033)</option>
+                     <option value="11-9031">Education Administrators, Preschool and Childcare Center/Program (SOC: 11-9031)</option>
+                     <option value="21-1012">Educational, Guidance, School, and Vocational Counselors (SOC: 21-1012)</option>
+                     <option value="25-9099">Education, Training, and Library Workers, All Other (SOC: 25-9099)</option>
+                     <option value="51-2022">Electrical and Electronic Equipment Assemblers (SOC: 51-2022)</option>
+                     <option value="17-3012">Electrical and Electronics Drafters (SOC: 17-3012)</option>
+                     <option value="17-3023">Electrical and Electronics Engineering Technicians (SOC: 17-3023)</option>
+                     <option value="49-2093">Electrical and Electronics Installers and Repairers, Transportation Equipment (SOC: 49-2093)</option>
+                     <option value="49-2094">Electrical and Electronics Repairers, Commercial and Industrial Equipment (SOC: 49-2094)</option>
+                     <option value="49-2095">Electrical and Electronics Repairers, Powerhouse, Substation, and Relay (SOC: 49-2095)</option>
+                     <option value="17-2071">Electrical Engineers (SOC: 17-2071)</option>
+                     <option value="49-9051">Electrical Power-Line Installers and Repairers (SOC: 49-9051)</option>
+                     <option value="47-2111">Electricians (SOC: 47-2111)</option>
+                     <option value="49-2092">Electric Motor, Power Tool, and Related Repairers (SOC: 49-2092)</option>
+                     <option value="51-2023">Electromechanical Equipment Assemblers (SOC: 51-2023)</option>
+                     <option value="17-3024">Electro-Mechanical Technicians (SOC: 17-3024)</option>
+                     <option value="49-2096">Electronic Equipment Installers and Repairers, Motor Vehicles (SOC: 49-2096)</option>
+                     <option value="49-2097">Electronic Home Entertainment Equipment Installers and Repairers (SOC: 49-2097)</option>
+                     <option value="17-2072">Electronics Engineers, Except Computer (SOC: 17-2072)</option>
+                     <option value="47-4021">Elevator Installers and Repairers (SOC: 47-4021)</option>
+                     <option value="43-4061">Eligibility Interviewers, Government Programs (SOC: 43-4061)</option>
+                     <option value="39-4011">Embalmers (SOC: 39-4011)</option>
+                     <option value="11-9161">Emergency Management Directors (SOC: 11-9161)</option>
+                     <option value="29-2041">Emergency Medical Technicians and Paramedics (SOC: 29-2041)</option>
+                     <option value="51-2031">Engine and Other Machine Assemblers (SOC: 51-2031)</option>
+                     <option value="17-3029">Engineering Technicians, Except Drafters, All Other (SOC: 17-3029)</option>
+                     <option value="17-2199">Engineers, All Other (SOC: 17-2199)</option>
+                     <option value="27-2099">Entertainers and Performers, Sports and Related Workers, All Other (SOC: 27-2099)</option>
+                     <option value="39-3099">Entertainment Attendants and Related Workers, All Other (SOC: 39-3099)</option>
+                     <option value="17-3025">Environmental Engineering Technicians (SOC: 17-3025)</option>
+                     <option value="17-2081">Environmental Engineers (SOC: 17-2081)</option>
+                     <option value="19-4091">Environmental Science and Protection Technicians, Including Health (SOC: 19-4091)</option>
+                     <option value="19-2041">Environmental Scientists and Specialists, Including Health (SOC: 19-2041)</option>
+                     <option value="19-1041">Epidemiologists (SOC: 19-1041)</option>
+                     <option value="51-9194">Etchers and Engravers (SOC: 51-9194)</option>
+                     <option value="53-7032">Excavating and Loading Machine and Dragline Operators (SOC: 53-7032)</option>
+                     <option value="29-1128">Exercise Physiologists (SOC: 29-1128)</option>
+                     <option value="47-5031">Explosives Workers, Ordnance Handling Experts, and Blasters (SOC: 47-5031)</option>
+                     <option value="47-5099">Extraction Workers, All Other (SOC: 47-5099)</option>
+                     <option value="51-4021">Extruding and Drawing Machine Setters, Operators, and Tenders, Metal and Plastic (SOC: 51-4021)</option>
+                     <option value="51-6091">Extruding and Forming Machine Setters, Operators, and Tenders, Synthetic and Glass Fibers (SOC: 51-6091)</option>
+                     <option value="51-9041">Extruding, Forming, Pressing, and Compacting Machine Setters, Operators, and Tenders (SOC: 51-9041)</option>
+                     <option value="51-6092">Fabric and Apparel Patternmakers (SOC: 51-6092)</option>
+                     <option value="49-9093">Fabric Menders, Except Garment (SOC: 49-9093)</option>
+                     <option value="45-4021">Fallers (SOC: 45-4021)</option>
+                     <option value="29-1062">Family and General Practitioners (SOC: 29-1062)</option>
+                     <option value="25-9021">Farm and Home Management Advisors (SOC: 25-9021)</option>
+                     <option value="49-3041">Farm Equipment Mechanics and Service Technicians (SOC: 49-3041)</option>
+                     <option value="11-9013">Farmers, Ranchers, and Other Agricultural Managers (SOC: 11-9013)</option>
+                     <option value="13-1074">Farm Labor Contractors (SOC: 13-1074)</option>
+                     <option value="45-2092">Farmworkers and Laborers, Crop, Nursery, and Greenhouse (SOC: 45-2092)</option>
+                     <option value="45-2093">Farmworkers, Farm, Ranch, and Aquacultural Animals (SOC: 45-2093)</option>
+                     <option value="27-1022">Fashion Designers (SOC: 27-1022)</option>
+                     <option value="47-4031">Fence Erectors (SOC: 47-4031)</option>
+                     <option value="51-2091">Fiberglass Laminators and Fabricators (SOC: 51-2091)</option>
+                     <option value="43-4071">File Clerks (SOC: 43-4071)</option>
+                     <option value="27-4032">Film and Video Editors (SOC: 27-4032)</option>
+                     <option value="13-2051">Financial Analysts (SOC: 13-2051)</option>
+                     <option value="43-3099">Financial Clerks, All Other (SOC: 43-3099)</option>
+                     <option value="13-2061">Financial Examiners (SOC: 13-2061)</option>
+                     <option value="11-3031">Financial Managers (SOC: 11-3031)</option>
+                     <option value="13-2099">Financial Specialists, All Other (SOC: 13-2099)</option>
+                     <option value="27-1013">Fine Artists, Including Painters, Sculptors, and Illustrators (SOC: 27-1013)</option>
+                     <option value="33-2011">Firefighters (SOC: 33-2011)</option>
+                     <option value="33-2021">Fire Inspectors and Investigators (SOC: 33-2021)</option>
+                     <option value="47-1011">First-Line Supervisors of Construction Trades and Extraction Workers (SOC: 47-1011)</option>
+                     <option value="33-1011">First-Line Supervisors of Correctional Officers (SOC: 33-1011)</option>
+                     <option value="45-1011">First-Line Supervisors of Farming, Fishing, and Forestry Workers (SOC: 45-1011)</option>
+                     <option value="33-1021">First-Line Supervisors of Fire Fighting and Prevention Workers (SOC: 33-1021)</option>
+                     <option value="35-1012">First-Line Supervisors of Food Preparation and Serving Workers (SOC: 35-1012)</option>
+                     <option value="53-1021">First-Line Supervisors of Helpers, Laborers, and Material Movers, Hand (SOC: 53-1021)</option>
+                     <option value="37-1011">First-Line Supervisors of Housekeeping and Janitorial Workers (SOC: 37-1011)</option>
+                     <option value="37-1012">First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers (SOC: 37-1012)</option>
+                     <option value="49-1011">First-Line Supervisors of Mechanics, Installers, and Repairers (SOC: 49-1011)</option>
+                     <option value="41-1012">First-Line Supervisors of Non-Retail Sales Workers (SOC: 41-1012)</option>
+                     <option value="43-1011">First-Line Supervisors of Office and Administrative Support Workers (SOC: 43-1011)</option>
+                     <option value="39-1021">First-Line Supervisors of Personal Service Workers (SOC: 39-1021)</option>
+                     <option value="33-1012">First-Line Supervisors of Police and Detectives (SOC: 33-1012)</option>
+                     <option value="51-1011">First-Line Supervisors of Production and Operating Workers (SOC: 51-1011)</option>
+                     <option value="33-1099">First-Line Supervisors of Protective Service Workers, All Other (SOC: 33-1099)</option>
+                     <option value="41-1011">First-Line Supervisors of Retail Sales Workers (SOC: 41-1011)</option>
+                     <option value="53-1031">First-Line Supervisors of Transportation and Material-Moving Machine and Vehicle Operators (SOC: 53-1031)</option>
+                     <option value="33-3031">Fish and Game Wardens (SOC: 33-3031)</option>
+                     <option value="45-3011">Fishers and Related Fishing Workers (SOC: 45-3011)</option>
+                     <option value="39-9031">Fitness Trainers and Aerobics Instructors (SOC: 39-9031)</option>
+                     <option value="53-2031">Flight Attendants (SOC: 53-2031)</option>
+                     <option value="47-2042">Floor Layers, Except Carpet, Wood, and Hard Tiles (SOC: 47-2042)</option>
+                     <option value="47-2043">Floor Sanders and Finishers (SOC: 47-2043)</option>
+                     <option value="27-1023">Floral Designers (SOC: 27-1023)</option>
+                     <option value="51-3091">Food and Tobacco Roasting, Baking, and Drying Machine Operators and Tenders (SOC: 51-3091)</option>
+                     <option value="51-3092">Food Batchmakers (SOC: 51-3092)</option>
+                     <option value="51-3093">Food Cooking Machine Operators and Tenders (SOC: 51-3093)</option>
+                     <option value="35-9099">Food Preparation and Serving Related Workers, All Other (SOC: 35-9099)</option>
+                     <option value="35-2021">Food Preparation Workers (SOC: 35-2021)</option>
+                     <option value="51-3099">Food Processing Workers, All Other (SOC: 51-3099)</option>
+                     <option value="19-1012">Food Scientists and Technologists (SOC: 19-1012)</option>
+                     <option value="35-3041">Food Servers, Nonrestaurant (SOC: 35-3041)</option>
+                     <option value="11-9051">Food Service Managers (SOC: 11-9051)</option>
+                     <option value="19-4092">Forensic Science Technicians (SOC: 19-4092)</option>
+                     <option value="19-4093">Forest and Conservation Technicians (SOC: 19-4093)</option>
+                     <option value="45-4011">Forest and Conservation Workers (SOC: 45-4011)</option>
+                     <option value="19-1032">Foresters (SOC: 19-1032)</option>
+                     <option value="33-2022">Forest Fire Inspectors and Prevention Specialists (SOC: 33-2022)</option>
+                     <option value="51-4022">Forging Machine Setters, Operators, and Tenders, Metal and Plastic (SOC: 51-4022)</option>
+                     <option value="51-4071">Foundry Mold and Coremakers (SOC: 51-4071)</option>
+                     <option value="13-1131">Fundraisers (SOC: 13-1131)</option>
+                     <option value="39-4021">Funeral Attendants (SOC: 39-4021)</option>
+                     <option value="11-9061">Funeral Service Managers (SOC: 11-9061)</option>
+                     <option value="51-9051">Furnace, Kiln, Oven, Drier, and Kettle Operators and Tenders (SOC: 51-9051)</option>
+                     <option value="51-7021">Furniture Finishers (SOC: 51-7021)</option>
+                     <option value="39-3012">Gaming and Sports Book Writers and Runners (SOC: 39-3012)</option>
+                     <option value="43-3041">Gaming Cage Workers (SOC: 43-3041)</option>
+                     <option value="41-2012">Gaming Change Persons and Booth Cashiers (SOC: 41-2012)</option>
+                     <option value="39-3011">Gaming Dealers (SOC: 39-3011)</option>
+                     <option value="11-9071">Gaming Managers (SOC: 11-9071)</option>
+                     <option value="39-3019">Gaming Service Workers, All Other (SOC: 39-3019)</option>
+                     <option value="39-1011">Gaming Supervisors (SOC: 39-1011)</option>
+                     <option value="33-9031">Gaming Surveillance Officers and Gaming Investigators (SOC: 33-9031)</option>
+                     <option value="53-7071">Gas Compressor and Gas Pumping Station Operators (SOC: 53-7071)</option>
+                     <option value="51-8092">Gas Plant Operators (SOC: 51-8092)</option>
+                     <option value="11-1021">General and Operations Managers (SOC: 11-1021)</option>
+                     <option value="29-9092">Genetic Counselors (SOC: 29-9092)</option>
+                     <option value="19-3092">Geographers (SOC: 19-3092)</option>
+                     <option value="19-4041">Geological and Petroleum Technicians (SOC: 19-4041)</option>
+                     <option value="19-2042">Geoscientists, Except Hydrologists and Geographers (SOC: 19-2042)</option>
+                     <option value="47-2121">Glaziers (SOC: 47-2121)</option>
+                     <option value="45-2041">Graders and Sorters, Agricultural Products (SOC: 45-2041)</option>
+                     <option value="27-1024">Graphic Designers (SOC: 27-1024)</option>
+                     <option value="51-9022">Grinding and Polishing Workers, Hand (SOC: 51-9022)</option>
+                     <option value="51-4033">Grinding, Lapping, Polishing, and Buffing Machine Tool Setters, Operators, and Tenders, Metal and Plastic (SOC: 51-4033)</option>
+                     <option value="37-3019">Grounds Maintenance Workers, All Other (SOC: 37-3019)</option>
+                     <option value="39-5012">Hairdressers, Hairstylists, and Cosmetologists (SOC: 39-5012)</option>
+                     <option value="47-4041">Hazardous Materials Removal Workers (SOC: 47-4041)</option>
+                     <option value="17-2111">Health and Safety Engineers, Except Mining Safety Engineers and Inspectors (SOC: 17-2111)</option>
+                     <option value="29-9099">Healthcare Practitioners and Technical Workers, All Other (SOC: 29-9099)</option>
+                     <option value="21-1022">Healthcare Social Workers (SOC: 21-1022)</option>
+                     <option value="31-9099">Healthcare Support Workers, All Other (SOC: 31-9099)</option>
+                     <option value="29-1199">Health Diagnosing and Treating Practitioners, All Other (SOC: 29-1199)</option>
+                     <option value="21-1091">Health Educators (SOC: 21-1091)</option>
+                     <option value="29-2099">Health Technologists and Technicians, All Other (SOC: 29-2099)</option>
+                     <option value="29-2092">Hearing Aid Specialists (SOC: 29-2092)</option>
+                     <option value="49-9021">Heating, Air Conditioning, and Refrigeration Mechanics and Installers (SOC: 49-9021)</option>
+                     <option value="51-4191">Heat Treating Equipment Setters, Operators, and Tenders, Metal and Plastic (SOC: 51-4191)</option>
+                     <option value="53-3032">Heavy and Tractor-Trailer Truck Drivers (SOC: 53-3032)</option>
+                     <option value="47-3011">Helpers--Brickmasons, Blockmasons, Stonemasons, and Tile and Marble Setters (SOC: 47-3011)</option>
+                     <option value="47-3012">Helpers--Carpenters (SOC: 47-3012)</option>
+                     <option value="47-3019">Helpers, Construction Trades, All Other (SOC: 47-3019)</option>
+                     <option value="47-3013">Helpers--Electricians (SOC: 47-3013)</option>
+                     <option value="47-5081">Helpers--Extraction Workers (SOC: 47-5081)</option>
+                     <option value="49-9098">Helpers--Installation, Maintenance, and Repair Workers (SOC: 49-9098)</option>
+                     <option value="47-3014">Helpers--Painters, Paperhangers, Plasterers, and Stucco Masons (SOC: 47-3014)</option>
+                     <option value="47-3015">Helpers--Pipelayers, Plumbers, Pipefitters, and Steamfitters (SOC: 47-3015)</option>
+                     <option value="51-9198">Helpers--Production Workers (SOC: 51-9198)</option>
+                     <option value="47-3016">Helpers--Roofers (SOC: 47-3016)</option>
+                     <option value="47-4051">Highway Maintenance Workers (SOC: 47-4051)</option>
+                     <option value="19-3093">Historians (SOC: 19-3093)</option>
+                     <option value="53-7041">Hoist and Winch Operators (SOC: 53-7041)</option>
+                     <option value="49-9031">Home Appliance Repairers (SOC: 49-9031)</option>
+                     <option value="31-1011">Home Health Aides (SOC: 31-1011)</option>
+                     <option value="35-9031">Hosts and Hostesses, Restaurant, Lounge, and Coffee Shop (SOC: 35-9031)</option>
+                     <option value="43-4081">Hotel, Motel, and Resort Desk Clerks (SOC: 43-4081)</option>
+                     <option value="11-3121">Human Resources Managers (SOC: 11-3121)</option>
+                     <option value="43-4161">Human Resources petants, Except Payroll and Timekeeping (SOC: 43-4161)</option>
+                     <option value="13-1071">Human Resources Specialists (SOC: 13-1071)</option>
+                     <option value="19-2043">Hydrologists (SOC: 19-2043)</option>
+                     <option value="17-3026">Industrial Engineering Technicians (SOC: 17-3026)</option>
+                     <option value="17-2112">Industrial Engineers (SOC: 17-2112)</option>
+                     <option value="49-9041">Industrial Machinery Mechanics (SOC: 49-9041)</option>
+                     <option value="19-3032">Industrial-Organizational Psychologists (SOC: 19-3032)</option>
+                     <option value="11-3051">Industrial Production Managers (SOC: 11-3051)</option>
+                     <option value="53-7051">Industrial Truck and Tractor Operators (SOC: 53-7051)</option>
+                     <option value="43-4199">Information and Record Clerks, All Other (SOC: 43-4199)</option>
+                     <option value="15-1122">Information Security Analysts (SOC: 15-1122)</option>
+                     <option value="51-9061">Inspectors, Testers, Sorters, Samplers, and Weighers (SOC: 51-9061)</option>
+                     <option value="49-9099">Installation, Maintenance, and Repair Workers, All Other (SOC: 49-9099)</option>
+                     <option value="25-9031">Instructional Coordinators (SOC: 25-9031)</option>
+                     <option value="47-2131">Insulation Workers, Floor, Ceiling, and Wall (SOC: 47-2131)</option>
+                     <option value="47-2132">Insulation Workers, Mechanical (SOC: 47-2132)</option>
+                     <option value="13-1032">Insurance Appraisers, Auto Damage (SOC: 13-1032)</option>
+                     <option value="43-9041">Insurance Claims and Policy Processing Clerks (SOC: 43-9041)</option>
+                     <option value="41-3021">Insurance Sales Agents (SOC: 41-3021)</option>
+                     <option value="13-2053">Insurance Underwriters (SOC: 13-2053)</option>
+                     <option value="27-1025">Interior Designers (SOC: 27-1025)</option>
+                     <option value="29-1063">Internists, General (SOC: 29-1063)</option>
+                     <option value="27-3091">Interpreters and Translators (SOC: 27-3091)</option>
+                     <option value="43-4111">Interviewers, Except Eligibility and Loan (SOC: 43-4111)</option>
+                     <option value="33-9021">Investigator (SOC: 33-9021)</option>
+                     <option value="37-2011">Janitors and Cleaners, Except Maids and Housekeeping Cleaners (SOC: 37-2011)</option>
+                     <option value="51-9071">Jewelers and Precious Stone and Metal Workers (SOC: 51-9071)</option>
+                     <option value="23-1023">Judges, Magistrate Judges, and Magistrates (SOC: 23-1023)</option>
+                     <option value="23-1012">Judicial Law Clerks (SOC: 23-1012)</option>
+                     <option value="53-7062">Laborers and Freight, Stock, and Material Movers, Hand (SOC: 53-7062)</option>
+                     <option value="13-1075">Labor Relations Specialists (SOC: 13-1075)</option>
+                     <option value="17-1012">Landscape Architects (SOC: 17-1012)</option>
+                     <option value="37-3011">Landscaping and Groundskeeping Workers (SOC: 37-3011)</option>
+                     <option value="51-4034">Lathe and Turning Machine Tool Setters, Operators, and Tenders, Metal and Plastic (SOC: 51-4034)</option>
+                     <option value="51-6011">Laundry and Dry-Cleaning Workers (SOC: 51-6011)</option>
+                     <option value="23-1011">Lawyers (SOC: 23-1011)</option>
+                     <option value="51-4192">Layout Workers, Metal and Plastic (SOC: 51-4192)</option>
+                     <option value="43-6012">Legal Secretaries (SOC: 43-6012)</option>
+                     <option value="23-2099">Legal Support Workers, All Other (SOC: 23-2099)</option>
+                     <option value="25-4021">Librarians (SOC: 25-4021)</option>
+                     <option value="43-4121">Library petants, Clerical (SOC: 43-4121)</option>
+                     <option value="25-4031">Library Technicians (SOC: 25-4031)</option>
+                     <option value="29-2061">Licensed Practical and Licensed Vocational Nurses (SOC: 29-2061)</option>
+                     <option value="33-9092">Lifeguards, Ski Patrol, and Other Recreational Protective Service Workers (SOC: 33-9092)</option>
+                     <option value="19-4099">Life, Physical, and Social Science Technicians, All Other (SOC: 19-4099)</option>
+                     <option value="19-1099">Life Scientists, All Other (SOC: 19-1099)</option>
+                     <option value="53-3033">Light Truck or Delivery Services Drivers (SOC: 53-3033)</option>
+                     <option value="53-7033">Loading Machine Operators, Underground Mining (SOC: 53-7033)</option>
+                     <option value="43-4131">Loan Interviewers and Clerks (SOC: 43-4131)</option>
+                     <option value="13-2072">Loan Officers (SOC: 13-2072)</option>
+                     <option value="39-3093">Locker Room, Coatroom, and Dressing Room Attendants (SOC: 39-3093)</option>
+                     <option value="49-9094">Locksmiths and Safe Repairers (SOC: 49-9094)</option>
+                     <option value="53-4011">Locomotive Engineers (SOC: 53-4011)</option>
+                     <option value="53-4012">Locomotive Firers (SOC: 53-4012)</option>
+                     <option value="11-9081">Lodging Managers (SOC: 11-9081)</option>
+                     <option value="45-4022">Logging Equipment Operators (SOC: 45-4022)</option>
+                     <option value="45-4029">Logging Workers, All Other (SOC: 45-4029)</option>
+                     <option value="45-4023">Log Graders and Scalers (SOC: 45-4023)</option>
+                     <option value="13-1081">Logisticians (SOC: 13-1081)</option>
+                     <option value="53-7063">Machine Feeders and Offbearers (SOC: 53-7063)</option>
+                     <option value="51-4041">Machinists (SOC: 51-4041)</option>
+                     <option value="29-2035">Magnetic Resonance Imaging Technologists (SOC: 29-2035)</option>
+                     <option value="37-2012">Maids and Housekeeping Cleaners (SOC: 37-2012)</option>
+                     <option value="43-9051">Mail Clerks and Mail Machine Operators, Except Postal Service (SOC: 43-9051)</option>
+                     <option value="49-9071">Maintenance and Repair Workers, General (SOC: 49-9071)</option>
+                     <option value="49-9043">Maintenance Workers, Machinery (SOC: 49-9043)</option>
+                     <option value="39-5091">Makeup Artists, Theatrical and Performance (SOC: 39-5091)</option>
+                     <option value="13-1111">Management Analysts (SOC: 13-1111)</option>
+                     <option value="11-9199">Managers, All Other (SOC: 11-9199)</option>
+                     <option value="39-5092">Manicurists and Pedicurists (SOC: 39-5092)</option>
+                     <option value="49-9095">Manufactured Building and Mobile Home Installers (SOC: 49-9095)</option>
+                     <option value="17-2121">Marine Engineers and Naval Architects (SOC: 17-2121)</option>
+                     <option value="11-2021">Marketing Managers (SOC: 11-2021)</option>
+                     <option value="13-1161">Market Research Analysts and Marketing Specialists (SOC: 13-1161)</option>
+                     <option value="21-1013">Marriage and Family Therapists (SOC: 21-1013)</option>
+                     <option value="31-9011">Massage Therapists (SOC: 31-9011)</option>
+                     <option value="53-7199">Material Moving Workers, All Other (SOC: 53-7199)</option>
+                     <option value="17-2131">Materials Engineers (SOC: 17-2131)</option>
+                     <option value="19-2032">Materials Scientists (SOC: 19-2032)</option>
+                     <option value="15-2099">Mathematical Science Occupations, All Other (SOC: 15-2099)</option>
+                     <option value="15-2091">Mathematical Technicians (SOC: 15-2091)</option>
+                     <option value="15-2021">Mathematicians (SOC: 15-2021)</option>
+                     <option value="51-3022">Meat, Poultry, and Fish Cutters and Trimmers (SOC: 51-3022)</option>
+                     <option value="49-9011">Mechanical Door Repairers (SOC: 49-9011)</option>
+                     <option value="17-3013">Mechanical Drafters (SOC: 17-3013)</option>
+                     <option value="17-3027">Mechanical Engineering Technicians (SOC: 17-3027)</option>
+                     <option value="17-2141">Mechanical Engineers (SOC: 17-2141)</option>
+                     <option value="27-4099">Media and Communication Equipment Workers, All Other (SOC: 27-4099)</option>
+                     <option value="27-3099">Media and Communication Workers, All Other (SOC: 27-3099)</option>
+                     <option value="29-2012">Medical and Clinical Laboratory Technicians (SOC: 29-2012)</option>
+                     <option value="29-2011">Medical and Clinical Laboratory Technologists (SOC: 29-2011)</option>
+                     <option value="11-9111">Medical and Health Services Managers (SOC: 11-9111)</option>
+                     <option value="51-9082">Medical Appliance Technicians (SOC: 51-9082)</option>
+                     <option value="31-9093">Medical Equipment Preparers (SOC: 31-9093)</option>
+                     <option value="49-9062">Medical Equipment Repairers (SOC: 49-9062)</option>
+                     <option value="31-9092">Medical petants (SOC: 31-9092)</option>
+                     <option value="29-2071">Medical Records and Health Information Technicians (SOC: 29-2071)</option>
+                     <option value="19-1042">Medical Scientists, Except Epidemiologists (SOC: 19-1042)</option>
+                     <option value="43-6013">Medical Secretaries (SOC: 43-6013)</option>
+                     <option value="31-9094">Medical Transcriptionists (SOC: 31-9094)</option>
+                     <option value="13-1121">Meeting, Convention, and Event Planners (SOC: 13-1121)</option>
+                     <option value="21-1023">Mental Health and Substance Abuse Social Workers (SOC: 21-1023)</option>
+                     <option value="21-1014">Mental Health Counselors (SOC: 21-1014)</option>
+                     <option value="27-1026">Merchandise Displayers and Window Trimmers (SOC: 27-1026)</option>
+                     <option value="51-4051">Metal-Refining Furnace Operators and Tenders (SOC: 51-4051)</option>
+                     <option value="51-4199">Metal Workers and Plastic Workers, All Other (SOC: 51-4199)</option>
+                     <option value="43-5041">Meter Readers, Utilities (SOC: 43-5041)</option>
+                     <option value="19-1022">Microbiologists (SOC: 19-1022)</option>
+                     <option value="51-4035">Milling and Planing Machine Setters, Operators, and Tenders, Metal and Plastic (SOC: 51-4035)</option>
+                     <option value="49-9044">Millwrights (SOC: 49-9044)</option>
+                     <option value="47-5042">Mine Cutting and Channeling Machine Operators (SOC: 47-5042)</option>
+                     <option value="53-7111">Mine Shuttle Car Operators (SOC: 53-7111)</option>
+                     <option value="17-2151">Mining and Geological Engineers, Including Mining Safety Engineers (SOC: 17-2151)</option>
+                     <option value="47-5049">Mining Machine Operators, All Other (SOC: 47-5049)</option>
+                     <option value="51-9023">Mixing and Blending Machine Setters, Operators, and Tenders (SOC: 51-9023)</option>
+                     <option value="49-3042">Mobile Heavy Equipment Mechanics, Except Engines (SOC: 49-3042)</option>
+                     <option value="51-4061">Model Makers, Metal and Plastic (SOC: 51-4061)</option>
+                     <option value="51-7031">Model Makers, Wood (SOC: 51-7031)</option>
+                     <option value="41-9012">Models (SOC: 41-9012)</option>
+                     <option value="51-9195">Molders, Shapers, and Casters, Except Metal and Plastic (SOC: 51-9195)</option>
+                     <option value="51-4072">Molding, Coremaking, and Casting Machine Setters, Operators, and Tenders, Metal and Plastic (SOC: 51-4072)</option>
+                     <option value="39-4031">Morticians, Undertakers, and Funeral Directors (SOC: 39-4031)</option>
+                     <option value="39-3021">Motion Picture Projectionists (SOC: 39-3021)</option>
+                     <option value="49-3051">Motorboat Mechanics and Service Technicians (SOC: 49-3051)</option>
+                     <option value="53-5022">Motorboat Operators (SOC: 53-5022)</option>
+                     <option value="49-3052">Motorcycle Mechanics (SOC: 49-3052)</option>
+                     <option value="53-3099">Motor Vehicle Operators, All Other (SOC: 53-3099)</option>
+                     <option value="27-1014">Multimedia Artists and Animators (SOC: 27-1014)</option>
+                     <option value="51-4081">Multiple Machine Tool Setters, Operators, and Tenders, Metal and Plastic (SOC: 51-4081)</option>
+                     <option value="25-4013">Museum Technicians and Conservators (SOC: 25-4013)</option>
+                     <option value="49-9063">Musical Instrument Repairers and Tuners (SOC: 49-9063)</option>
+                     <option value="27-2041">Music Directors and Composers (SOC: 27-2041)</option>
+                     <option value="27-2042">Musicians and Singers (SOC: 27-2042)</option>
+                     <option value="11-9121">Natural Sciences Managers (SOC: 11-9121)</option>
+                     <option value="15-1142">Network and Computer Systems Administrators (SOC: 15-1142)</option>
+                     <option value="43-4141">New Accounts Clerks (SOC: 43-4141)</option>
+                     <option value="39-2021">Nonfarm Animal Caretakers (SOC: 39-2021)</option>
+                     <option value="17-2161">Nuclear Engineers (SOC: 17-2161)</option>
+                     <option value="29-2033">Nuclear Medicine Technologists (SOC: 29-2033)</option>
+                     <option value="51-8011">Nuclear Power Reactor Operators (SOC: 51-8011)</option>
+                     <option value="19-4051">Nuclear Technicians (SOC: 19-4051)</option>
+                     <option value="29-1151">Nurse Anesthetists (SOC: 29-1151)</option>
+                     <option value="29-1161">Nurse Midwives (SOC: 29-1161)</option>
+                     <option value="29-1171">Nurse Practitioners (SOC: 29-1171)</option>
+                     <option value="31-1014">Nursing petants (SOC: 31-1014)</option>
+                     <option value="29-1064">Obstetricians and Gynecologists (SOC: 29-1064)</option>
+                     <option value="29-9011">Occupational Health and Safety Specialists (SOC: 29-9011)</option>
+                     <option value="29-9012">Occupational Health and Safety Technicians (SOC: 29-9012)</option>
+                     <option value="29-1122">Occupational Therapists (SOC: 29-1122)</option>
+                     <option value="31-2012">Occupational Therapy Aides (SOC: 31-2012)</option>
+                     <option value="31-2011">Occupational Therapy petants (SOC: 31-2011)</option>
+                     <option value="43-9199">Office and Administrative Support Workers, All Other (SOC: 43-9199)</option>
+                     <option value="43-9061">Office Clerks, General (SOC: 43-9061)</option>
+                     <option value="43-9071">Office Machine Operators, Except Computer (SOC: 43-9071)</option>
+                     <option value="47-2073">Operating Engineers and Other Construction Equipment Operators (SOC: 47-2073)</option>
+                     <option value="15-2031">Operations Research Analyst (SOC: 15-2031)</option>
+                     <option value="51-9083">Ophthalmic Laboratory Technicians (SOC: 51-9083)</option>
+                     <option value="29-2057">Ophthalmic Medical Technicians (SOC: 29-2057)</option>
+                     <option value="29-2081">Opticians, Dispensing (SOC: 29-2081)</option>
+                     <option value="29-1041">Optometrists (SOC: 29-1041)</option>
+                     <option value="29-1022">Oral and Maxillofacial Surgeons (SOC: 29-1022)</option>
+                     <option value="43-4151">Order Clerks (SOC: 43-4151)</option>
+                     <option value="31-1015">Orderlies (SOC: 31-1015)</option>
+                     <option value="29-1023">Orthodontists (SOC: 29-1023)</option>
+                     <option value="29-2091">Orthotists and Prosthetists (SOC: 29-2091)</option>
+                     <option value="49-3053">Outdoor Power Equipment and Other Small Engine Mechanics (SOC: 49-3053)</option>
+                     <option value="51-9111">Packaging and Filling Machine Operators and Tenders (SOC: 51-9111)</option>
+                     <option value="53-7064">Packers and Packagers, Hand (SOC: 53-7064)</option>
+                     <option value="47-2141">Painters, Construction and Maintenance (SOC: 47-2141)</option>
+                     <option value="51-9122">Painters, Transportation Equipment (SOC: 51-9122)</option>
+                     <option value="51-9123">Painting, Coating, and Decorating Workers (SOC: 51-9123)</option>
+                     <option value="51-9196">Paper Goods Machine Setters, Operators, and Tenders (SOC: 51-9196)</option>
+                     <option value="47-2142">Paperhangers (SOC: 47-2142)</option>
+                     <option value="23-2011">Paralegals and Legal petants (SOC: 23-2011)</option>
+                     <option value="33-3041">Parking Enforcement Workers (SOC: 33-3041)</option>
+                     <option value="53-6021">Parking Lot Attendants (SOC: 53-6021)</option>
+                     <option value="41-2022">Parts Salespersons (SOC: 41-2022)</option>
+                     <option value="51-4062">Patternmakers, Metal and Plastic (SOC: 51-4062)</option>
+                     <option value="51-7032">Patternmakers, Wood (SOC: 51-7032)</option>
+                     <option value="47-2071">Paving, Surfacing, and Tamping Equipment Operators (SOC: 47-2071)</option>
+                     <option value="43-3051">Payroll and Timekeeping Clerks (SOC: 43-3051)</option>
+                     <option value="29-1065">Pediatricians, General (SOC: 29-1065)</option>
+                     <option value="39-9021">Personal Care Aides (SOC: 39-9021)</option>
+                     <option value="39-9099">Personal Care and Service Workers, All Other (SOC: 39-9099)</option>
+                     <option value="13-2052">Personal Financial Advisors (SOC: 13-2052)</option>
+                     <option value="37-2021">Pest Control Workers (SOC: 37-2021)</option>
+                     <option value="37-3012">Pesticide Handlers, Sprayers, and Applicators, Vegetation (SOC: 37-3012)</option>
+                     <option value="17-2171">Petroleum Engineers (SOC: 17-2171)</option>
+                     <option value="51-8093">Petroleum Pump System Operators, Refinery Operators, and Gaugers (SOC: 51-8093)</option>
+                     <option value="29-1051">Pharmacists (SOC: 29-1051)</option>
+                     <option value="31-9095">Pharmacy Aides (SOC: 31-9095)</option>
+                     <option value="29-2052">Pharmacy Technicians (SOC: 29-2052)</option>
+                     <option value="31-9097">Phlebotomists (SOC: 31-9097)</option>
+                     <option value="27-4021">Photographers (SOC: 27-4021)</option>
+                     <option value="51-9151">Photographic Process Workers and Processing Machine Operators (SOC: 51-9151)</option>
+                     <option value="19-2099">Physical Scientists, All Other (SOC: 19-2099)</option>
+                     <option value="31-2022">Physical Therapist Aides (SOC: 31-2022)</option>
+                     <option value="31-2021">Physical Therapist petants (SOC: 31-2021)</option>
+                     <option value="29-1123">Physical Therapists (SOC: 29-1123)</option>
+                     <option value="29-1071">Physician petants (SOC: 29-1071)</option>
+                     <option value="29-1069">Physicians and Surgeons, All Other (SOC: 29-1069)</option>
+                     <option value="19-2012">Physicists (SOC: 19-2012)</option>
+                     <option value="47-2072">Pile-Driver Operators (SOC: 47-2072)</option>
+                     <option value="47-2151">Pipelayers (SOC: 47-2151)</option>
+                     <option value="51-8099">Plant and System Operators, All Other (SOC: 51-8099)</option>
+                     <option value="47-2161">Plasterers and Stucco Masons (SOC: 47-2161)</option>
+                     <option value="51-4193">Plating and Coating Machine Setters, Operators, and Tenders, Metal and Plastic (SOC: 51-4193)</option>
+                     <option value="47-2152">Plumbers, Pipefitters, and Steamfitters (SOC: 47-2152)</option>
+                     <option value="29-1081">Podiatrists (SOC: 29-1081)</option>
+                     <option value="33-3051">Police and Sheriff's Patrol Officers (SOC: 33-3051)</option>
+                     <option value="43-5031">Police, Fire, and Ambulance Dispatchers (SOC: 43-5031)</option>
+                     <option value="19-3094">Political Scientists (SOC: 19-3094)</option>
+                     <option value="43-5051">Postal Service Clerks (SOC: 43-5051)</option>
+                     <option value="43-5052">Postal Service Mail Carriers (SOC: 43-5052)</option>
+                     <option value="43-5053">Postal Service Mail Sorters, Processors, and Processing Machine Operators (SOC: 43-5053)</option>
+                     <option value="11-9131">Postmasters and Mail Superintendents (SOC: 11-9131)</option>
+                     <option value="51-4052">Pourers and Casters, Metal (SOC: 51-4052)</option>
+                     <option value="51-8012">Power Distributors and Dispatchers (SOC: 51-8012)</option>
+                     <option value="51-8013">Power Plant Operators (SOC: 51-8013)</option>
+                     <option value="49-9069">Precision Instrument and Equipment Repairers, All Other (SOC: 49-9069)</option>
+                     <option value="51-5111">Prepress Technicians and Workers (SOC: 51-5111)</option>
+                     <option value="25-2011">Preschool Teachers, Except Special Education (SOC: 25-2011)</option>
+                     <option value="51-6021">Pressers, Textile, Garment, and Related Materials (SOC: 51-6021)</option>
+                     <option value="51-5113">Print Binding and Finishing Workers (SOC: 51-5113)</option>
+                     <option value="51-5112">Printing Press Operators (SOC: 51-5112)</option>
+                     <option value="21-1092">Probation Officers and Correctional Treatment Specialists (SOC: 21-1092)</option>
+                     <option value="43-3061">Procurement Clerks (SOC: 43-3061)</option>
+                     <option value="27-2012">Producers and Directors (SOC: 27-2012)</option>
+                     <option value="43-5061">Production, Planning, and Expediting Clerks (SOC: 43-5061)</option>
+                     <option value="51-9199">Production Workers, All Other (SOC: 51-9199)</option>
+                     <option value="43-9081">Proofreaders and Copy Markers (SOC: 43-9081)</option>
+                     <option value="11-9141">Property, Real Estate, and Community Association Managers (SOC: 11-9141)</option>
+                     <option value="33-9099">Protective Service Workers, All Other (SOC: 33-9099)</option>
+                     <option value="31-1013">Psychiatric Aides (SOC: 31-1013)</option>
+                     <option value="29-2053">Psychiatric Technicians (SOC: 29-2053)</option>
+                     <option value="29-1066">Psychiatrists (SOC: 29-1066)</option>
+                     <option value="19-3039">Psychologists, All Other (SOC: 19-3039)</option>
+                     <option value="27-3012">Public Address System and Other Announcers (SOC: 27-3012)</option>
+                     <option value="11-2031">Public Relations and Fundraising Managers (SOC: 11-2031)</option>
+                     <option value="27-3031">Public Relations Specialist (SOC: 27-3031)</option>
+                     <option value="53-7072">Pump Operators, Except Wellhead Pumpers (SOC: 53-7072)</option>
+                     <option value="13-1023">Purchasing Agents, Except Wholesale, Retail, and Farm Products (SOC: 13-1023)</option>
+                     <option value="11-3061">Purchasing Managers (SOC: 11-3061)</option>
+                     <option value="29-1124">Radiation Therapists (SOC: 29-1124)</option>
+                     <option value="27-3011">Radio and Television Announcers (SOC: 27-3011)</option>
+                     <option value="49-2021">Radio, Cellular, and Tower Equipment Installers and Repairers (SOC: 49-2021)</option>
+                     <option value="29-2034">Radiologic Technologists (SOC: 29-2034)</option>
+                     <option value="27-4013">Radio Operators (SOC: 27-4013)</option>
+                     <option value="49-3043">Rail Car Repairers (SOC: 49-3043)</option>
+                     <option value="53-4021">Railroad Brake, Signal, and Switch Operators (SOC: 53-4021)</option>
+                     <option value="53-4031">Railroad Conductors and Yardmasters (SOC: 53-4031)</option>
+                     <option value="47-4061">Rail-Track Laying and Maintenance Equipment Operators (SOC: 47-4061)</option>
+                     <option value="53-4099">Rail Transportation Workers, All Other (SOC: 53-4099)</option>
+                     <option value="53-4013">Rail Yard Engineers, Dinkey Operators, and Hostlers (SOC: 53-4013)</option>
+                     <option value="41-9021">Real Estate Brokers (SOC: 41-9021)</option>
+                     <option value="41-9022">Real Estate Sales Agents (SOC: 41-9022)</option>
+                     <option value="43-4171">Receptionists and Information Clerks (SOC: 43-4171)</option>
+                     <option value="29-1125">Recreational Therapists (SOC: 29-1125)</option>
+                     <option value="49-3092">Recreational Vehicle Service Technicians (SOC: 49-3092)</option>
+                     <option value="39-9032">Recreation Workers (SOC: 39-9032)</option>
+                     <option value="49-9045">Refractory Materials Repairers, Except Brickmasons (SOC: 49-9045)</option>
+                     <option value="53-7081">Refuse and Recyclable Material Collectors (SOC: 53-7081)</option>
+                     <option value="29-1141">Registered Nurses (SOC: 29-1141)</option>
+                     <option value="21-1015">Rehabilitation Counselors (SOC: 21-1015)</option>
+                     <option value="47-2171">Reinforcing Iron and Rebar Workers (SOC: 47-2171)</option>
+                     <option value="21-2099">Religious Workers, All Other (SOC: 21-2099)</option>
+                     <option value="27-3022">Reporters and Correspondents (SOC: 27-3022)</option>
+                     <option value="43-4181">Reservation and Transportation Ticket Agents and Travel Clerks (SOC: 43-4181)</option>
+                     <option value="39-9041">Residential Advisors (SOC: 39-9041)</option>
+                     <option value="29-1126">Respiratory Therapists (SOC: 29-1126)</option>
+                     <option value="29-2054">Respiratory Therapy Technicians (SOC: 29-2054)</option>
+                     <option value="41-2031">Retail Salespersons (SOC: 41-2031)</option>
+                     <option value="49-9096">Riggers (SOC: 49-9096)</option>
+                     <option value="47-5051">Rock Splitters, Quarry (SOC: 47-5051)</option>
+                     <option value="51-4023">Rolling Machine Setters, Operators, and Tenders, Metal and Plastic (SOC: 51-4023)</option>
+                     <option value="47-5061">Roof Bolters, Mining (SOC: 47-5061)</option>
+                     <option value="47-2181">Roofers (SOC: 47-2181)</option>
+                     <option value="47-5012">Rotary Drill Operators, Oil and Gas (SOC: 47-5012)</option>
+                     <option value="47-5071">Roustabouts, Oil and Gas (SOC: 47-5071)</option>
+                     <option value="53-5011">Sailors and Marine Oilers (SOC: 53-5011)</option>
+                     <option value="41-9099">Sales and Related Workers, All Other (SOC: 41-9099)</option>
+                     <option value="41-9031">Sales Engineers (SOC: 41-9031)</option>
+                     <option value="11-2022">Sales Managers (SOC: 11-2022)</option>
+                     <option value="41-3099">Sales Representatives, Services, All Other (SOC: 41-3099)</option>
+                     <option value="41-4012">Sales Representatives, Wholesale and Manufacturing, Except Technical and Scientific Products (SOC: 41-4012)</option>
+                     <option value="41-4011">Sales Representatives, Wholesale and Manufacturing, Technical and Scientific Products (SOC: 41-4011)</option>
+                     <option value="51-7041">Sawing Machine Setters, Operators, and Tenders, Wood (SOC: 51-7041)</option>
+                     <option value="43-6014">Secretaries and Administrative petants, Except Legal, Medical, and Executive (SOC: 43-6014)</option>
+                     <option value="41-3031">Securities, Commodities, and Financial Services Sales Agents (SOC: 41-3031)</option>
+                     <option value="49-2098">Security and Fire Alarm Systems Installers (SOC: 49-2098)</option>
+                     <option value="33-9032">Security Guards (SOC: 33-9032)</option>
+                     <option value="47-4091">Segmental Pavers (SOC: 47-4091)</option>
+                     <option value="25-3021">Self-Enrichment Education Teachers (SOC: 25-3021)</option>
+                     <option value="51-9141">Semiconductor Processors (SOC: 51-9141)</option>
+                     <option value="51-9012">Separating, Filtering, Clarifying, Precipitating, and Still Machine Setters, Operators, and Tenders (SOC: 51-9012)</option>
+                     <option value="47-4071">Septic Tank Servicers and Sewer Pipe Cleaners (SOC: 47-4071)</option>
+                     <option value="47-5013">Service Unit Operators, Oil, Gas, and Mining (SOC: 47-5013)</option>
+                     <option value="27-1027">Set and Exhibit Designers (SOC: 27-1027)</option>
+                     <option value="51-6051">Sewers, Hand (SOC: 51-6051)</option>
+                     <option value="51-6031">Sewing Machine Operators (SOC: 51-6031)</option>
+                     <option value="39-5093">Shampooers (SOC: 39-5093)</option>
+                     <option value="47-2211">Sheet Metal Workers (SOC: 47-2211)</option>
+                     <option value="53-5031">Ship Engineers (SOC: 53-5031)</option>
+                     <option value="43-5071">Shipping, Receiving, and Traffic Clerks (SOC: 43-5071)</option>
+                     <option value="51-6041">Shoe and Leather Workers and Repairers (SOC: 51-6041)</option>
+                     <option value="51-6042">Shoe Machine Operators and Tenders (SOC: 51-6042)</option>
+                     <option value="49-9097">Signal and Track Switch Repairers (SOC: 49-9097)</option>
+                     <option value="39-5094">Skincare Specialists (SOC: 39-5094)</option>
+                     <option value="51-3023">Slaughterers and Meat Packers (SOC: 51-3023)</option>
+                     <option value="39-1012">Slot Supervisors (SOC: 39-1012)</option>
+                     <option value="11-9151">Social and Community Service Managers (SOC: 11-9151)</option>
+                     <option value="21-1093">Social and Human Service petants (SOC: 21-1093)</option>
+                     <option value="19-4061">Social Science Research petants (SOC: 19-4061)</option>
+                     <option value="19-3099">Social Scientists and Related Workers, All Other (SOC: 19-3099)</option>
+                     <option value="21-1029">Social Workers, All Other (SOC: 21-1029)</option>
+                     <option value="19-3041">Sociologists (SOC: 19-3041)</option>
+                     <option value="15-1132">Software Developers, Applications (SOC: 15-1132)</option>
+                     <option value="15-1133">Software Developers, Systems Software (SOC: 15-1133)</option>
+                     <option value="19-1013">Soil and Plant Scientists (SOC: 19-1013)</option>
+                     <option value="47-2231">Solar Photovoltaic Installers (SOC: 47-2231)</option>
+                     <option value="27-4014">Sound Engineering Technicians (SOC: 27-4014)</option>
+                     <option value="25-2059">Special Education Teachers, All Other (SOC: 25-2059)</option>
+                     <option value="25-2052">Special Education Teachers, Kindergarten and Elementary School (SOC: 25-2052)</option>
+                     <option value="25-2053">Special Education Teachers, Middle School (SOC: 25-2053)</option>
+                     <option value="25-2051">Special Education Teachers, Preschool (SOC: 25-2051)</option>
+                     <option value="25-2054">Special Education Teachers, Secondary School (SOC: 25-2054)</option>
+                     <option value="29-1127">Speech-Language Pathologists (SOC: 29-1127)</option>
+                     <option value="51-8021">Stationary Engineers and Boiler Operators (SOC: 51-8021)</option>
+                     <option value="43-9111">Statistical petants (SOC: 43-9111)</option>
+                     <option value="15-2041">Statistician (SOC: 15-2041)</option>
+                     <option value="43-5081">Stock Clerks and Order Fillers (SOC: 43-5081)</option>
+                     <option value="47-2022">Stonemasons (SOC: 47-2022)</option>
+                     <option value="47-2221">Structural Iron and Steel Workers (SOC: 47-2221)</option>
+                     <option value="51-2041">Structural Metal Fabricators and Fitters (SOC: 51-2041)</option>
+                     <option value="21-1011">Substance Abuse and Behavioral Disorder Counselors (SOC: 21-1011)</option>
+                     <option value="25-3098">Substitute Teachers (SOC: 25-3098)</option>
+                     <option value="53-4041">Subway and Streetcar Operators (SOC: 53-4041)</option>
+                     <option value="29-1067">Surgeons (SOC: 29-1067)</option>
+                     <option value="29-2055">Surgical Technologists (SOC: 29-2055)</option>
+                     <option value="17-3031">Surveying and Mapping Technicians (SOC: 17-3031)</option>
+                     <option value="17-1022">Surveyors (SOC: 17-1022)</option>
+                     <option value="19-3022">Survey Researchers (SOC: 19-3022)</option>
+                     <option value="43-2011">Switchboard Operators, Including Answering Service (SOC: 43-2011)</option>
+                     <option value="51-6052">Tailors, Dressmakers, and Custom Sewers (SOC: 51-6052)</option>
+                     <option value="53-7121">Tank Car, Truck, and Ship Loaders (SOC: 53-7121)</option>
+                     <option value="47-2082">Tapers (SOC: 47-2082)</option>
+                     <option value="13-2081">Tax Examiners and Collectors, and Revenue Agents (SOC: 13-2081)</option>
+                     <option value="53-3041">Taxi Drivers and Chauffeurs (SOC: 53-3041)</option>
+                     <option value="13-2082">Tax Preparers (SOC: 13-2082)</option>
+                     <option value="51-2092">Team Assemblers (SOC: 51-2092)</option>
+                     <option value="27-3042">Technical Writers (SOC: 27-3042)</option>
+                     <option value="49-2022">Telecommunications Equipment Installers and Repairers, Except Line Installers (SOC: 49-2022)</option>
+                     <option value="49-9052">Telecommunications Line Installers and Repairers (SOC: 49-9052)</option>
+                     <option value="41-9041">Telemarketers (SOC: 41-9041)</option>
+                     <option value="43-2021">Telephone Operators (SOC: 43-2021)</option>
+                     <option value="43-3071">Tellers (SOC: 43-3071)</option>
+                     <option value="47-2053">Terrazzo Workers and Finishers (SOC: 47-2053)</option>
+                     <option value="51-6099">Textile, Apparel, and Furnishings Workers, All Other (SOC: 51-6099)</option>
+                     <option value="51-6061">Textile Bleaching and Dyeing Machine Operators and Tenders (SOC: 51-6061)</option>
+                     <option value="51-6062">Textile Cutting Machine Setters, Operators, and Tenders (SOC: 51-6062)</option>
+                     <option value="51-6063">Textile Knitting and Weaving Machine Setters, Operators, and Tenders (SOC: 51-6063)</option>
+                     <option value="51-6064">Textile Winding, Twisting, and Drawing Out Machine Setters, Operators, and Tenders (SOC: 51-6064)</option>
+                     <option value="29-1129">Therapists, All Other (SOC: 29-1129)</option>
+                     <option value="47-2044">Tile and Marble Setters (SOC: 47-2044)</option>
+                     <option value="51-2093">Timing Device Assemblers and Adjusters (SOC: 51-2093)</option>
+                     <option value="51-9197">Tire Builders (SOC: 51-9197)</option>
+                     <option value="49-3093">Tire Repairers and Changers (SOC: 49-3093)</option>
+                     <option value="23-2093">Title Examiners, Abstractors, and Searchers (SOC: 23-2093)</option>
+                     <option value="51-4111">Tool and Die Makers (SOC: 51-4111)</option>
+                     <option value="51-4194">Tool Grinders, Filers, and Sharpeners (SOC: 51-4194)</option>
+                     <option value="39-7011">Tour Guides and Escorts (SOC: 39-7011)</option>
+                     <option value="53-6041">Traffic Technicians (SOC: 53-6041)</option>
+                     <option value="11-3131">Training and Development Managers (SOC: 11-3131)</option>
+                     <option value="13-1151">Training and Development Specialists (SOC: 13-1151)</option>
+                     <option value="33-3052">Transit and Railroad Police (SOC: 33-3052)</option>
+                     <option value="53-6061">Transportation Attendants, Except Flight Attendants (SOC: 53-6061)</option>
+                     <option value="53-6051">Transportation Inspectors (SOC: 53-6051)</option>
+                     <option value="33-9093">Transportation Security Screeners (SOC: 33-9093)</option>
+                     <option value="11-3071">Transportation, Storage, and Distribution Managers (SOC: 11-3071)</option>
+                     <option value="53-6099">Transportation Workers, All Other (SOC: 53-6099)</option>
+                     <option value="41-3041">Travel Agents (SOC: 41-3041)</option>
+                     <option value="39-7012">Travel Guides (SOC: 39-7012)</option>
+                     <option value="37-3013">Tree Trimmers and Pruners (SOC: 37-3013)</option>
+                     <option value="51-6093">Upholsterers (SOC: 51-6093)</option>
+                     <option value="19-3051">Urban and Regional Planners (SOC: 19-3051)</option>
+                     <option value="39-3031">Ushers, Lobby Attendants, and Ticket Takers (SOC: 39-3031)</option>
+                     <option value="29-1131">Veterinarians (SOC: 29-1131)</option>
+                     <option value="31-9096">Veterinary petants and Laboratory Animal Caretakers (SOC: 31-9096)</option>
+                     <option value="29-2056">Veterinary Technologists and Technicians (SOC: 29-2056)</option>
+                     <option value="25-1194">Vocational Education Teachers, Postsecondary (SOC: 25-1194)</option>
+                     <option value="35-3031">Waiters and Waitresses (SOC: 35-3031)</option>
+                     <option value="49-9064">Watch Repairers (SOC: 49-9064)</option>
+                     <option value="51-8031">Water and Wastewater Treatment Plant and System Operators (SOC: 51-8031)</option>
+                     <option value="15-1134">Web Developers (SOC: 15-1134)</option>
+                     <option value="43-5111">Weighers, Measurers, Checkers, and Samplers, Recordkeeping (SOC: 43-5111)</option>
+                     <option value="51-4121">Welders, Cutters, Solderers, and Brazers (SOC: 51-4121)</option>
+                     <option value="51-4122">Welding, Soldering, and Brazing Machine Setters, Operators, and Tenders (SOC: 51-4122)</option>
+                     <option value="53-7073">Wellhead Pumpers (SOC: 53-7073)</option>
+                     <option value="13-1022">Wholesale and Retail Buyers, Except Farm Products (SOC: 13-1022)</option>
+                     <option value="49-9081">Wind Turbine Service Technicians (SOC: 49-9081)</option>
+                     <option value="51-7099">Woodworkers, All Other (SOC: 51-7099)</option>
+                     <option value="51-7042">Woodworking Machine Setters, Operators, and Tenders, Except Sawing (SOC: 51-7042)</option>
+                     <option value="43-9022">Word Processors and Typists (SOC: 43-9022)</option>
+                     <option value="27-3043">Writers and Authors (SOC: 27-3043)</option>
+                     <option value="19-1023">Zoologists and Wildlife Biologists (SOC: 19-1023)</option>
+                  </select>
+                  <div id="selectOccupation_error" class="errorText ">
+                  </div>
+               </div>
+            </div>
+   
+            <div class="eachfield">
+               <div id="fldLcatTitle_label">
+                  <label for="fldLcatTitle">LCAT Title</label>
+               </div>
+               <div class="left column valueList ">
+                  <input type="text" readonly id="fldLcatTitle">
+                  <input type="hidden" id="fldLcatValue">
+               </div>
+            </div>
+   
+            <div class="eachfield">
+               <div id="selectEnqLevel_label">
+                  <label for="selectEnqLevel">E &amp; Q Level<span class="required">*</span>
+               </div>
+               <div class="left column valueList ">
+                  <select onchange="createIndirectRateLevel(this)" required disabled="true" id="selectEnqLevel" name="eqLevel">
+                     <option value="">Choose one...</option>
+                  </select>
+                  <div id="selectEnqLevel_error" class="errorText ">
+                  </div>
+               </div>
+            </div>
+   
+   
+            <div class="eachfield">
+               <div id="selectIndirectRateLevel_label">
+                  <label for="selectIndirectRateLevel">Indirect Rate Level<span class="required">*</span></label>
+               </div>
+               <div class="left column valueList ">
+                  <select required id="selectIndirectRateLevel" onchange="filleIndirectRateDisplay(this)" disabled="true" name="markupPercent" >
+                     <option value="">Choose one...</option>
+                  </select>
+                  <input type="hidden" name="IndirectRateLevelDisplay" id="IndirectRateLevelDisplay">
+                  <div id="selectIndirectRateLevel_error" class="errorText ">
+                  </div>
+               </div>
+            </div>
+   
+            <div class="eachfield">
+               <div id="selectState_label">
+                  <label for="selectState">State<span class="required">*</span></label>
+               </div>
+               <div class="left column valueList ">
+                  <select onchange="createMSA(this)" name="selectState" disabled="true" required id="selectState">
+                     <option value="">Choose one...</option>
+                  </select>
+                  <div id="selectState_error" class="errorText ">
+                  </div>
+               </div>
+            </div>
+   
+            <div class="eachfield">
+               <div id="selectMsa_label">
+                  <label for="selectMsa">MSA<span class="required">*</span></label>
+               </div>
+               <div class="left column valueList ">
+                  <select onchange="getWageScaleOptions(this.value)" disabled="true" required id="selectMsa" name="msa" >
+                  </select>
+               </div>
+            </div>
+   
+            <div class="eachfield">
+               <div id="msaAreaDefLink_label">
+                  <label for="msaAreaDefLink"></label>
+               </div>
+               <div class="left column valueList ">
+                  <a id="msaAreaDefLink" class="assist-long-item" href="Javascript:fnOpenSelectedMSAAreaDef()">View MSA Area Definition</a>
+                  <div id="msaAreaDefLink_error" class="errorText ">
+                  </div>
+               </div>
+            </div>
+   
+            <div class="eachfield">
+               <div class="left column labelList " id="radioWageScaleOption_label">
+                  <label for="radioWageScaleOption">Wage Scale Options<span class="required"></span></label>
+               </div>
+               <div class="left column valueList ">
+                  <table>
+                     <tr>
+                        <td>&nbsp;</td>
+                        <td>Junior</td>
+                        <td>Journeyman</td>
+                        <td>Senior</td>
+                        <td>Expert</td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <input id="radioWageScaleOption1" required type="radio" name="radioWageScaleOption" value="Low" class="assist-Radio tooltipped"  style="vertical-align: middle;">
+                           <label for="radioWageScaleOption1"><span class="inline-block-100px">Lowest Scale</span><br></label>
+                        </td>
+                        <td id="radioWageScaleOption1_junior"></td>
+                        <td id="radioWageScaleOption1_journey"></td>
+                        <td id="radioWageScaleOption1_senior"></td>
+                        <td id="radioWageScaleOption1_expert"></td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <input id="radioWageScaleOption2" type="radio" name="radioWageScaleOption" value="Med" class="assist-Radio tooltipped"  style="vertical-align: middle;">
+                           <label for="radioWageScaleOption2"><span class="inline-block-100px">Medium Scale</span><br></label>
+                        </td>
+                        <td id="radioWageScaleOption2_junior"></td>
+                        <td id="radioWageScaleOption2_journey"></td>
+                        <td id="radioWageScaleOption2_senior"></td>
+                        <td id="radioWageScaleOption2_expert"></td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <input id="radioWageScaleOption3" type="radio" name="radioWageScaleOption" value="High" class="assist-Radio tooltipped"  style="vertical-align: middle;">
+                           <label for="radioWageScaleOption3"><span class="inline-block-100px">Highest Scale</span><br></label>   
+                        </td>
+                        <td id="radioWageScaleOption3_junior"></td>
+                        <td id="radioWageScaleOption3_journey"></td>
+                        <td id="radioWageScaleOption3_senior"></td>
+                        <td id="radioWageScaleOption3_expert"></td>
+                     </tr>
+                  </table>
+                  
+                  
+                  
+               </div>
+            </div>
+   
+         </div>
+      </div>
+
+      <div class="box box_custom">
+         <div id="fldBoxEstHours" class="box-content">
+            <div class="assist-content">
+               <b>Estimated Numbers of Hours</b>
+            </div>
+            <div id="columns" class="eachrows">
+               <div class="left column labelList " id="fldEstimatedHours_base_label">
+                  <label  for="fldEstimatedHours_base">Base Year<span class="required">*</span></label>
+               </div>
+               <div class="left column valueList ">
+                  <input pattern="[0-9]+" required id="fldEstimatedHours_base" name="estimatedHours1" allowexitwithoutsave="false" class="assist-long-item assist-textBox tooltipped" type="text" value="" size="8" maxlength="8">
+                  <div id="fldEstimatedHours_base_error" class="errorText ">
+                  </div>
+               </div>
+            </div>
+            <div id="columns" class="eachrows">
+               <div class="left column labelList " id="fldEstimatedHours1_label">
+                  <label  for="fldEstimatedHours1">Order Year 2<span class="required">*</span></label>
+               </div>
+               <div class="left column valueList ">
+                  <input pattern="[0-9]+" required id="fldEstimatedHours1" name="estimatedHours1" allowexitwithoutsave="false" class="assist-long-item assist-textBox tooltipped" type="text" value="" size="8" maxlength="8">
+                  <div id="fldEstimatedHours1_error" class="errorText ">
+                  </div>
+               </div>
+            </div>
+            <div id="columns" class="eachrows">
+               <div class="left column labelList " id="fldEstimatedHours3_label">
+                  <label  for="fldEstimatedHours3">Order Year 3<span class="required">*</span></label>
+               </div>
+               <div class="left column valueList ">
+                  <input pattern="[0-9]+" required id="fldEstimatedHours3" name="estimatedHours3" allowexitwithoutsave="false" class="assist-long-item assist-textBox tooltipped" type="text" value="" size="8" maxlength="8">
+                  <div id="fldEstimatedHours3_error" class="errorText ">
+                  </div>
+               </div>
+            </div>
+            <div id="columns" class="eachrows">
+               <div class="left column labelList " id="fldEstimatedHours4_label">
+                  <label for="fldEstimatedHours4">Order Year 4<span class="required">*</span></label>
+               </div>
+               <div class="left column valueList ">
+                  <input pattern="[0-9]+" required id="fldEstimatedHours4" name="estimatedHours4" allowexitwithoutsave="false" class="assist-long-item assist-textBox tooltipped" type="text" value="" size="8" maxlength="8">
+                  <div id="fldEstimatedHours4_error" class="errorText ">
+                  </div>
+               </div>
+            </div>
+            <div id="columns" class="eachrows">
+               <div class="left column labelList " id="fldEstimatedHours5_label">
+                  <label for="fldEstimatedHours5">Order Year 5<span class="required">*</span></label>
+               </div>
+               <div class="left column valueList ">
+                  <input pattern="[0-9]+" required id="fldEstimatedHours5" name="estimatedHours5" allowexitwithoutsave="false" class="assist-long-item assist-textBox tooltipped" type="text" value="" size="8" maxlength="8">
+                  <div id="fldEstimatedHours5_error" class="errorText ">
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="box box_custom">
+         <div id="fldBoxEstHours" class="box-content">
+            
+            <div id="columns" class="eachrows">
+               <div class="left column labelList " id="fldEstimatedHours1_label">
+                  <label id="comments" for="fldEstimatedHours1">Comments</label>
+               </div>
+               <div class="left column valueList ">
+                  <textarea id="fldComments" name="comments" style="height: 100px;" rows="3" maxlength="2000"></textarea>
+               </div>
+            </div>
+            <small>Click to populate the table below with the estimated wage data for your selections above.</small>
+            <small>As needed, alter your selections in the above fields and click Generate Wages again to populate the table with additional entries.</small>
+            <div id="columns" class="button_submit">
+               <button type="submit" class="ux-btn ux-btn-primary pull-right">Run</button>
+            </div>
+         </div>
+      </div>
+   </form>
+
+   <div class="calc_loader">
+      <div class="loader_item"></div>
+   </div>
+
+   <div class="bls_result hidden">
+      <div class="result_header">
+         <div class="result_title">
+            Pricing Information
+         </div>
+      </div>
+      <table>
+         <thead>
+            <tr>
+               <th>Occupation(SOC Code)</th>
+               <th>E&Q Level</th>
+               <th>MSA, State</th>
+               <th>Base Year Estimated Hours</th>
+               <th>Total T&M LCAT Estimate</th>
+               <th>Base Year Estimated Hourly Rate</th>
+            </tr>
+         </thead>
+         <tbody class="bls_result_tbody">
+            
+         </tbody>
+      </table>
+      <input type="button" onclick="goback()" value="Go Back" class="gobackbtn">
+   </div>
+   <div class="warnningbanner hidden">
+      <h3>This Page Is Currently Under Maintenance</h3>
+   </div>
+  </div><!--card-->
+</div><!--row-->
+
+</div>
+{% endblock %}
