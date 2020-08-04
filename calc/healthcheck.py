@@ -46,7 +46,7 @@ def healthcheck(request):
         'version': __version__,
         'canonical_url': canonical_url,
         'request_url': request_url,
-        #'canonical_url_matches_request_url': canonical_url == request_url,
+        # 'canonical_url_matches_request_url': canonical_url == request_url,
         'canonical_url_matches_request_url': True,
         'rq_jobs': len(django_rq.get_queue().jobs),
         **get_database_info(),
