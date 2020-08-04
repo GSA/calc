@@ -5,22 +5,22 @@ $(document).ready(() => {
     $('.primary_form').hide();
     $('.warnningbanner').show();
   }
-  $(function() { 
-    var timeOutObj;
-    var xhr = $.get({
-      beforeSend: activateLoader(),
-      url:'https://oasispet.gsa.gov/cpet/view/105495',
-      success:() => {
-        deactivateLoader();
-        clearTimeout(timeOutObj); // API success so stoping the timer
-        return;
-      }
-    });
-    timeOutObj = setTimeout(()=>{
-      xhr.abort();
-      showWarningBanner() //showing warning banner if API take more than 5 sec time
-    },50000)
-  });
+  // $(function() { 
+  //   var timeOutObj;
+  //   var xhr = $.get({
+  //     //beforeSend: activateLoader(),
+  //     url:'https://oasispet.gsa.gov/cpet/view/105495',
+  //     success:() => {
+  //       deactivateLoader();
+  //       clearTimeout(timeOutObj); // API success so stoping the timer
+  //       return;
+  //     }
+  //   });
+  //   timeOutObj = setTimeout(()=>{
+  //     xhr.abort();
+  //     showWarningBanner() //showing warning banner if API take more than 5 sec time
+  //   },50000)
+  // });
 
   setWageOption = (data) => {      
     data = [
@@ -53,18 +53,22 @@ $(document).ready(() => {
       }
     });
   };
-  activateLoader = () => {
-    $('.calc_loader').addClass('active');
+
+  activateLoader = (elmt) => {
+    $('.valueList').find('.loader_item').remove()//<div class="loader_item"></div>
+    $(elmt).parent().append('<div class="loader_item"></div>');
   };
+
   deactivateLoader = () => {
-    $('.calc_loader').removeClass('active');
+    $('.valueList').find('.loader_item').remove();
   };
-  getWageScaleOptions = (val) => {
+
+  getWageScaleOptions = (val,el) => {
     const sMsa = val;
     const SocCode = $('#selectOccupation').val();
     if (sMsa !== "") {
       $.get({
-        beforeSend: activateLoader(),
+        beforeSend: activateLoader(el),
         url: "https://oasispet.gsa.gov/cpet/cpetPricingTool/wageScaleOption",
         data: {
           "sMsa": sMsa,
@@ -83,7 +87,7 @@ $(document).ready(() => {
     const occupation = $('#selectOccupation').val();
     if (state_value !== "") {
       $.get({
-        beforeSend: activateLoader(),
+        beforeSend: activateLoader(el),
         url: "https://oasispet.gsa.gov/cpet/cpetPricingTool/stateMSAList",
         data: {
           "sState": state_value,
@@ -97,7 +101,7 @@ $(document).ready(() => {
           });
           $('#selectMsa').removeAttr('disabled').empty().append(optionData);
           if (res.length > 0) {
-            getWageScaleOptions(res[0]['sMsa']);
+            getWageScaleOptions(res[0]['sMsa'],$('#selectMsa'));
           }                   
         }
       });
@@ -109,7 +113,7 @@ $(document).ready(() => {
     const lcat_value = $('#fldLcatValue').val();
     const cpetId = $('#cpetId').val();
     $.get({
-      beforeSend: activateLoader(),
+      beforeSend: activateLoader(el),
       url: "https://oasispet.gsa.gov/cpet/cpetPricingTool/markupPercent",
       data: {
         "sEQLevel": eandq_vallue,
@@ -128,8 +132,18 @@ $(document).ready(() => {
     });
   };
   createEANDQLevel = (lcatId) => {
-    eandqData = [];
-    if (lcatId === 14 || lcatId === 1 || lcatId === 12) {
+    eandqData = [
+      {
+        "value": "JR", "description": "Junior"
+      }, {
+        "value": "JY", "description": "Journeyman"
+      }, {
+        "value": "SR", "description": "Senior"
+      }, {
+        "value": "XP", "description": "SME"
+      },
+    ]
+    if (lcatId === 14 || lcatId === 1 || lcatId === 12 || lcatId === 5) {
       eandqData = [
         {
           "value": "JR", "description": "Junior"
@@ -169,9 +183,9 @@ $(document).ready(() => {
     $(el).removeAttr('disabled').empty().append(optionData);
   };
 
-  callForStateList = (value_occupation) => {
+  callForStateList = (value_occupation,parentEl) => {
     $.get({
-      beforeSend: activateLoader(),
+      beforeSend: activateLoader(parentEl),
       url: "https://oasispet.gsa.gov/cpet/cpetPricingTool/stateList?sSocCode="+value_occupation,
       success: (res) => {
         deactivateLoader();
@@ -185,13 +199,13 @@ $(document).ready(() => {
     console.log(value_occupation);
     if (value_occupation != "") {
       $.get({
-        beforeSend: activateLoader(),
+        beforeSend: activateLoader(el),
         url: "https://oasispet.gsa.gov/cpet/cpetPricingTool/lcatTitle?sSocCode="+value_occupation,
         success: (res) => {
           deactivateLoader();
           $('#fldLcatTitle').val(res.lcatName);
           $('#fldLcatValue').val(res.lcatId);
-          callForStateList(value_occupation);
+          callForStateList(value_occupation,el);
           createEANDQLevel(res.lcatId);
         }
       });
@@ -219,7 +233,7 @@ $(document).ready(() => {
   filleIndirectRateDisplay = (el) => {
     $('#IndirectRateLevelDisplay').val($(el).find("option:selected").text());
   };
-  launchResult = () => {
+  launchResult = (el) => {
     $('.primary_form').hide();
     $('.secondary_form').hide();
     primary_form_data = objectifyForm($('.primary_form').serializeArray());
@@ -227,13 +241,9 @@ $(document).ready(() => {
     console.log(primary_form_data);
     console.log(secondary_form_data);
     $.get({
-      beforeSend: activateLoader(),
+      beforeSend: activateLoader(el),
       url: "https://oasispet.gsa.gov/cpet/cpetPricingTool/generateMsaWages",
       data: {
-        //    =105495&sEQLevel=JY&sMsa=Boston-Cambridge-Quincy%2C%20MA%20NECTA%20Division&
-        //    sSocCode=23-1021&sWageScale=Med&sMarkupPercent=145
-        //    &IndirectRateLevelDisplay=Low&sEstimateHours1=1&
-        //    sEstimateHours2=1&sEstimateHours3=1&sEstimateHours4=1&sEstimateHours5=1
         "cpetId": primary_form_data['cpetId'],
         "sEQLevel": secondary_form_data['eqLevel'],
         "sMsa": secondary_form_data['msa'],
@@ -273,7 +283,7 @@ $(document).ready(() => {
   };
   validateSecondary = (form_el) => {
     secondary_data = $(form_el).serializeArray();
-    launchResult();
+    launchResult($('.get_result_btn'));
     return false;
   };
 });

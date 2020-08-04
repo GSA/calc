@@ -50,6 +50,21 @@
    .box_custom .box-content .eachrows .valueList{
       width: 65%;
    }
+   .valueList{
+      position: relative;
+   }
+   .valueList .loader_item{
+      width:30px;
+      height: 30px;
+      background: url('https://thumbs.gfycat.com/RelievedSilentArcticwolf-small.gif');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: absolute;
+      transform: translate(-50%,-50%);
+      right:0;
+      top: 50%;
+   }
    .box_custom .box-content .button_submit{
       width: 80%;
       margin: 0px 10%;
@@ -63,28 +78,8 @@
    select[disabled=true]{
       background: #dbdbdb;
    }
-   .calc_loader{
-      width:100%;
-      height: 100%;
-      position: absolute;
-      top:0;
-      left:0;
-      background: rgba(255,255,255,0.7);
-      display:none;
-      justify-content: center;
-      align-items: center;
-   }
-   .calc_loader.active{
-      display:flex;
-   }
-   .calc_loader .loader_item{
-      width:100px;
-      height: 100px;
-      background: url('https://thumbs.gfycat.com/RelievedSilentArcticwolf-small.gif');
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-   }
+   
+   
    .bls_result .result_header{
       width: 100%;
       height: 30px;
@@ -135,18 +130,10 @@
                   <input id="price_module_title" type="text" name="price_module_title" required>
                </div>
             </div>
-            
-            <div class="eachfield">
-               <div class="left column labelList" id="cpetId_lable">
-                  <label for="cpetId">CPET Id<span class="required">*</span></label>
-               </div>
-               <div class="left column valueList ">
-                  <input id="cpetId" type="text" name="cpetId" required value="105495">
-               </div>
-            </div>
+            <input id="cpetId" type="hidden" name="cpetId" value="105495">
             <div class="eachfield">
                <div class="left column labelList " id="task_order_id_lable">
-                  <label for="task_order_id">Task Order Id<span class="required">*</span></label>
+                  <label for="task_order_id">Id Number<span class="required">*</span></label>
                </div>
                <div class="left column valueList ">
                   <input id="task_order_id" type="text" name="task_order_id" required>
@@ -1061,7 +1048,7 @@
                   <label for="selectMsa">MSA<span class="required">*</span></label>
                </div>
                <div class="left column valueList ">
-                  <select onchange="getWageScaleOptions(this.value)" disabled="true" required id="selectMsa" name="msa" >
+                  <select onchange="getWageScaleOptions(this.value,this)" disabled="true" required id="selectMsa" name="msa" >
                   </select>
                </div>
             </div>
@@ -1200,16 +1187,16 @@
             </div>
             <small>Click to populate the table below with the estimated wage data for your selections above.</small>
             <small>As needed, alter your selections in the above fields and click Generate Wages again to populate the table with additional entries.</small>
-            <div id="columns" class="button_submit">
-               <button type="submit" class="ux-btn ux-btn-primary pull-right">Run</button>
+            <div id="columns" class="button_submit valueList">
+               <button type="submit" class="ux-btn ux-btn-primary pull-right get_result_btn">Run</button>
             </div>
          </div>
       </div>
    </form>
 
-   <div class="calc_loader">
+   <!-- <div class="calc_loader">
       <div class="loader_item"></div>
-   </div>
+   </div> -->
 
    <div class="bls_result hidden">
       <div class="result_header">
