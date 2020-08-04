@@ -7,16 +7,15 @@
   {% if gleaned_data.valid_rows %}
     <p>Here's how the rates in your proposed contract compare with CALC data. Click on any link in the table to view the full search results for a proposed service, at the specified education and experience levels.</p>
     {% endif %}
-     <label>Search labor categories:</label>
-     
+     <label>Choose Contract Vehilces:</label>
       <select multiple=""  id='contract-vehicles' name='schedules' style='height: 150px;'> 
 
          <script>  
               let dropdown = $('#contract-vehicles');
               dropdown.empty();
-              dropdown.append('<option selected="true" enable>Choose Contract_vehilces</option>');
+              dropdown.append('<option selected="true" enable>Selected all Contract Vehilces</option>');
               dropdown.prop('selectedIndex', 0);
-              const url = 'http://localhost:8000/api/schedules/';
+              const url = 'https://calc.gsa.gov/api/schedules/';
               // Populate dropdown with list of provinces
               $.getJSON(url, function (data) {
                 $.each(data, function (key, entry) {
@@ -26,10 +25,10 @@
                   // '''on click event send the selected values as a filter with gleaned data.valid rows as a argurment'''  
          </script> 
         </select>
-            The value of the option selected is:  
+
             <span class="output"></span> <p></p>
             <button  onclick="getMultipleSelectedtext()">check</button> 
-       
+
             <script type="text/javascript">
                 function getMultipleSelectedtext()
                   {
