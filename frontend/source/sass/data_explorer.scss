@@ -308,11 +308,6 @@ input[type="checkbox"]:checked ~ label {
   }
 }
 
-@media (min-width: 550px) {
-  .price-block {
-    // max-width: 65.5%;
-  }
-}
 .avg-price-block,
 .standard-deviation-block {
   display: inline-block;
