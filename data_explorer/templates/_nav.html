@@ -12,6 +12,9 @@
       <li{% if current_selected_tab == 'capability_statement'%} class="selected"{% endif %}><a href="{% url 'step_cap' %}">Add capability statement</a></li>
       {% endif %}
       {% if current_selected_tab != "analyze_price_data" and current_selected_tab != "upload_price_data" and current_selected_tab != "capability_statement" %}
+        <li {% if current_selected_tab == 'estimating_tool'%} class="selected"{% endif %}><a href="{% url 'estimating_tool' %}">Estimating Tool</a></li>
+      {% endif %}
+      {% if c != "analyze_price_data" and current_selected_tab != "upload_price_data" and current_selected_tab != "capability_statement" %}
         <li {% if current_selected_tab == 'about'%} class="selected"{% endif %}><a href="{% url 'about' %}">About CALC</a></li>
       {% endif %}
     </ul>
