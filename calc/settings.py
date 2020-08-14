@@ -25,9 +25,13 @@ if os.path.exists(DOTENV_PATH):
 
 load_cups_from_vcap_services()
 load_redis_url_from_vcap_services('calc-redis32')
+NON_PROD_INSTANCE_NAME = os.environ.get('NON_PROD_INSTANCE_NAME', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'DEBUG' in os.environ
+if NON_PROD_INSTANCE_NAME == 'staging':
+    DEBUG = True
+else:
+    DEBUG = 'DEBUG' in os.environ
 
 DEBUG_HTTPS = 'DEBUG_HTTPS' in os.environ and not is_running_tests()
 
@@ -70,9 +74,7 @@ DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
 SERVER_EMAIL = os.environ['SERVER_EMAIL']
 HELP_EMAIL = os.environ.get('HELP_EMAIL', DEFAULT_FROM_EMAIL)
 
-GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID', '')
-
-NON_PROD_INSTANCE_NAME = os.environ.get('NON_PROD_INSTANCE_NAME', '')
+GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID')
 
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -179,6 +181,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+
+    'ip_restriction.IpWhitelister',
+
     # 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'uaa_client.middleware.UaaRefreshMiddleware',
@@ -193,6 +198,7 @@ MIDDLEWARE_CLASSES = (
     'admin_reorder.middleware.ModelAdminReorder',
     'django.middleware.security.SecurityMiddleware'
 )
+
 
 AUTHENTICATION_BACKENDS = (
     'uaa_client.authentication.UaaBackend',
@@ -372,15 +378,21 @@ if DEBUG and not HIDE_DEBUG_UI:
         'data_capture.schedules.fake_schedule.FakeSchedulePriceList',
     )
 
-UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
-
-UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
-
-UAA_CLIENT_ID = os.environ.get('UAA_CLIENT_ID', 'calc-dev')
+if NON_PROD_INSTANCE_NAME == 'staging':
+    UAA_AUTH_URL = "fake:"
+    UAA_TOKEN_URL = "fake:"
+    UAA_APPROVED_DOMAINS=['gsa.gov','example.com']
+    UAA_CLIENT_ID = 'fakeclientid'
+    UAA_CLIENT_SECRET = 'fakeclientsecret'
+    RESTRICT_IPS = True
+    ALLOWED_IPS = os.environ.get('WHITELISTED_IPS').split(',')
+else:
+    UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
+    UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
+    UAA_CLIENT_ID = os.environ.get('UAA_CLIENT_ID')
+    UAA_CLIENT_SECRET = os.environ.get('UAA_CLIENT_SECRET')
 
 UAA_LOGOUT_URL = '/logout'
-
-UAA_CLIENT_SECRET = os.environ.get('UAA_CLIENT_SECRET')
 
 LOGIN_URL = 'uaa_client:login'
 
