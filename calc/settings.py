@@ -150,7 +150,7 @@ INSTALLED_APPS = (
     'admin_reorder',
     'storages',
     'drf_yasg',
-    #'rest_framework_swagger'
+    # 'rest_framework_swagger'
 )  # type: Tuple[str, ...]
 
 SITE_ID = 1
@@ -164,8 +164,8 @@ else:
     WHITENOISE_MIDDLEWARE = 'whitenoise.middleware.WhiteNoiseMiddleware'
 
 SWAGGER_SETTINGS = {
-    'FETCH_SCHEMA_WITH_QUERY':False,
-    'SUPPORTED_SUBMIT_METHODS':['post'],
+    'FETCH_SCHEMA_WITH_QUERY': False,
+    'SUPPORTED_SUBMIT_METHODS': ['post'],
     'SECURITY_DEFINITIONS': {
         'basic': {
             'type': 'basic'
@@ -381,11 +381,12 @@ if DEBUG and not HIDE_DEBUG_UI:
 if NON_PROD_INSTANCE_NAME == 'staging':
     UAA_AUTH_URL = "fake:"
     UAA_TOKEN_URL = "fake:"
-    UAA_APPROVED_DOMAINS=['gsa.gov','example.com']
+    UAA_APPROVED_DOMAINS= ['gsa.gov', 'example.com']
     UAA_CLIENT_ID = 'fakeclientid'
     UAA_CLIENT_SECRET = 'fakeclientsecret'
-    RESTRICT_IPS = True
-    ALLOWED_IPS = os.environ.get('WHITELISTED_IPS').split(',')
+    if os.environ.get('WHITELISTED_IPS'):
+        RESTRICT_IPS = True
+        ALLOWED_IPS = os.environ.get('WHITELISTED_IPS').split(',')
 else:
     UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
     UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
