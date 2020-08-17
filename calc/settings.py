@@ -385,7 +385,7 @@ if NON_PROD_INSTANCE_NAME == 'staging':
     UAA_APPROVED_DOMAINS = ['gsa.gov', 'example.com']
     UAA_CLIENT_ID = 'fakeclientid'
     UAA_CLIENT_SECRET = 'fakeclientsecret'
-    print(os.environ.get('WHITELISTED_IPS'))
+    print('heres the whitelisted ips',os.environ.get('WHITELISTED_IPS'))
     if os.environ.get('WHITELISTED_IPS'):
         RESTRICT_IPS = True
         ALLOWED_IPS = os.environ.get('WHITELISTED_IPS').split(',')
