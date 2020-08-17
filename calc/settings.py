@@ -180,7 +180,7 @@ MIDDLEWARE_CLASSES = (
     'calc.middleware.DebugOnlyDebugToolbarMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'admin_reorder.middleware.ModelAdminReorder',
-    'django.middleware.security.SecurityMiddleware'
+    # 'django.middleware.security.SecurityMiddleware'
 )
 
 AUTHENTICATION_BACKENDS = (
