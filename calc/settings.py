@@ -28,7 +28,8 @@ load_redis_url_from_vcap_services('calc-redis32')
 NON_PROD_INSTANCE_NAME = os.environ.get('NON_PROD_INSTANCE_NAME', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if NON_PROD_INSTANCE_NAME == 'staging':
+# if NON_PROD_INSTANCE_NAME == 'staging':
+if NON_PROD_INSTANCE_NAME == 'staging' or not NON_PROD_INSTANCE_NAME:
     DEBUG = True
 else:
     DEBUG = 'DEBUG' in os.environ
@@ -388,7 +389,7 @@ if NON_PROD_INSTANCE_NAME == 'staging':
 else:
     UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
     UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
-    UAA_CLIENT_ID = os.environ.get('UAA_CLIENT_ID')
+    UAA_CLIENT_ID = os.environ.get('UAA_CLIENT_ID', 'default_value')
     UAA_CLIENT_SECRET = os.environ.get('UAA_CLIENT_SECRET')
 
 UAA_LOGOUT_URL = '/logout'
