@@ -390,7 +390,7 @@ else:
     UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
     UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
     UAA_CLIENT_ID = os.environ.get('UAA_CLIENT_ID', 'default_value')
-    UAA_CLIENT_SECRET = os.environ.get('UAA_CLIENT_SECRET')
+    UAA_CLIENT_SECRET = os.environ.get('UAA_CLIENT_SECRET','default_value')
 
 UAA_LOGOUT_URL = '/logout'
 
