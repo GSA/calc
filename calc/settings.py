@@ -29,7 +29,7 @@ NON_PROD_INSTANCE_NAME = os.environ.get('NON_PROD_INSTANCE_NAME', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # if NON_PROD_INSTANCE_NAME == 'staging':
-if NON_PROD_INSTANCE_NAME == 'staging' or not NON_PROD_INSTANCE_NAME:
+if NON_PROD_INSTANCE_NAME == 'staging':
     DEBUG = True
 else:
     DEBUG = 'DEBUG' in os.environ
