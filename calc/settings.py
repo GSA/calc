@@ -27,6 +27,7 @@ load_cups_from_vcap_services()
 load_redis_url_from_vcap_services('calc-redis32')
 NON_PROD_INSTANCE_NAME = os.environ.get('NON_PROD_INSTANCE_NAME', '')
 
+print('heres the non prod instance name', NON_PROD_INSTANCE_NAME)
 # SECURITY WARNING: don't run with debug turned on in production!
 # if NON_PROD_INSTANCE_NAME == 'staging':
 if NON_PROD_INSTANCE_NAME == 'staging':
@@ -381,9 +382,10 @@ if DEBUG and not HIDE_DEBUG_UI:
 if NON_PROD_INSTANCE_NAME == 'staging':
     UAA_AUTH_URL = "fake:"
     UAA_TOKEN_URL = "fake:"
-    UAA_APPROVED_DOMAINS= ['gsa.gov', 'example.com']
+    UAA_APPROVED_DOMAINS = ['gsa.gov', 'example.com']
     UAA_CLIENT_ID = 'fakeclientid'
     UAA_CLIENT_SECRET = 'fakeclientsecret'
+    print(os.environ.get('WHITELISTED_IPS'))
     if os.environ.get('WHITELISTED_IPS'):
         RESTRICT_IPS = True
         ALLOWED_IPS = os.environ.get('WHITELISTED_IPS').split(',')
@@ -391,7 +393,7 @@ else:
     UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
     UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
     UAA_CLIENT_ID = os.environ.get('UAA_CLIENT_ID', 'default_value')
-    UAA_CLIENT_SECRET = os.environ.get('UAA_CLIENT_SECRET','default_value')
+    UAA_CLIENT_SECRET = os.environ.get('UAA_CLIENT_SECRET', 'default_value')
 
 UAA_LOGOUT_URL = '/logout'
 
