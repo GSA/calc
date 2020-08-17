@@ -1,3 +1,4 @@
+# type: ignore
 """
 Django settings for calc project.
 For more information on this file, see
@@ -385,11 +386,11 @@ if NON_PROD_INSTANCE_NAME == 'staging':
     UAA_APPROVED_DOMAINS = ['gsa.gov', 'example.com']
     UAA_CLIENT_ID = 'fakeclientid'
     UAA_CLIENT_SECRET = 'fakeclientsecret'
-    IPS = os.environ.get('WHITELISTED_IPS') if os.environ.get('WHITELISTED_IPS') else 'none,fool'
+    IPS = os.environ.get('WHITELISTED_IPS') if os.environ.get('WHITELISTED_IPS') else 'none,fool' # type: ignore
+    print('heres the ips variable', IPS)
     RESTRICT_IPS = True
-    ALLOWED_IPS = IPS.split(',')
+    ALLOWED_IPS = IPS.split(',') # type: ignore
 else:
-    print('heres some more output')
     UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
     UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
     UAA_CLIENT_ID = os.environ.get('UAA_CLIENT_ID', 'default_value')
