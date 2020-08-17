@@ -79,7 +79,7 @@ DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
 SERVER_EMAIL = os.environ['SERVER_EMAIL']
 HELP_EMAIL = os.environ.get('HELP_EMAIL', DEFAULT_FROM_EMAIL)
 
-GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID')
+GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID','')
 
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
