@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# -*- coding: utf-8 -*-
+# mypy: ignore-errors
 """
 Django settings for calc project.
 For more information on this file, see
@@ -27,7 +30,9 @@ load_cups_from_vcap_services()
 load_redis_url_from_vcap_services('calc-redis32')
 NON_PROD_INSTANCE_NAME = os.environ.get('NON_PROD_INSTANCE_NAME', '')
 
+print('heres the non prod instance name', NON_PROD_INSTANCE_NAME)
 # SECURITY WARNING: don't run with debug turned on in production!
+# if NON_PROD_INSTANCE_NAME == 'staging':
 if NON_PROD_INSTANCE_NAME == 'staging':
     DEBUG = True
 else:
@@ -74,7 +79,7 @@ DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
 SERVER_EMAIL = os.environ['SERVER_EMAIL']
 HELP_EMAIL = os.environ.get('HELP_EMAIL', DEFAULT_FROM_EMAIL)
 
-GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID')
+GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID', '')
 
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -148,7 +153,8 @@ INSTALLED_APPS = (
     'uswds_forms',
     'admin_reorder',
     'storages',
-    'drf_yasg'
+    'drf_yasg',
+    # 'rest_framework_swagger'
 )  # type: Tuple[str, ...]
 
 SITE_ID = 1
@@ -161,6 +167,16 @@ else:
                            'CompressedManifestStaticFilesStorage')
     WHITENOISE_MIDDLEWARE = 'whitenoise.middleware.WhiteNoiseMiddleware'
 
+SWAGGER_SETTINGS = {
+    'FETCH_SCHEMA_WITH_QUERY': False,
+    'SUPPORTED_SUBMIT_METHODS': ['post'],
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        }
+    },
+}
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
     'calc.middleware.ComplianceMiddleware',
@@ -168,7 +184,7 @@ MIDDLEWARE_CLASSES = (
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 
     'ip_restriction.IpWhitelister',
@@ -184,9 +200,9 @@ MIDDLEWARE_CLASSES = (
     # http://django-debug-toolbar.readthedocs.io/en/stable/panels.html#profiling
     'calc.middleware.DebugOnlyDebugToolbarMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
-    'admin_reorder.middleware.ModelAdminReorder'
-    
-    )
+    'admin_reorder.middleware.ModelAdminReorder',
+    'django.middleware.security.SecurityMiddleware'
+)
 
 AUTHENTICATION_BACKENDS = (
     'uaa_client.authentication.UaaBackend',
@@ -369,16 +385,18 @@ if DEBUG and not HIDE_DEBUG_UI:
 if NON_PROD_INSTANCE_NAME == 'staging':
     UAA_AUTH_URL = "fake:"
     UAA_TOKEN_URL = "fake:"
-    UAA_APPROVED_DOMAINS=['gsa.gov','example.com']
+    UAA_APPROVED_DOMAINS = ['gsa.gov', 'example.com']
     UAA_CLIENT_ID = 'fakeclientid'
     UAA_CLIENT_SECRET = 'fakeclientsecret'
+    IPS = os.environ.get('WHITELISTED_IPS') if os.environ.get('WHITELISTED_IPS') else 'none,fool'
+    print('heres the ips variable', IPS)
     RESTRICT_IPS = True
-    ALLOWED_IPS = os.environ.get('WHITELISTED_IPS').split(',')
+    ALLOWED_IPS = IPS.split(',')  # type: ignore
 else:
     UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
     UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
-    UAA_CLIENT_ID = os.environ.get('UAA_CLIENT_ID')
-    UAA_CLIENT_SECRET = os.environ.get('UAA_CLIENT_SECRET')
+    UAA_CLIENT_ID = os.environ.get('UAA_CLIENT_ID', 'default_value')
+    UAA_CLIENT_SECRET = os.environ.get('UAA_CLIENT_SECRET', 'default_value')
 
 UAA_LOGOUT_URL = '/logout'
 
