@@ -146,7 +146,8 @@ INSTALLED_APPS = (
     'uswds_forms',
     'admin_reorder',
     'storages',
-    'drf_yasg'
+    'drf_yasg',
+    #'rest_framework_swagger'
 )  # type: Tuple[str, ...]
 
 SITE_ID = 1
@@ -158,6 +159,16 @@ else:
     STATICFILES_STORAGE = ('whitenoise.storage.'
                            'CompressedManifestStaticFilesStorage')
     WHITENOISE_MIDDLEWARE = 'whitenoise.middleware.WhiteNoiseMiddleware'
+
+SWAGGER_SETTINGS = {
+    'FETCH_SCHEMA_WITH_QUERY':False,
+    'SUPPORTED_SUBMIT_METHODS':['post'],
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        }
+    },
+}
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
