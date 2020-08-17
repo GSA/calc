@@ -390,6 +390,7 @@ if NON_PROD_INSTANCE_NAME == 'staging':
         RESTRICT_IPS = True
         ALLOWED_IPS = os.environ.get('WHITELISTED_IPS').split(',')
 else:
+    print('heres some more output')
     UAA_AUTH_URL = 'https://login.fr.cloud.gov/oauth/authorize'
     UAA_TOKEN_URL = 'https://uaa.fr.cloud.gov/oauth/token'
     UAA_CLIENT_ID = os.environ.get('UAA_CLIENT_ID', 'default_value')
