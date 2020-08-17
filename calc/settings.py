@@ -1,4 +1,6 @@
-# type: ignore
+#!/usr/bin/env python 
+#-*- coding: utf-8 -*-
+# mypy: ignore-errors
 """
 Django settings for calc project.
 For more information on this file, see
@@ -386,7 +388,7 @@ if NON_PROD_INSTANCE_NAME == 'staging':
     UAA_APPROVED_DOMAINS = ['gsa.gov', 'example.com']
     UAA_CLIENT_ID = 'fakeclientid'
     UAA_CLIENT_SECRET = 'fakeclientsecret'
-    IPS = os.environ.get('WHITELISTED_IPS') if os.environ.get('WHITELISTED_IPS') else 'none,fool' # type: ignore
+    IPS = os.environ.get('WHITELISTED_IPS') if os.environ.get('WHITELISTED_IPS') else 'none,fool' 
     print('heres the ips variable', IPS)
     RESTRICT_IPS = True
     ALLOWED_IPS = IPS.split(',') # type: ignore
