@@ -166,9 +166,9 @@ MIDDLEWARE_CLASSES = (
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    # 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'uaa_client.middleware.UaaRefreshMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -180,7 +180,7 @@ MIDDLEWARE_CLASSES = (
     'calc.middleware.DebugOnlyDebugToolbarMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'admin_reorder.middleware.ModelAdminReorder',
-    # 'django.middleware.security.SecurityMiddleware'
+    'django.middleware.security.SecurityMiddleware'
 )
 
 AUTHENTICATION_BACKENDS = (
