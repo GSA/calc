@@ -30,7 +30,7 @@
     "enzyme": "^3.0.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.0",
-    "eslint": "^4.19.1",
+    "eslint": "^5.0.0",
     "eslint-config-airbnb": "^17.0.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
@@ -83,9 +83,10 @@
     "lodash-es": "4.17.14",
     "node-sass": "^4.13.1",
     "elliptic": "^6.5.3",
-    "serialize-javascript":"^2.1.1",
+    "serialize-javascript":"^3.1.0",
     "kind-of":"^6.0.3",
-    "minimist": "^1.2.2"
+    "minimist": "^1.2.2",
+    "ajv": "^6.12.3"
   },
   "scripts": {
     "gulp": "gulp",
