@@ -1,4 +1,5 @@
 from django.conf.urls import include, url
+from django.views.decorators.csrf import csrf_exempt
 
 from .views import (price_list_upload, bulk_upload, price_lists,
                     price_list_replace, price_list_analyze, capability_statement)
