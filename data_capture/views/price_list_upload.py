@@ -38,6 +38,7 @@ steps = Steps(
     extra_ctx_processors=[replayer.context_processor]
 )
 
+
 @csrf_exempt
 def get_step_form_from_session(step_number, request, **kwargs):
     '''
@@ -61,6 +62,7 @@ def get_step_form_from_session(step_number, request, **kwargs):
         )
     return form
 
+
 @csrf_exempt
 def clear_gleaned_data_if_different_schedule(request):
     # If a different schedule has been chosen from that of the gleaned_data
@@ -72,6 +74,7 @@ def clear_gleaned_data_if_different_schedule(request):
     if gleaned_data and (registry.get_classname(gleaned_data) !=
                          new_schedule):
         del sess[SESSION_KEY]['gleaned_data']
+
 
 @csrf_exempt
 def tutorial(request):
