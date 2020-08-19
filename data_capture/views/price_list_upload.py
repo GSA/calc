@@ -38,7 +38,7 @@ steps = Steps(
     extra_ctx_processors=[replayer.context_processor]
 )
 
-
+@csrf_exempt
 def get_step_form_from_session(step_number, request, **kwargs):
     '''
     Bring back the given Form instance for a step from the
@@ -61,7 +61,7 @@ def get_step_form_from_session(step_number, request, **kwargs):
         )
     return form
 
-
+@csrf_exempt
 def clear_gleaned_data_if_different_schedule(request):
     # If a different schedule has been chosen from that of the gleaned_data
     # in session, then delete gleaned_data from session so that the upload
@@ -73,7 +73,7 @@ def clear_gleaned_data_if_different_schedule(request):
                          new_schedule):
         del sess[SESSION_KEY]['gleaned_data']
 
-
+@csrf_exempt
 def tutorial(request):
     from ..schedules.s70 import Schedule70PriceList
 
