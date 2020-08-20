@@ -18,7 +18,7 @@
 
 {% block step_body %}
   <form method="post" class="form--contract_details" id="vendor-contract-form">
-  {/* % csrf_token % */}
+  {% csrf_token %}
 
   {{ form.non_field_errors }}
   <h3>{{ contract_number }}</h3>

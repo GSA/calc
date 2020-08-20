@@ -3,7 +3,7 @@
       action="{% url 'data_capture:replace_step_1' id=price_list.pk %}"
       class="form--contract_details">
 
-  {/* % csrf_token %*/ }
+  {% csrf_token %}
 
   {% if request.is_ajax %}
     {% include 'data_capture/messages.html' %}

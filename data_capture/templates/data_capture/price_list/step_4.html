@@ -17,7 +17,7 @@
 
 {% block step_body %}
 <form method="post" class="form--contract_details">
-  {/* % csrf_token % */}
+  {% csrf_token %}
 
 <h3>Verify vendor and contract details</h3>
 
@@ -152,7 +152,7 @@
 {% endblock %}
 {% block card_footer %}
   <form method="post">
-    {/* % csrf_token % */}
+    {% csrf_token %}
     <button type="submit" class="usa-button usa-button-link" name="cancel" data-a11y-dialog-show="cancel-dialog" formnovalidate>Cancel this upload</button>
   </form>
 {% endblock %}
