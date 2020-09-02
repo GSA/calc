@@ -1,6 +1,8 @@
 import json
 
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
+
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.http import HttpResponseBadRequest
@@ -37,6 +39,7 @@ steps = Steps(
 )
 
 
+@csrf_exempt
 def get_step_form_from_session(step_number, request, **kwargs):
     '''
     Bring back the given Form instance for a step from the
@@ -60,6 +63,7 @@ def get_step_form_from_session(step_number, request, **kwargs):
     return form
 
 
+@csrf_exempt
 def clear_gleaned_data_if_different_schedule(request):
     # If a different schedule has been chosen from that of the gleaned_data
     # in session, then delete gleaned_data from session so that the upload
@@ -72,6 +76,7 @@ def clear_gleaned_data_if_different_schedule(request):
         del sess[SESSION_KEY]['gleaned_data']
 
 
+@csrf_exempt
 def tutorial(request):
     from ..schedules.s70 import Schedule70PriceList
 
@@ -91,6 +96,7 @@ def tutorial(request):
 @permission_required(PRICE_LIST_UPLOAD_PERMISSION, raise_exception=True)
 @require_http_methods(["GET", "POST"])
 @handle_cancel  # This is for canceling a replay.
+@csrf_exempt
 def step_1(request, step):
     if request.method == 'GET':
         form = forms.Step1Form(data=get_nested_item(
@@ -135,6 +141,7 @@ def step_1(request, step):
 @permission_required(PRICE_LIST_UPLOAD_PERMISSION, raise_exception=True)
 @require_http_methods(["GET", "POST"])
 @handle_cancel
+@csrf_exempt
 def step_2(request, step):
     # Redirect back to step 1 if we don't have data
     if get_step_form_from_session(1, request) is None:
@@ -174,6 +181,7 @@ def step_2(request, step):
 @require_http_methods(["GET", "POST"])
 @handle_cancel
 @replayer.recordable
+@csrf_exempt
 def step_3(request, step, recorder):
     if get_step_form_from_session(2, request) is None:
         return redirect('data_capture:step_2')
@@ -237,6 +245,7 @@ def step_3(request, step, recorder):
 @permission_required(PRICE_LIST_UPLOAD_PERMISSION, raise_exception=True)
 @handle_cancel
 @require_http_methods(["GET"])
+@csrf_exempt
 def step_3_errors(request):
     step = steps.get_step_renderer(3)
 
@@ -269,6 +278,7 @@ def step_3_errors(request):
 @require_http_methods(["GET", "POST"])
 @handle_cancel
 @transaction.atomic
+@csrf_exempt
 def step_4(request, step):
     gleaned_data = get_deserialized_gleaned_data(request)
 
@@ -377,5 +387,6 @@ def step_4(request, step):
 @steps.step(label='Complete')
 @login_required
 @permission_required(PRICE_LIST_UPLOAD_PERMISSION, raise_exception=True)
+@csrf_exempt
 def step_5(request, step):
     return step.render(request)

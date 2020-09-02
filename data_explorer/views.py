@@ -20,6 +20,10 @@ def about(request):
     })
 
 
+def estimating_tool(request):
+    return render(request, 'estimating_tool.html', {'current_selected_tab': 'estimating_tool'})
+
+
 def step_cap(request):
     from django import forms
     CHOICES = [('1', 'First'), ('2', 'Second')]
