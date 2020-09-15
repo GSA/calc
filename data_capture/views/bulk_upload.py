@@ -5,6 +5,8 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
 from django.template.loader import render_to_string
 
+from django.views.decorators.csrf import csrf_exempt
+
 from .. import forms, jobs
 from ..r10_spreadsheet_converter import Region10SpreadsheetConverter
 from ..management.commands.initgroups import BULK_UPLOAD_PERMISSION
@@ -67,7 +69,7 @@ def render_r10_spreadsheet_example(request=None):
         {'sheet_rows': EXAMPLE_SHEET_ROWS},
         request=request)
 
-
+@csrf_exempt
 @steps.step(label='Upload spreadsheet')
 @login_required
 @permission_required(BULK_UPLOAD_PERMISSION, raise_exception=True)
@@ -112,7 +114,7 @@ def bulk_region_10_step_1(request, step):
                            'region_10_step_1_form.html',
     )
 
-
+@csrf_exempt
 @steps.step(label='Confirm load')
 @login_required
 @permission_required(BULK_UPLOAD_PERMISSION, raise_exception=True)
@@ -149,6 +151,7 @@ def bulk_region_10_step_2(request, step):
     return redirect('data_capture:bulk_region_10_step_3')
 
 
+@csrf_exempt
 @steps.step(label='Complete')
 @login_required
 @permission_required(BULK_UPLOAD_PERMISSION, raise_exception=True)
