@@ -5,8 +5,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 
-from django.views.decorators.csrf import csrf_exempt
-
 from .. import forms
 from ..schedules import registry
 from ..models import SubmittedPriceList
@@ -17,7 +15,6 @@ from .common import (add_generic_form_error, build_url,
 
 @login_required
 @permission_required(PRICE_LIST_UPLOAD_PERMISSION, raise_exception=True)
-@csrf_exempt
 def list_price_lists(request):
     '''
     This view lists a user's SubmittedPriceLists, segmented into lists based
@@ -54,7 +51,6 @@ def list_price_lists(request):
 @login_required
 @permission_required(PRICE_LIST_UPLOAD_PERMISSION, raise_exception=True)
 @transaction.atomic
-@csrf_exempt
 def price_list_details(request, id):
     '''
     This view shows all the details of a SubmittedPriceList model.
