@@ -206,9 +206,10 @@ def analyze_price_list_row(cursor, vocab, row):
 
 
 def analyze_gleaned_data(gleaned_data):
+
     valid_rows = []
 
-    if gleaned_data.valid_rows:
+    if gleaned_data and gleaned_data.valid_rows:
         cursor = connection.cursor()
         vocab = Vocabulary.from_db(cursor)
         with transaction.atomic():

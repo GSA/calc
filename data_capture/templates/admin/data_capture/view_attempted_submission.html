@@ -31,7 +31,7 @@
   </p>
 
   <form method="post" action="{% url 'data_capture:step_3' %}">
-    {% csrf_token %}
+
     <input type="hidden" name="replay-attempted-submission" value="{{ original.id }}">
     <button type="submit">Replay submission</button>
   </form>
