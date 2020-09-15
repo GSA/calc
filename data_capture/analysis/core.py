@@ -206,8 +206,6 @@ def analyze_price_list_row(cursor, vocab, row):
 
 
 def analyze_gleaned_data(gleaned_data):
-    print("************core.py gleaned_data ***********")
-    print(gleaned_data)
 
     valid_rows = []
 
