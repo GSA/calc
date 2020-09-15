@@ -32,7 +32,7 @@
       <div class="content">
         <div data-edit-contract-details {% if not show_edit_form %}style="display:none;"{% endif %}>
           <form method="post">
-
+            {% csrf_token %}
             {% load frontend %}
             {{ form.non_field_errors }}
 

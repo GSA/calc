@@ -24,7 +24,7 @@
 
 {% block step_body %}
 <form method="post" class="form--contract_details">
-
+  {% csrf_token %}
   {{ form.non_field_errors }}
 
   {% fieldset form.contract_number %}
