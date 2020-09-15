@@ -69,6 +69,7 @@ def render_r10_spreadsheet_example(request=None):
         {'sheet_rows': EXAMPLE_SHEET_ROWS},
         request=request)
 
+
 @csrf_exempt
 @steps.step(label='Upload spreadsheet')
 @login_required
@@ -113,6 +114,7 @@ def bulk_region_10_step_1(request, step):
         ajax_template_name='data_capture/bulk_upload/'
                            'region_10_step_1_form.html',
     )
+
 
 @csrf_exempt
 @steps.step(label='Confirm load')
