@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import BusinessSize from '../business-size';
+import BusinessSize2 from '../business-size2';
 import ContractYear from '../contract-year';
 import EducationLevel from '../education-level';
 import Experience from '../experience';
@@ -14,6 +15,7 @@ const OptionalFilters = () => (
     <Experience />
     <Site />
     <BusinessSize />
+    <BusinessSize2 />
     <SecurityClearence />
     <SinNumber />
     <ContractYear />
