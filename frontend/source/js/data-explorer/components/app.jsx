@@ -181,7 +181,7 @@ class App extends React.Component {
                 </div>
               </div>
             </section>
-            <div class="help-text">Any results from CALC searches cannot be relied upon exclusively to demonstrate prices are fair and reasonable in accordance with FAR 15.4. federal acquisition professionals will need additional analysis to make such a determination. These rates are also useful in creating budgetary and project cost estimates.</div>
+            <div className="help-text">Any results from CALC searches cannot be relied upon exclusively to demonstrate prices are fair and reasonable in accordance with FAR 15.4. federal acquisition professionals will need additional analysis to make such a determination. These rates are also useful in creating budgetary and project cost estimates.</div>
           </div>
         </div>
         <div className="row card secondary">
