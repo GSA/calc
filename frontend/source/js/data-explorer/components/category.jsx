@@ -1,19 +1,20 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
-import {asyncReactor} from 'async-reactor';
+import "isomorphic-fetch";
+//  import { connect } from 'react-redux';
+import { asyncReactor } from 'async-reactor';
 
 import { filterActive } from '../util';
 import { makeOptions } from './util';
-//import { setCategory as setCategoryAction } from '../actions';
-//import { setBusinessSize as setBusinessSizeAction } from '../actions';
-//import { BUSINESS_SIZE_LABELS } from '../constants';
+//  import { setCategory as setCategoryAction } from '../actions';
+//  import { setBusinessSize as setBusinessSizeAction } from '../actions';
+//  import { BUSINESS_SIZE_LABELS } from '../constants';
 
-function Loader() {
-
+function Loader() 
+{
   return (
-    <h2></h2>
-  );
+          <h2>Loading...</h2>
+         );
 }
 
 
@@ -25,19 +26,19 @@ async function Category({ idPrefix,category, setCategory }) {
   const categorydata = await fetch('https://solutionsid.app.cloud.gov/api/v1/schedule_category?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6OCwiZXhwIjoxNjAzNTcyMjI2fQ.xWT47PaRGgiME5RvUfCKZbGSmGu8oJws7cGwVmAumJg');
   const categoryposts = await categorydata.json();
 
-  let CATEGORY_LABEL="";
-  let i=0;
+  let CATEGORY_LABEL = "";
+  let i = 0;
 
   categoryposts[0].forEach(categories => {
-    if (i == categoryposts[0].length - 1) {
-      CATEGORY_LABEL+="\""+categories.title+"\":\""+categories.title +"\" ";
-    }else{
-    CATEGORY_LABEL+="\""+categories.title+"\":\""+categories.title +"\", ";
-    }
+    if (i === categoryposts[0].length - 1) {
+      CATEGORY_LABEL += "\"" +categories.title +"\":\"" +categories.title +"\" ";
+    } else {
+      CATEGORY_LABEL += "\"" +categories.title +"\":\"" +categories.title +"\", ";
+      }
     i++;
   });
-  CATEGORY_LABEL=JSON.parse('{'+CATEGORY_LABEL+'}');
-  console.log('Category lable test is this '+CATEGORY_LABEL);
+  CATEGORY_LABEL = JSON.parse('{'+CATEGORY_LABEL +'}');
+  //    console.log('Category lable test is this '+CATEGORY_LABEL);
   console.log(categoryposts[0]);
 
   return (
@@ -46,7 +47,7 @@ async function Category({ idPrefix,category, setCategory }) {
           Category:
       </label>
       <select
-       categoryid={categoryid}
+        categoryid={categoryid}
         name="category"
         value={category}
         onChange={handleChange}
@@ -76,27 +77,8 @@ Category.propTypes = {
   idPrefix: PropTypes.string,
 };
 
-Category.defaultProps = {
+Category.defaultProps = 
+{
   idPrefix: '',
 };
-
-// const mapStateToProps = (state) => {
-//   return {
-//       // will be available as props.trips
-//       size: state.size
-//   }
-// }
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//       // will be available as props.fetch()
-//       setSize: () => dispatch(setBusinessSizeAction)
-//   }
-// }
-// export default connect(mapStateToProps,mapDispatchToProps)(asyncReactor);
-
-
-// export default connect(
-//   state => ({ size: state.business_size })
-// )(BusinessSize);
-
+// 

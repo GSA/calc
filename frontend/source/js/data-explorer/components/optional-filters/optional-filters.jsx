@@ -8,7 +8,7 @@ import Experience from '../experience';
 import SecurityClearence from '../security-clearence';
 import SinNumber from '../sin-number';
 import Site from '../site';
-import category from '../category';
+//  import category from '../category';
 import Subcategory from '../Subcategory';
 
 const OptionalFilters = () => (
