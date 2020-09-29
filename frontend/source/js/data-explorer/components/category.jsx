@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import "isomorphic-fetch";
+const fetch = require("node-fetch");
 //  import { connect } from 'react-redux';
 import { asyncReactor } from 'async-reactor';
 
