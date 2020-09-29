@@ -31,10 +31,7 @@
     "enzyme": "^3.0.0",
     "enzyme-adapter-react-16": "^1.15.5",
     "enzyme-to-json": "^3.3.0",
-<<<<<<< HEAD
     "es6-promise": "^4.2.8",
-=======
->>>>>>> develop
     "eslint": "^5.0.0",
     "eslint-config-airbnb": "^17.0.0",
     "eslint-plugin-import": "^2.2.0",
