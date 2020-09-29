@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-const fetch = require("node-fetch");
+
 //  import { connect } from 'react-redux';
 import { asyncReactor } from 'async-reactor';
 
@@ -9,6 +9,7 @@ import { makeOptions } from './util';
 //  import { setCategory as setCategoryAction } from '../actions';
 //  import { setBusinessSize as setBusinessSizeAction } from '../actions';
 //  import { BUSINESS_SIZE_LABELS } from '../constants';
+const fetch = require("node-fetch");
 
 function Loader() 
 {
