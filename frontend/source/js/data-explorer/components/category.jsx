@@ -11,16 +11,14 @@ import { makeOptions } from './util';
 //  import { BUSINESS_SIZE_LABELS } from '../constants';
 const fetch = require("node-fetch");
 
-function Loader() 
-{
+function Loader() {
   return (
-          <h2>Loading...</h2>
-         );
+    <h2>Loading...</h2>
+  );
 }
 
 
-async function Category({ idPrefix,category, setCategory }) {
-
+async function Category({ idPrefix, category, setCategory }) {
   const categoryid = `${idPrefix}category`;
   const handleChange = (e) => { setCategory(e.target.value); };
 
@@ -32,9 +30,9 @@ async function Category({ idPrefix,category, setCategory }) {
 
   categoryposts[0].forEach(categories => {
     if (i === categoryposts[0].length - 1) {
-      CATEGORY_LABEL += "\"" +categories.title +"\":\"" +categories.title +"\" ";
+      CATEGORY_LABEL += "\"".concat(categories.title.concat("\":\"".concat(categories.title.concat("\" "))));
     } else {
-      CATEGORY_LABEL += "\"" +categories.title +"\":\"" +categories.title +"\", ";
+      CATEGORY_LABEL += "\"".concat(categories.title.concat("\":\"".concat(categories.title.concat("\", "))));
       }
     i++;
   });
