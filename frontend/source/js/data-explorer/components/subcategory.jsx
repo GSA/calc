@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import "isomorphic-fetch";
+
 import {asyncReactor} from 'async-reactor';
 
 import { filterActive } from '../util';
@@ -8,6 +8,7 @@ import { makeOptions } from './util';
 //  import { setCategory as setCategoryAction } from '../actions';
 //  import { setBusinessSize as setBusinessSizeAction } from '../actions';
 //  import { BUSINESS_SIZE_LABELS } from '../constants';
+const fetch = require("node-fetch");
 
 function Loader() 
 {
@@ -17,8 +18,7 @@ function Loader()
 }
 
 
-async function SubCategory({ idPrefix,category, setCategory }) {
-
+async function SubCategory({ idPrefix, category, setCategory }) {
   const categoryid = `${idPrefix}category`;
   const handleChange = (e) => { setCategory(e.target.value); };
 
@@ -30,15 +30,15 @@ async function SubCategory({ idPrefix,category, setCategory }) {
 
   categoryposts[0].forEach(categories => {
     if (i === categoryposts[0].length - 1) {
-      CATEGORY_LABEL += "\""+categories.title +"\":\"" +categories.title +"\" ";
+      CATEGORY_LABEL += "\"".concat(categories.title.concat("\":\"".concat(categories.title.concat("\" "))));
     } else {
-    CATEGORY_LABEL +="\"" +categories.title +"\":\""+categories.title +"\", ";
+      CATEGORY_LABEL += "\"".concat(categories.title.concat("\":\"".concat(categories.title.concat("\", "))));
     }
     i++;
   });
-  CATEGORY_LABEL = JSON.parse('{' +CATEGORY_LABEL +'}');
+  CATEGORY_LABEL = JSON.parse('{'.concat(CATEGORY_LABEL).concat('}'));
   //  console.log('Category lable test is this ' +CATEGORY_LABEL);
-  console.log(categoryposts[0]);
+  //  console.log(categoryposts[0]);
 
   return (
     <div className="filter filter-category">
@@ -76,8 +76,6 @@ SubCategory.propTypes = {
   idPrefix: PropTypes.string,
 };
 
-SubCategory.defaultProps = 
-{
+SubCategory.defaultProps = {
   idPrefix: '',
 };
-// 

@@ -28,17 +28,17 @@ async function Category({ idPrefix, category, setCategory }) {
   let CATEGORY_LABEL = "";
   let i = 0;
 
-  categoryposts[0].forEach(categories => {
+  categoryposts[0].forEach((categories) => {
     if (i === categoryposts[0].length - 1) {
       CATEGORY_LABEL += "\"".concat(categories.title.concat("\":\"".concat(categories.title.concat("\" "))));
     } else {
       CATEGORY_LABEL += "\"".concat(categories.title.concat("\":\"".concat(categories.title.concat("\", "))));
-      }
+    }
     i++;
   });
-  CATEGORY_LABEL = JSON.parse('{'+CATEGORY_LABEL +'}');
+  CATEGORY_LABEL = JSON.parse('{'.concat(CATEGORY_LABEL).concat('}'));
   //    console.log('Category lable test is this '+CATEGORY_LABEL);
-  console.log(categoryposts[0]);
+  //  console.log(categoryposts[0]);
 
   return (
     <div className="filter filter-category">
@@ -76,8 +76,6 @@ Category.propTypes = {
   idPrefix: PropTypes.string,
 };
 
-Category.defaultProps = 
-{
+Category.defaultProps = {
   idPrefix: '',
 };
-// 
