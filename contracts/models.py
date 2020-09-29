@@ -235,7 +235,7 @@ class BulkUploadContractSource(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    submitter = models.ForeignKey(User, null=True, blank=True)
+    submitter = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     has_been_loaded = models.BooleanField(default=False)
     original_file = models.BinaryField()
     file_mime_type = models.TextField()

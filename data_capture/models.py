@@ -92,10 +92,10 @@ class AttemptedPriceListSubmission(models.Model):
 
     updated_at = models.DateTimeField(auto_now=True)
 
-    submitter = models.ForeignKey(User)
+    submitter = models.ForeignKey(User, on_delete=models.CASCADE)
 
     uploaded_file = models.ForeignKey(HashedUploadedFile, null=True,
-                                      blank=True)
+                                      blank=True, on_delete=models.CASCADE)
 
     uploaded_file_name = models.CharField(max_length=128, blank=True)
 
@@ -176,11 +176,11 @@ class SubmittedPriceList(models.Model):
                     MaxValueValidator(MAX_ESCALATION_RATE)]
     )
 
-    submitter = models.ForeignKey(User)
+    submitter = models.ForeignKey(User, on_delete=models.CASCADE)
 
     status = models.IntegerField(choices=STATUS_CHOICES,
                                  default=STATUS_UNREVIEWED)
-    status_changed_by = models.ForeignKey(User, related_name='+')
+    status_changed_by = models.ForeignKey(User, related_name='+', on_delete=models.CASCADE)
     status_changed_at = models.DateTimeField()
 
     uploaded_filename = models.CharField(

@@ -4,7 +4,8 @@ from django.contrib import admin
 from django.http import HttpResponse, HttpResponseForbidden
 from django.db import models, transaction
 from django import forms
-from django.core.urlresolvers import reverse
+# Deprecatedfrom django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.html import format_html
 from django.utils.text import slugify
