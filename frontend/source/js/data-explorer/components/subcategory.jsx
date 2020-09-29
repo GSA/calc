@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {asyncReactor} from 'async-reactor';
+import { asyncReactor } from 'async-reactor';
 
 import { filterActive } from '../util';
 import { makeOptions } from './util';
@@ -10,8 +10,7 @@ import { makeOptions } from './util';
 //  import { BUSINESS_SIZE_LABELS } from '../constants';
 const fetch = require("node-fetch");
 
-function Loader() 
-{
+function Loader() {
   return (
     <h2>Loading...</h2>
   );
@@ -28,7 +27,7 @@ async function SubCategory({ idPrefix, category, setCategory }) {
   let CATEGORY_LABEL = "";
   let i = 0;
 
-  categoryposts[0].forEach(categories => {
+  categoryposts[0].forEach((categories) => {
     if (i === categoryposts[0].length - 1) {
       CATEGORY_LABEL += "\"".concat(categories.title.concat("\":\"".concat(categories.title.concat("\" "))));
     } else {
