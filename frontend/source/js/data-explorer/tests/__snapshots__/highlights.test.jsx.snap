@@ -38,6 +38,21 @@ exports[`<Highlights> matches snapshot 1`] = `
       </h5>
     </div>
     <div
+      className="medianblock standard-deviation-block"
+    >
+      <h5
+        className="standard-deviation-title"
+      >
+        Median Price
+      </h5>
+      <h5
+        className="sd-highlight"
+      >
+        $
+        NaN
+      </h5>
+    </div>
+    <div
       className="standard-deviation-block"
     >
       <h5

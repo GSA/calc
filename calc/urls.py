@@ -19,6 +19,7 @@ admin.site.login = staff_login_required(admin.site.login)
 urlpatterns = [
     url(r'^$', data_explorer.views.index, name='index'),
     url(r'^about/$', data_explorer.views.about, name='about'),
+    url(r'^estimating_tool/$', data_explorer.views.estimating_tool, name='estimating_tool'),
     url(r'^step_cap/$', data_explorer.views.step_cap, name='step_cap'),
     url(r'^logout/$', data_explorer.views.logout, name='logout'),
     url(r'^uaa_logout/$', data_explorer.views.uaa_logout, name='uaa_logout'),

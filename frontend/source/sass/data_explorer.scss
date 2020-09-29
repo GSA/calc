@@ -308,11 +308,6 @@ input[type="checkbox"]:checked ~ label {
   }
 }
 
-@media (min-width: 550px) {
-  .price-block {
-    max-width: 65.5%;
-  }
-}
 .avg-price-block,
 .standard-deviation-block {
   display: inline-block;
@@ -331,7 +326,7 @@ input[type="checkbox"]:checked ~ label {
   border-radius: $border-radius;
   padding: .4em .8em .8em .8em;
   margin-left: 1em;
-  margin-right: 3em;
+  margin-right: 1em;
 }
 .form__block_control{
   border-right: 1px solid gray !important;
