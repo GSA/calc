@@ -38,10 +38,8 @@ jobs:
           name: Activate venv and install requirements
           command: |
             python3 -m venv ~/venv
-
             echo ". ~/venv/bin/activate" >> $BASH_ENV
             source $BASH_ENV
-
             pip install -r requirements-dev.txt
       - save_cache:
           name: Save python deps cache
@@ -65,10 +63,8 @@ jobs:
           name: Activate venv and install requirements
           command: |
             python3 -m venv ~/venv
-
             echo ". ~/venv/bin/activate" >> $BASH_ENV
             source $BASH_ENV
-
             pip install -r requirements-dev.txt
             
       - save_cache:
@@ -84,7 +80,6 @@ jobs:
             echo ". ~/.nvm/nvm.sh" >> $BASH_ENV
             source $BASH_ENV
             nvm install $CI_NODE_VERSION
-
       - run:
           name: Uninstall any old version of gulp (only needed for upgrade)
           command: |
@@ -99,7 +94,6 @@ jobs:
           name: Ensure gulp4 is installed
           command: |
            npm install -g gulp4
-
       - run:
           name: Install node dependencies
           command: |
@@ -114,16 +108,12 @@ jobs:
           name: Build front end
           command: |
             yarn gulp build
-
       - deploy:
           name: Deploy to staging
           command: |
             if [[ "${CIRCLE_BRANCH}" == "staging" ]]; then
               DEPLOY_ENV=staging ./.circleci/deploy-circle.sh
             fi
-
-
-
   build:
     working_directory: ~/calc
     <<: *default-docker-config
@@ -136,10 +126,8 @@ jobs:
           name: Activate venv and install requirements
           command: |
             python3 -m venv ~/venv
-
             echo ". ~/venv/bin/activate" >> $BASH_ENV
             source $BASH_ENV
-
             pip install -r requirements-dev.txt
       - save_cache:
           name: Save python deps cache
@@ -154,7 +142,6 @@ jobs:
             echo ". ~/.nvm/nvm.sh" >> $BASH_ENV
             source $BASH_ENV
             nvm install $CI_NODE_VERSION
-
       - run:
           name: Uninstall any old version of gulp (only needed for upgrade)
           command: |
@@ -169,7 +156,6 @@ jobs:
           name: Ensure gulp4 is installed
           command: |
             npm install -g gulp4
-
       - run:
           name: Install node dependencies
           command: |
@@ -199,20 +185,17 @@ jobs:
           command: |
             yarn gulp build
             yarn test --runInBand
-
       - run:
           name: CodeClimate before-build
           command: |
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
             chmod +x ./cc-test-reporter
             ./cc-test-reporter before-build
-
       - run:
           name: Run python tests
           command: |
             # Note that this MUST come after building the front end assets
             py.test --cov=. --cov-report xml:./coverage/python/coverage.xml
-
       - run:
           name: CodeClimate combine and upload coverage
           command: |
@@ -223,7 +206,6 @@ jobs:
             ./cc-test-reporter sum-coverage coverage/codeclimate.*.json
             # Attempt to submit the coverage report, but don't fail the build if this fails (`|| true`)
             ./cc-test-reporter upload-coverage || true
-
       - deploy:
           name: Deploy to dev
           command: |
@@ -236,7 +218,6 @@ jobs:
             if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
               DEPLOY_ENV=prod ./.circleci/deploy-circle.sh
             fi
-
 workflows:
   version: 2
   build-test-and-deploy:
@@ -268,4 +249,3 @@ workflows:
             branches:
               only:
                 - master
-
