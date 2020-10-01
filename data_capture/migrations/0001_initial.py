@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ('contract_end', models.DateField(help_text='Use MM/DD/YY format, e.g. "10/25/06".', null=True, blank=True)),
                 ('is_approved', models.BooleanField(default=False)),
                 ('serialized_gleaned_data', models.TextField(help_text='The JSON-serialized data from the upload, including information about any rows that failed validation.')),
-                ('submitter', models.ForeignKey(to=settings.AUTH_USER_MODEL), on_delete=models.CASCADE),
+                ('submitter', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
         ),
         migrations.CreateModel(
