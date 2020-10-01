@@ -3,7 +3,8 @@ import json
 from datetime import datetime
 from model_mommy import mommy
 from django.test import override_settings
-from django.core.urlresolvers import reverse
+# from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils import timezone
 from freezegun import freeze_time
 

@@ -1,7 +1,8 @@
 import urllib.parse
 from django.contrib import messages
 from django.template.defaultfilters import pluralize
-from django.core.urlresolvers import reverse
+# from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from ..schedules import registry
 

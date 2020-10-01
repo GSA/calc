@@ -2,7 +2,8 @@ from typing import List
 from django.utils.text import slugify
 from django.http import HttpResponse
 from django.conf.urls import url
-from django.core.urlresolvers import reverse
+# from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from data_capture.email import render_mail, EXAMPLES
 

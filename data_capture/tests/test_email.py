@@ -1,7 +1,8 @@
 from datetime import datetime
 
 from django.core import mail
-from django.core.urlresolvers import reverse
+from django.urls import reverse
+# from django.core.urlresolvers import reverse
 from django.test import override_settings
 from django.contrib.auth.models import User
 from freezegun import freeze_time

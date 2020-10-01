@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='submittedpricelist',
             name='status_changed_by',
-            field=models.ForeignKey(default=1, related_name='+', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(default=1, related_name='+', to=settings.AUTH_USER_MODEL, on_delete='DO_NOTHING'),
             preserve_default=False,
         ),
     ]

@@ -1,5 +1,6 @@
 try:
-    from django.core.urlresolvers import reverse  # NOQA  pragma: no cover
+    from django.urls import reverse
+    # from django.core.urlresolvers import reverse  # NOQA  pragma: no cover
 except ImportError:  # pragma: no cover
     # Django 2.0+
     from django.urls import reverse  # NOQA  pragma: no cover

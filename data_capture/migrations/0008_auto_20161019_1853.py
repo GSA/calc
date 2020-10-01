@@ -30,6 +30,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='submittedpricelist',
             name='status_changed_by',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True, related_name='+'),
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True, related_name='+', on_delete=models.CASCADE),
         ),
     ]
