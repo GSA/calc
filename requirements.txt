@@ -37,3 +37,4 @@ urllib3>=1.25.2
 django-storages==1.7
 boto3==1.9.253
 drf-yasg==1.17.0
+packaging==20.4

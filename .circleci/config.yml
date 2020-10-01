@@ -200,29 +200,29 @@ jobs:
             yarn gulp build
             yarn test --runInBand
 
-      #- run:
-        #  name: CodeClimate before-build
-        #  command: |
-        #    curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-        #    chmod +x ./cc-test-reporter
-        #S    ./cc-test-reporter before-build
+      - run:
+          name: CodeClimate before-build
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+            ./cc-test-reporter before-build
 
-      # - run:
-      #    name: Run python tests
-      #    command: |
-      #      # Note that this MUST come after building the front end assets
-      #      py.test --cov=. --cov-report xml:./coverage/python/coverage.xml
+      - run:
+          name: Run python tests
+          command: |
+            # Note that this MUST come after building the front end assets
+            py.test --cov=. --cov-report xml:./coverage/python/coverage.xml
 
-      #- run:
-      #    name: CodeClimate combine and upload coverage
-      #    command: |
-      #      # Format the various coverage reports
-      #      ./cc-test-reporter format-coverage -t lcov -o coverage/codeclimate.jest.json coverage/jest/lcov.info
-      #      ./cc-test-reporter format-coverage -t coverage.py -o coverage/codeclimate.python.json coverage/python/coverage.xml
-      #      # Combine the test coverage reports
-      #      ./cc-test-reporter sum-coverage coverage/codeclimate.*.json
-      #      # Attempt to submit the coverage report, but don't fail the build if this fails (`|| true`)
-      #      ./cc-test-reporter upload-coverage || true
+      - run:
+          name: CodeClimate combine and upload coverage
+          command: |
+            # Format the various coverage reports
+            ./cc-test-reporter format-coverage -t lcov -o coverage/codeclimate.jest.json coverage/jest/lcov.info
+            ./cc-test-reporter format-coverage -t coverage.py -o coverage/codeclimate.python.json coverage/python/coverage.xml
+            # Combine the test coverage reports
+            ./cc-test-reporter sum-coverage coverage/codeclimate.*.json
+            # Attempt to submit the coverage report, but don't fail the build if this fails (`|| true`)
+            ./cc-test-reporter upload-coverage || true
 
       - deploy:
           name: Deploy to dev
