@@ -38,7 +38,7 @@ describe('<LaborCategory>', () => {
   //     input.simulate('change', { target: { value: 'newquery' } });
   //     input.simulate('keyDown', { key: 'Enter', keyCode: 13, which: 13 });
 
-//     expect(props.setQuery.mock.calls.length).toBe(1);
-//     expect(props.setQuery.mock.calls[0][0]).toBe('newquery');
-//   });
+  //     expect(props.setQuery.mock.calls.length).toBe(1);
+  //     expect(props.setQuery.mock.calls[0][0]).toBe('newquery');
+  //   });
 });

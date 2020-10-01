@@ -40,3 +40,4 @@ Dockerfile.cloud
 docs/_build
 docs/static
 data_capture_uploaded_files/
+.vscode
