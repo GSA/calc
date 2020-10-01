@@ -5,7 +5,7 @@
     This module is tightly coupled to ajaxform.js.
 '''
 
-#from django.core.urlresolvers import reverse
+# from django.core.urlresolvers import reverse
 from django.urls import reverse
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
