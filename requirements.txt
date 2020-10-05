@@ -4,7 +4,7 @@ dj-email-url==0.1.0
 django-click==2.1.0
 click==6.7
 Django==1.11.29
-django-cors-headers==2.0.2
+django-cors-headers==3.0.0
 django-debug-toolbar==1.6
 django-modeladmin-reorder==0.3.1
 djangorestframework==3.11.1
