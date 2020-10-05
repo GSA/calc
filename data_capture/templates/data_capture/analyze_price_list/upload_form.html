@@ -2,7 +2,7 @@
       is="ajax-form"
       action="{% url 'data_capture:analyze_step_2' %}">
 
-
+{% csrf_token %}
 
 {% if request.is_ajax %}
 {% include 'data_capture/messages.html' %}

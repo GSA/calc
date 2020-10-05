@@ -344,7 +344,7 @@ class Contract(models.Model):
     business_size = models.CharField(
         db_index=True, max_length=128, null=True, blank=True)
     keywords = models.CharField(
-        db_index=True, max_length=128, null=True, blank=True)
+        db_index=True, max_length=500, null=True, blank=True)
     certifications = models.CharField(
         db_index=True, max_length=128, null=True, blank=True)
     description = models.CharField(
