@@ -14,9 +14,39 @@ th.action-checkbox-column {
   input[type=radio]{
     position: static;
     left: 0;
-    width: auto;
+    // width: auto;
+    // content: "\2714";
+    border: 0.1em solid #000;
+    border-radius: 0.2em;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    padding-left: 0.2em;
+    padding-bottom: 0.3em;
+    margin-right: 0.2em;
+    vertical-align: bottom;
+    color: transparent;
+    transition: .2s;
+    // background-color: MediumSeaGreen;
+    // border-color: MediumSeaGreen;
+    // color: #fff;
+  }
+  input[type=checkbox]:checked  {
+    background-color: #557f8e;
+    // background-image: url(../static/frontend/images/arrow-down-gray.svg);
+    border-color: rgb(151, 188, 230);
+    // color: rgb(223, 25, 25);
   }
 }
+// td.action-checkbox-selected,
+// th.action-checkbox-selected-column {
+//   input[type=checkbox]:checked,
+//   input[type=radio]:checked{
+//     background-color: MediumSeaGreen;
+//     border-color: MediumSeaGreen;
+//     color: rgb(236, 19, 19);
+//   }
+// }  
 
 // same as .sidebar in overrides.scss
 .filter-block {
