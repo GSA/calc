@@ -130,8 +130,8 @@ jobs:
     steps:
       - checkout
 
-      #- restore_cache:
-       #   key: v1-py-cache-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}-{{ checksum "requirements.txt" }}
+      - restore_cache:
+          key: v1-py-cache-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}-{{ checksum "requirements.txt" }}
       - run:
           name: Activate venv and install requirements
           command: |
