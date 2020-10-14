@@ -8,6 +8,8 @@ django-cors-headers==3.0.0
 django-debug-toolbar==1.6
 django-modeladmin-reorder==0.3.1
 djangorestframework==3.11.1
+django-ip-restriction==1.1.1
+#django-basic-auth-ip-whitelist==0.3.4
 gunicorn==19.10.0
 psycopg2==2.7.3.2
 six==1.12.0
