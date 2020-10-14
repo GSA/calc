@@ -4,7 +4,7 @@ dj-email-url==0.1.0
 django-click==2.1.0
 click==6.7
 Django==1.11.29
-django-cors-headers==2.0.2
+django-cors-headers==3.0.0
 django-debug-toolbar==1.6
 django-modeladmin-reorder==0.3.1
 djangorestframework==3.11.1
@@ -14,7 +14,7 @@ gunicorn==19.10.0
 psycopg2==2.7.3.2
 six==1.12.0
 whitenoise==3.3.0
-requests>=2.20
+requests==2.20
 python-dotenv==0.6.3
 xlrd==1.0.0
 defusedxml==0.5.0
@@ -28,12 +28,12 @@ cg-django-uaa==1.3.0
 semantic_version==2.6.0
 coreapi==2.3.3
 django-uswds-forms==1.0.0
-bleach>=2.1.4
+bleach==3.1.4
 django-session-security==2.6.5
 # Needed for price list analysis
 nltk==3.4.5
 xlsxwriter==0.9.6
-urllib3>=1.25.2
+urllib3==1.25.9
 django-storages==1.7
 boto3==1.9.253
 drf-yasg==1.17.0
