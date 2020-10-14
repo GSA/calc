@@ -57,6 +57,12 @@ function setAPIHostForLocalEnv() {
     // @ts-ignore
     window.API_HOST = '/api';
   }
+
+  // @ts-ignore
+  if (window.API_HOST.charAt(window.API_HOST.length - 1) === '/') {
+    // @ts-ignore
+    window.API_HOST = window.API_HOST.substring(0, window.API_HOST.length - 1);
+  }
   // @ts-ignore
   api.basePath = window.API_HOST;
 }

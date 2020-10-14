@@ -7,7 +7,7 @@ services:
     links:
       - db
       - redis
-    command: sh -c "python manage.py collectstatic --noinput ; gunicorn -b :${DOCKER_EXPOSED_PORT} calc.wsgi:application"
+    command: sh -c "python manage.py collectstatic --noinput ; gunicorn -b :${DOCKER_EXPOSED_PORT} calc.wsgi:application --ciphers TLS_RSA_WITH_AES_256_CBC_SHA256 --workers 3"
     ports:
       - "${DOCKER_EXPOSED_PORT}:${DOCKER_EXPOSED_PORT}"
     mem_limit: 1G

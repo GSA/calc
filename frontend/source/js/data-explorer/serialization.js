@@ -11,6 +11,8 @@ import {
   MAX_EXPERIENCE,
   SITE_LABELS,
   BUSINESS_SIZE_LABELS,
+  SIN_NUMBER,
+  SECURITY_CLEARANCE_LABELS,
   CONTRACT_YEAR_LABELS,
   DEFAULT_CONTRACT_YEAR,
   DEFAULT_SORT,
@@ -89,6 +91,8 @@ export const serializers = {
   'contract-year': coercedString,
   site: coercedString,
   business_size: coercedString,
+  sinNumber: coercedString,
+  securityClearance: coercedString,
   schedule: coercedString,
   min_experience: coercedString,
   max_experience: coercedString,
@@ -98,7 +102,8 @@ export const serializers = {
   query_by: coercedString,
 };
 
-export const deserializers = {
+
+export const deserializers = { 
   exclude: list => coercedString(list)
     .split(',')
     .map(x => parseInt(x, 10))
@@ -110,6 +115,8 @@ export const deserializers = {
   'contract-year': stringInSet(CONTRACT_YEAR_LABELS, DEFAULT_CONTRACT_YEAR),
   site: stringInSet(SITE_LABELS),
   business_size: stringInSet(BUSINESS_SIZE_LABELS),
+  sinNumber: stringInSet(SIN_NUMBER),
+  securityClearance: stringInSet(SECURITY_CLEARANCE_LABELS),
   schedule: stringInSet(scheduleLabels),
   min_experience: coercedExperience(MIN_EXPERIENCE),
   max_experience: coercedExperience(MAX_EXPERIENCE),
@@ -123,7 +130,6 @@ export const allFields = Object.keys(serializers);
 
 export function getSerializedFields(state, fields, options = {}) {
   const result = {};
-
   fields.forEach((field) => {
     const val = serializers[field](state[field]);
 

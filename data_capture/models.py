@@ -249,7 +249,8 @@ class SubmittedPriceList(models.Model):
                 business_size=self.get_business_size_string(),
                 sin=row.sin,
                 keywords=row.keywords,
-                certifications=row.certifications
+                certifications=row.certifications,
+                security_clearance=row.security_clearance,
             )
 
             contract.adjust_contract_year()
@@ -326,6 +327,7 @@ class SubmittedPriceListRow(models.Model):
     sin = models.TextField(null=True, blank=True)
     keywords = models.TextField(null=True, blank=True)
     certifications = models.TextField(null=True, blank=True)
+    security_clearance = models.TextField(null=True, blank=True)
     is_muted = models.BooleanField(
         help_text=(
             "Whether to include this row in CALC data once its "

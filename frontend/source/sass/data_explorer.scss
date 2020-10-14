@@ -308,11 +308,6 @@ input[type="checkbox"]:checked ~ label {
   }
 }
 
-@media (min-width: 550px) {
-  .price-block {
-    max-width: 65.5%;
-  }
-}
 .avg-price-block,
 .standard-deviation-block {
   display: inline-block;
@@ -331,9 +326,51 @@ input[type="checkbox"]:checked ~ label {
   border-radius: $border-radius;
   padding: .4em .8em .8em .8em;
   margin-left: 1em;
-  margin-right: 3em;
+  margin-right: 1em;
+}
+.form__block_control{
+  border-right: 1px solid gray !important;
+}
+//  .column-keywords,.column-certifications{
+//    display:none;
+//  }
+
+.search_block{
+  background-color:gray;
+  height:auto;
+  width:115% !important;
+
+}
+.reduce_right_margin{
+  margin-right: 2px !important;
+}
+.reduce_right_margin .search-group input[type].form__inline{
+  max-width:97% !important;
 }
 
+.button_holder{
+ width:auto;
+ height:54px;
+ position:relative;
+}
+.submit_button{
+  width: 60px;
+  height:42px;
+  margin:6px 0px;
+}
+.reset_button{
+  position:absolute;
+  top:0px;
+  right:0px;
+  padding-left: 8%;
+  height:42px;
+  width: 60px;
+  margin:6px 0px;
+}
+.ExactMatch{
+  margin-top: -5px;
+  margin-left: -19px;
+}
 .proposed-price {
   input[type].form__inline,
   button[type].button-primary {

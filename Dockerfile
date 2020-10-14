@@ -26,7 +26,6 @@ RUN apt-get update && \
 RUN pip install virtualenv
 
 WORKDIR /calc
-
 RUN npm install -g yarn
 
 # Hopefully the latest stable ChromeDriver is compatible with the latest

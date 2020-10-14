@@ -174,7 +174,7 @@ class Region10PriceList(BasePriceList):
     # from the Schedule70PriceList class, but since this feature
     # is somewhat experimental, I'm focusing more on implementation speed
 
-    title = 'Region 10'  # TODO: unsure of title
+    title = 'PSS Legacy'  # TODO: unsure of title
 
     table_template = 'data_capture/price_list/tables/region_10.html'
 

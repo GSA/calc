@@ -37,34 +37,9 @@
             <td headers="your-data min-exp">{{ row.min_years_experience }}</td>
             <td headers="your-data proposed-price" class="table-gap number">${{ row.price|floatformat:2 }}</td>
             <td headers="our-data avg-price">${{ row.analysis.avg|floatformat:2 }}</td>
-            <td headers="our-data plus-minus-dollars">
-             {% if row.analysis.preposition == 'above' %}
-                +
-              {% elif row.analysis.preposition == 'below' %}
-                -
-              {% endif %}
-              <span class="number">
-                ${{ row.analysis.dist_from_avg|floatformat:2 }}
-              </span>
-            </td>
-            <td headers="our-data plus-minus-percent">
-              {% if row.analysis.preposition == 'above' %}
-                +
-              {% elif row.analysis.preposition == 'below' %}
-                -
-              {% endif %}
-              <span class="number">
-                {{ row.analysis.dist_from_avg_percent|floatformat:2 }}%
-              </span>
-            </td>
-            <td headers="our-data plus-minus-std-dev" {% if row.analysis.severe %}class="table-error-severe"{% endif %}>
-             {% if row.analysis.preposition == 'above' %}
-                +
-              {% elif row.analysis.preposition == 'below' %}
-                -
-              {% endif %}
-              {{ row.analysis.stddevs }} std. devs.
-            </td>
+            <td headers="our-data plus-minus-dollars">{% if row.analysis.preposition == 'above' %}+{% elif row.analysis.preposition == 'below' %}-{% endif %}${{ row.analysis.dist_from_avg|floatformat:2 }}</td>
+            <td headers="our-data plus-minus-percent">{% if row.analysis.preposition == 'above' %}+{% elif row.analysis.preposition == 'below' %}-{% endif %}{{ row.analysis.dist_from_avg_percent|floatformat:2 }}%</td>
+            <td headers="our-data plus-minus-std-dev" >{% if row.analysis.preposition == 'above' %}+{% elif row.analysis.preposition == 'below' %}-{% endif %}{{ row.analysis.stddevs }}std.devs.</td>
           </tr>
         {% endfor %}
         </tbody>

@@ -33,6 +33,8 @@ export function Description({
   const filters = [];
 
   if (laborCategory) {
+    const laborCategoryArr = laborCategory.split('|');
+    [laborCategory] = laborCategoryArr;
     laborCategories.push(
       <DescriptionFilter key="lab">
         {stripTrailingComma(laborCategory)}
@@ -96,7 +98,8 @@ years
     filtersClasses.push('hidden');
   }
 
-  return (
+
+  return (   
     <div id="description">
       <h4>
         Hourly rate data

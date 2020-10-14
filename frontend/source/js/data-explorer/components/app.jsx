@@ -22,6 +22,7 @@ import ProposedPrice from './proposed-price';
 import QueryType from './query-type';
 import LoadableOptionalFilters from './optional-filters/loadable-optional-filters';
 import LaborCategory from './labor-category';
+import KeywordFilter from './keyword-filter';
 import LoadingIndicator from './loading-indicator';
 import SearchCategory from './search-category';
 import TitleTagSynchronizer from './title-tag-synchronizer';
@@ -31,11 +32,22 @@ import { autobind } from '../util';
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.setKeywordDisabled = this.setKeywordDisabled.bind(this);
+    this.setEnteredKeyword = this.setEnteredKeyword.bind(this);
+    this.handleResetClick = this.handleResetClick.bind(this);
+    this.setResultCount = this.setResultCount.bind(this);
     autobind(this, [
       'handleSubmit',
-      'handleResetClick',
       'handleDownloadClick',
     ]);
+    this.state = {
+      keywordDisabled: true,
+      searchkeyword: "",
+      // search_keywords: "", // added as part of build failures
+      laborTyped: "",
+      resetFilter: false,
+      searchResultCount: 0
+    };
   }
 
   getContainerClassNames() {
@@ -64,6 +76,23 @@ class App extends React.Component {
     };
   }
 
+  setKeywordDisabled(childData) {
+    this.setState({ 
+      laborTyped: childData,
+      // keywordDisabled: childData.length > 0 ? false : true,
+      keywordDisabled: childData.length === 0,
+      resetFilter: false 
+    });
+  }
+
+  setEnteredKeyword(childData) {
+    this.setState({ searchkeyword: childData, resetFilter: false });
+  }
+
+  setResultCount(childData) {
+    this.setState({ searchResultCount: childData });
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     this.props.invalidateRates();
@@ -72,6 +101,7 @@ class App extends React.Component {
   handleResetClick(e) {
     e.preventDefault();
     this.props.resetState();
+    this.setState({ resetFilter: "check", searchkeyword: "", keywordDisabled: true });
   }
 
   handleDownloadClick(e) {
@@ -102,42 +132,56 @@ class App extends React.Component {
               <div className="container clearfix">
                 <div className="row">
                   <div className="twelve columns">
-                    <SearchCategory />
-                    <LaborCategory api={this.props.api}>
-                      <button
-                        className="submit usa-button-primary icon-search"
-                        aria-label="Search CALC"
-                      />
-                      {' '}
-                      <input
-                        onClick={this.handleResetClick}
-                        className="reset usa-button usa-button-secondary"
-                        type="reset"
-                        value="Reset"
-                      />
-                    </LaborCategory>
+                    <div className="row">
+                      <div className="twelve columns">
+                        <SearchCategory />
+                      </div>
+                    </div>
+                    <br />
+                    <br />
+                    <div className="search_block">
+                      <div className="five columns reduce_right_margin">
+                        <LaborCategory 
+                          parentCallback={this.setKeywordDisabled} 
+                          api={this.props.api} 
+                          search_keywords={this.state.searchkeyword}
+                        />
+
+                      </div>
+                      <div className="five columns reduce_right_margin keyword_filter">
+                        <KeywordFilter 
+                          parentCallback={this.setEnteredKeyword} 
+                          keywordDisabled={this.state.keywordDisabled}
+                          search_keywords={this.state.searchkeyword} 
+                          resetFilter={this.state.resetFilter} 
+                          laborTyped={this.state.laborTyped}
+                        />
+                      </div>
+                      <div className="two columns button_holder">
+                        <span>
+                          <button 
+                            className="submit usa-button-primary icon-search submit_button"
+                            aria-label="Search CALC" 
+                          />
+                        </span> 
+                        <span>
+                          <input 
+                            onClick={this.handleResetClick}
+                            className="reset usa-button usa-button-secondary reset_button"
+                            type="reset"
+                            value="Reset"
+                          />
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="twelve columns">
+                  <div className="four columns">
                     <QueryType />
-                  </div>
-                  <div className="twelve columns">
-                    <p className="help-text">
-                      Any results from CALC searches cannot be relied upon
-                      {' '}
-                      exclusively to demonstrate prices are fair and reasonable
-                      {' '}
-                      in accordance with FAR 15.4. Federal acquisition professionals 
-                      {' '}
-                      will need additional analysis to make
-                      {' '}
-                      such a determination. These rates are also useful in creating
-                      {' '}
-                      budgetary and project cost estimates.
-                    </p>
                   </div>
                 </div>
               </div>
             </section>
+            <div className="help-text">Any results from CALC searches cannot be relied upon exclusively to demonstrate prices are fair and reasonable in accordance with FAR 15.4. Federal acquisition professionals will need additional analysis to make such a determination. These rates are also useful in creating budgetary and project cost estimates.</div>
           </div>
         </div>
         <div className="row card secondary">
@@ -153,8 +197,7 @@ class App extends React.Component {
                 height="280"
               />
 
-              <Description />
-
+              <Description searchResultCount={this.state.searchResultCount} />
               <LoadingIndicator />
 
               <div className="graph">

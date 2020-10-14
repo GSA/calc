@@ -16,6 +16,8 @@ export const SET_SITE = 'SET_SITE';
 export const SET_BUSINESS_SIZE = 'SET_BUSINESS_SIZE';
 export const SET_QUERY = 'SET_QUERY';
 export const SET_QUERY_BY = 'SET_QUERY_BY';
+export const SET_SIN_NUMBER = 'SET_SIN_NUMBER';
+export const SET_SECURITY_CLEARANCE = 'SET_SECURITY_CLEARANCE';
 
 export function excludeRow(rowId) {
   return { type: EXCLUDE_ROW, rowId };
@@ -83,6 +85,14 @@ export function setQueryType(queryType) {
 
 export function setSite(site) {
   return { type: SET_SITE, site };
+}
+
+export function setSinNumber(sinNumber) {
+  return { type: SET_SIN_NUMBER, sinNumber };
+}
+
+export function setSecurityClearance(securityClearance) {
+  return { type: SET_SECURITY_CLEARANCE, securityClearance };
 }
 
 export function setBusinessSize(size) {

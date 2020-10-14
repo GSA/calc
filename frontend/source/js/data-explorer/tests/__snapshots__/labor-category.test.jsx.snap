@@ -8,16 +8,16 @@ exports[`<LaborCategory> matches snapshot 1`] = `
     className="usa-sr-only"
     htmlFor="zzz_labor_category"
   >
-    Type a labor category
+    Type a labor category*
   </label>
   <input
-    className="form__inline"
+    className="form__inline form__block_control"
     id="zzz_labor_category"
     maxLength={255}
     name="q"
     onChange={[Function]}
     onKeyDown={[Function]}
-    placeholder="Type a labor category"
+    placeholder="Type a labor category*"
     type="text"
     value=""
   />

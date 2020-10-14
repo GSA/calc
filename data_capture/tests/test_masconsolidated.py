@@ -8,7 +8,7 @@ from ..schedules import mas_consolidated as mas, registry
 from django.test import TestCase, override_settings
 from django.core.exceptions import ValidationError
 MAS = '{}.MASConsolidatedPriceList'.format(mas.__name__)
-file_name = 'Price_Proposal_Template_SERVICES_AND_TRAINING_FINAL.xlsx'
+file_name = 'Price_Proposal_Template_SERVICES_AND_TRAINING_102919.xlsx'
 MAS_XLSX_PATH = path('static', 'data_capture', file_name)
 
 # TODO: These tests should be DRY'd out since they nearly identical to test_s70
@@ -32,7 +32,8 @@ class GleaningTests(TestCase):
             'unit_of_issue': 'Hour',
             'price_including_iff': '200.0',
             'keywords': 'Process improvement, finance, senior project manager',
-            'certifications': 'PMP'
+            'certifications': 'PMP',
+            'security_clearance': 'No'
         }])
 
     def test_text_formatted_prices_are_gleaned(self):
@@ -85,7 +86,8 @@ class MASConsolidatedPriceListTests(ModelTestCase):
             'sin': '874-1',
             'unit_of_issue': 'Hour',
             'keywords': 'Process improvement, finance, senior project manager',
-            'certifications': 'PMP'
+            'certifications': 'PMP',
+            'security_clearance': 'No'
         })
 
     def test_education_level_is_validated(self):

@@ -173,14 +173,14 @@ td.sorted {
     }
   }
   td.table-error-severe {
-    background-color: $color-red-lightest;
-    font-weight: $font-weight-bold;
-    padding-left: 1.5rem;
+     background-color: $color-white;
+     font-weight: $font-weight-bold;
+     padding-left: 1.5rem;
     span {
       font-weight: $font-weight-normal;
     }
     &:before {
-      background-color: $color-red-dark;
+      background-color: $color-white;
       content: '';
       height: 100%;
       left: 0;
@@ -193,12 +193,12 @@ td.sorted {
 
 /* used on price list upload error page */
 td.error {
-  color: $color-red-dark;
+  color: $color-white;
   font-weight: $font-weight-bold;
   span {
     line-height: 1.2;
     position: relative;
-    border-bottom: 1px dotted $color-red-dark;
+    border-bottom: 1px dotted $color-white;
     &:before {
       width: 13px;
       height: 13px;
@@ -213,7 +213,7 @@ td.error {
       position: absolute;
       top: -$space-2x;
       left: -3px; /* positions the tooltip arrow over the info badge */
-      border-top: 12px solid $color-red-lightest;
+      border-top: 12px solid $color-white;
       border-right: 10px solid transparent;
       border-left: 10px solid transparent;
       content: " ";
@@ -238,7 +238,7 @@ td.error {
         right: 0;
         bottom: 95%;
         left: 0;
-        background-color: $color-red-lightest;
+        background-color: $color-white;
         border-radius: $border-radius;
       }
     }
@@ -262,7 +262,7 @@ td.error {
         right: 0;
         bottom: 95%;
         left: 0;
-        background-color: $color-red-lightest;
+        background-color: $color-white;
         border-radius: $border-radius;
       }
     }
@@ -280,7 +280,7 @@ td.error {
 
   }
   .errorlist {
-    color: $color-red-dark;
+    color: $color-white;
     font-weight: $font-weight-normal;
     font-size: $small-font-size;
     border: none;

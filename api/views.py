@@ -31,6 +31,7 @@ from django.http import JsonResponse
 from data_capture.models import capability_statement as conSta
 # from django.shortcuts import redirect
 import boto3
+from django.db.models import Q
 
 
 DOCS_DESCRIPTION = dedent("""
@@ -204,13 +205,32 @@ def get_contracts_queryset(request_params, wage_field):
     # Since our query can be multi-phrase, leave the original queryset alone.
     # Instead, start with an empty queryset, then find matching subsets
     # in the original and chain them together.
+    isSecondaryFilter = False
     if query:
+        queryArray = query.split("|")
+        if len(queryArray) > 1:
+            isSecondaryFilter = True
+
+        query = queryArray[0]
         query_type = request_params.get('query_type', 'match_all')
         query_by = request_params.get('query_by', None)
         contracts = Contract.objects.all().multi_phrase_search(
-            query, query_by, query_type)
+            query.strip(), query_by, query_type)
     else:  # no query, so start with full query set
         contracts = Contract.objects.all()
+
+    if isSecondaryFilter:
+        if queryArray[1] != "":
+            secondryFilter = queryArray[1]
+            secondryFilterArr = secondryFilter.split(',')
+            queryFilters = Q()
+            for filter in secondryFilterArr:
+                if filter != "":
+                    filter = filter.strip()
+                    queryFilters = queryFilters | Q(keywords__icontains=filter) | \
+                        Q(certifications__icontains=filter) | \
+                        Q(description__icontains=filter)
+            contracts = contracts.filter(queryFilters)
 
     # Exclude records w/o rates for the selected contract period.
     # Additional price filtering is already in the CurrentContractManager
@@ -281,6 +301,14 @@ def get_contracts_queryset(request_params, wage_field):
     if sin:
         contracts = contracts.filter(sin__icontains=sin)
 
+    sin_number = request_params.get('sinNumber', None)
+    if sin_number:
+        contracts = contracts.filter(sin__icontains=sin_number)
+
+    security_clearance = request_params.get('securityClearance', None)
+    if security_clearance:
+        contracts = contracts.filter(security_clearance__icontains=security_clearance)
+    print(contracts)
     price = request_params.get('price', None)
     price__gte = request_params.get('price__gte')
     price__lte = request_params.get('price__lte')
@@ -641,7 +669,6 @@ class GetCapabilityStatement(APIView):
             url = conIns[0].url  # getting url from db
             # response = JsonResponse({'Error': '1', 'ErrorMessage': url})
             # return response
-            print(url)
             return JsonResponse({'Error': '1', 'ErrorMessage': url})
         else:
             AWS_ACCESS_KEY_ID = settings.AWS_ACCESS_KEY_ID

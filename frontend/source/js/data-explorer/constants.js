@@ -27,6 +27,11 @@ export const BUSINESS_SIZE_LABELS = {
   o: 'other than small',
 };
 
+export const SECURITY_CLEARANCE_LABELS = {
+  yes: 'yes',
+  no: 'no',
+};
+
 export const SITE_LABELS = {
   customer: 'customer',
   contractor: 'contractor',
@@ -78,6 +83,10 @@ export const DEFAULT_QUERY_TYPE = QUERY_TYPE_MATCH_ALL;
 export const QUERY_TYPE_LABELS = {
   [QUERY_TYPE_MATCH_ALL]: 'Contains words',
   [QUERY_TYPE_MATCH_EXACT]: 'Exact match',
+};
+
+export const SIN_NUMBER = {
+  sinNumber: '123',
 };
 
 export const MAX_QUERY_LENGTH = 255;

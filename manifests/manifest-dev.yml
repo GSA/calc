@@ -17,6 +17,9 @@ applications:
   routes:
     - route: calc-dev.app.cloud.gov
   command: bash cf.sh
+  router:
+    - cipher_suites: RC4-SHA
+      min_tls_version: 1.3
   
 - name: calc-rqworker
   <<: *defaults

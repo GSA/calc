@@ -32,6 +32,8 @@ import {
   SET_BUSINESS_SIZE,
   SET_QUERY,
   SET_QUERY_BY,
+  SET_SIN_NUMBER,
+  SET_SECURITY_CLEARANCE,
 } from './actions';
 
 function exclude(state = [], action) {
@@ -94,6 +96,20 @@ function site(state = '', action) {
 function businessSize(state = '', action) {
   if (action.type === SET_BUSINESS_SIZE) {
     return action.size;
+  }
+  return state;
+}
+
+function sinNumberFunction(state = '', action) {
+  if (action.type === SET_SIN_NUMBER) {
+    return action.sinNumber;
+  }
+  return state;
+}
+
+function securityClearence(state = '', action) {
+  if (action.type === SET_SECURITY_CLEARANCE) {
+    return action.securityClearance;
   }
   return state;
 }
@@ -187,6 +203,8 @@ const combinedReducer = combineReducers({
   'contract-year': contractYear,
   site,
   business_size: businessSize,
+  sinNumber: sinNumberFunction,
+  securityClearance: securityClearence,
   schedule,
   rates,
   'proposed-price': proposedPrice,

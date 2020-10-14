@@ -14,32 +14,32 @@ from contracts.models import EDUCATION_CHOICES
 
 DEFAULT_SHEET_NAME = 'Services Pricing'
 
-Keywords = 'Key Words(separated by commas, limit to five keywords.\
+Keywords = 'Key Words*(separated by commas, limit to five keywords.\
             include these words in the description)'
 Desc = 'Recognized as a subject matter expert with extensive experience... '
 EXAMPLE_SHEET_ROWS = [
     [
-        r'Vendor Name',
-        r'SIN/SIN Proposed*',
+        r'Vendor Name*',
+        r'SIN/SIN(s) Proposed*',
         r'Service Proposed  (eg Job Title/Task)*',
-        r'Description(250 words)',
+        r'Description(250 words)*',
         Keywords,
-        r'Minimum Education*',
-        r'Minimum Years of Experience (cannot be a range)*',
+        r'Minimum Education',
+        r'Minimum Years of Experience (cannot be a range)',
         r'Identify Required Licenses or Certifications (State "None" if not required)',
         r'Security Clearance Required',
-        r'Contractor or Customer Facility or Both',
-        r'Domestic or Overseas',
-        r'Commercial Price List (CPL) OR Market Prices',
+        r'Contractor or Customer Facility or Both*',
+        r'Domestic or Overseas*',
+        r'Commercial Price List (CPL) OR Market Prices*',
         r'Unit of Issue (e.g. Hour, Task, Sq Ft)*',
-        r'Most Favored Commercial Customer (MFC)',
-        r'Discount Offered to Commercial MFC (%)',
-        r'Commercial MFC Price',
+        r'Most Favored Commercial Customer (MFC)*',
+        r'Discount Offered to Commercial MFC (%)*',
+        r'Commercial MFC Price*',
         r'Discount Offered to GSA (off CPL or Market Prices) (%)',
-        r'Price Offered to GSA (Excluding IFF)',
-        r'Price Offered to GSA (including IFF)*',
-        r'Discount Offered to GSA (off MFC Prices) (%)',
-        r'Supporting Invoice or Document Number(Initial submittal)',
+        r'Discount Offered to GSA (off MFC Prices) (%)*',
+        r'Price Offered to GSA (Excluding IFF)*',
+        r'Price Offered to GSA (including IFF)',
+        r'Supporting Invoice or Document Number(Initial submittal)*',
     ],
     [
         r'XYZ,INC',
@@ -57,25 +57,26 @@ EXAMPLE_SHEET_ROWS = [
         r'Hour',
         r'',
         r'',
+        r'0.00',
         r'',
         r'',
-        r'',
+        r'0.00',
         r'200.00',
-        r'',
         r'',
     ],
 ]
 
 
 DEFAULT_FIELD_TITLE_MAP_MAS = {
-    'sin': 'SIN/SIN Proposed',
+    'sin': 'SIN/SIN(s) Proposed',
     'labor_category': 'Service Proposed',  # noqa
     'education_level': 'Minimum Education',
     'min_years_experience': 'Minimum Years of Experience',
     'unit_of_issue': 'Unit of Issue',
     'price_including_iff': 'Price Offered',
     'keywords': 'Key words',
-    'certifications': 'Identify Required Licenses or Certifications'
+    'certifications': 'Identify Required Licenses or Certifications',
+    'security_clearance': 'Security Clearance Required'
 }
 
 
@@ -136,12 +137,16 @@ def glean_labor_categories_from_book(book, sheet_name=DEFAULT_SHEET_NAME):
 
 
 class MASConsolidatedPriceListRow(forms.Form):
-    sin = forms.CharField(label='SIN/SIN Proposed')
+    sin = forms.CharField(label='SIN/SIN(s) Proposed')
     labor_category = forms.CharField(
         label="SERVICE PROPOSED (eg Job Title/Task)"
     )
     keywords = forms.CharField(
         label='Key Words',
+        required=False
+    )
+    security_clearance = forms.CharField(
+        label='Security Clearance Required',
         required=False
     )
     education_level = forms.CharField(
@@ -217,7 +222,8 @@ class MASConsolidatedPriceList(BasePriceList):
                 base_year_rate=row.contract_model_base_year_rate(),
                 sin=row.cleaned_data['sin'],
                 keywords=row.cleaned_data['keywords'],
-                certifications=row.cleaned_data['certifications']
+                certifications=row.cleaned_data['certifications'],
+                security_clearance=row.cleaned_data['security_clearance']
             )
 
     def serialize(self):

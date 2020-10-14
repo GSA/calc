@@ -26,7 +26,6 @@ import {
 import { API_PATH_RATES } from './api';
 
 const nonRatesFields = ['proposed-price', 'contract-year'];
-
 const ratesFields = allFields.filter(f => nonRatesFields.indexOf(f) === -1);
 
 export function getRatesParameters(state) {
@@ -48,15 +47,13 @@ export default class StoreRatesAutoRequester {
   _startRatesRequest(store) {
     if (this.request) {
       this.request.abort();
-    }
-
+    }   
     const data = getRatesParameters(store.getState());
     const defaults = {
       histogram: HISTOGRAM_BINS,
     };
 
     store.dispatch(startRatesRequest());
-
     this.request = this.api.get({
       uri: API_PATH_RATES,
       data: Object.assign(defaults, data),
@@ -67,7 +64,7 @@ export default class StoreRatesAutoRequester {
     });
   }
 
-  middleware(store) {
+  middleware(store) {   
     return next => (action) => {
       const oldState = store.getState();
       const result = next(action);

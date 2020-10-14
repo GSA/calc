@@ -18,6 +18,7 @@ applications:
     - route: calc-staging.app.cloud.gov
   command: bash cf.sh
 
+
 - name: calc-rqworker
   <<: *defaults
   no-route: true

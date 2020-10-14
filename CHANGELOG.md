@@ -7,6 +7,54 @@ to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][unreleased]
 
+## 2020-05-28
+
+### Changed
+
+- Repalced Price Prosal Template (PPT) for Mas consolidated contract vehicle
+
+
+## 2020-05-04
+
+### Changed
+
+- Added additional(optional) search filters based on Sin mumber, Security Clearance 
+- Upgraded snyk issues
+- Addressed Bugs
+
+
+## 2020-04-11
+
+### Changed
+
+- Added new search filter based on Keywords, Description, Certifications
+- Added COVID-19 banner 
+- Upgraded high and medium severity vulnerabilities (reported by snyk tool)
+
+
+## 2020-03-18
+
+### Changed
+
+- More data clean up on data quality report
+- Upgraded high and medium severity vulnerabilities (reported by snyk tool)
+
+
+## 2020-02-25
+
+### Changed
+
+- Expired contracts and duplicated records were removed for the data quality report
+- Upgraded 1 high severity on django (reported by snyk tool)
+
+
+## 2020-01-27
+
+### Changed
+
+- Upgraded packages that is causing severity vulnerabilities.
+
+
 ## 2019-12-06
 
 ### Changed

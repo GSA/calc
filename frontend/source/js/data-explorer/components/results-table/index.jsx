@@ -9,6 +9,8 @@ import * as LaborCategoryColumn from './labor-category-column';
 import * as EducationColumn from './education-column';
 import * as ExperienceColumn from './experience-column';
 import * as PriceColumn from './price-column';
+import * as keyColumn from './keywords-column';
+import * as CertColumn from './certifications-columns';
 import * as VendorColumn from './vendor';
 
 const COLUMNS = [
@@ -16,6 +18,8 @@ const COLUMNS = [
   LaborCategoryColumn,
   PriceColumn,
   EducationColumn,
+  keyColumn,
+  CertColumn,
   ExperienceColumn,
   VendorColumn,
   createSortableColumn({
