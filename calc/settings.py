@@ -31,9 +31,9 @@ load_redis_url_from_vcap_services('calc-redis32')
 NON_PROD_INSTANCE_NAME = os.environ.get('NON_PROD_INSTANCE_NAME', '')
 
 print('heres the non prod instance name', NON_PROD_INSTANCE_NAME)
-# SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: don't run with debug turned on in production!  Only used for Testing
 # if NON_PROD_INSTANCE_NAME == 'staging':
-if NON_PROD_INSTANCE_NAME == 'staging':
+if NON_PROD_INSTANCE_NAME == 'sandbox':
     DEBUG = True
 else:
     DEBUG = 'DEBUG' in os.environ
@@ -382,7 +382,7 @@ if DEBUG and not HIDE_DEBUG_UI:
         'data_capture.schedules.fake_schedule.FakeSchedulePriceList',
     )
 
-if NON_PROD_INSTANCE_NAME == 'staging':
+if NON_PROD_INSTANCE_NAME == 'sandbox':  # Change to staging for enabling fake UAA in Staging
     UAA_AUTH_URL = "fake:"
     UAA_TOKEN_URL = "fake:"
     UAA_APPROVED_DOMAINS = ['gsa.gov', 'example.com']
