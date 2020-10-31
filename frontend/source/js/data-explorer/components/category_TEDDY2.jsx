@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-//  import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { asyncReactor } from 'async-reactor';
 
 import { filterActive } from '../util';
 import { makeOptions } from './util';
+
+import { setSinNumber as setSinNumberAction } from '../actions';
+
 //  import { setCategory as setCategoryAction } from '../actions';
 //  import { setBusinessSize as setBusinessSizeAction } from '../actions';
 //  import { BUSINESS_SIZE_LABELS } from '../constants';
@@ -13,33 +16,39 @@ const fetch = require("node-fetch");
 
 function Loader() {
   return (
-    <h2>Loading...</h2>
+    <h2>Loading <br />Categories...</h2>
   );
 }
 
 
-async function Category({ idPrefix, category, setCategory }) {
+export function Category({ idPrefix, sinNumber, setSinNumber }) {
   const categoryid = `${idPrefix}category`;
-  const handleChange = (e) => {
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$"+JSON.stringify(e.target));
-    setCategory(e.target.value);
-  };
+  const handleChange = (e) => { setSinNumber(e.target.value); };
+  //const handleChange = (e) => { setSinNumber(e.target.value); };
 
   const categorydata = await fetch('https://solutionsid.app.cloud.gov/api/v1/schedule_category?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZXhwIjoxNjA2MzEzNTQ0fQ.L9OCuCruD8tDdggj-JcC65dkvLkKVBhqUFLeXiwW9Jo');
   const categoryposts = await categorydata.json();
 
   let CATEGORY_LABEL = "";
+  //let CATEGORY_ID = "";
   let i = 0;
 
   categoryposts[0].forEach((categories) => {
     if (i === categoryposts[0].length - 1) {
+      //console.log(categories.id+"<<<<<<<<<<<")
       CATEGORY_LABEL += "\"".concat(categories.title.concat("\":\"".concat(categories.title.concat("\" "))));
+      //CATEGORY_ID += "\"".categories.id."\" ";
+      //console.log("*******"+CATEGORY_ID);
     } else {
       CATEGORY_LABEL += "\"".concat(categories.title.concat("\":\"".concat(categories.title.concat("\", "))));
+      //CATEGORY_ID += "\"".categories.id."\", ";
+      //console.Clog(CATEGORY_ID);
     }
     i++;
   });
+  console.log(CATEGORY_LABEL);
   CATEGORY_LABEL = JSON.parse('{'.concat(CATEGORY_LABEL).concat('}'));
+  console.log(CATEGORY_LABEL);
   //    console.log('Category lable test is this '+CATEGORY_LABEL);
   //  console.log(categoryposts[0]);
 
@@ -53,7 +62,7 @@ async function Category({ idPrefix, category, setCategory }) {
         name="category"
         value={category}
         onChange={handleChange}
-        className={filterActive(category !== '')}
+        className={filterActive(sinNumber !== '')}
       >
         {makeOptions(CATEGORY_LABEL)}
       </select>
@@ -72,13 +81,21 @@ async function Category({ idPrefix, category, setCategory }) {
     </div>
   );
 }
-export default asyncReactor(Category, Loader);
+
+//export default asyncReactor(Category, Loader);
 Category.propTypes = {
   category: PropTypes.string.isRequired,
-  setCategory: PropTypes.func.isRequired,
+  setSinNumber: PropTypes.func.isRequired,
   idPrefix: PropTypes.string,
 };
+//setCategory: PropTypes.func.isRequired,
+
 
 Category.defaultProps = {
-  idPrefix: '',
+  idPrefix: 'category-',
 };
+
+export default connect(
+  state => ({ category: state.category }),
+  { toggleCategory },
+)(Category);

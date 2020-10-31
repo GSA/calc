@@ -2,39 +2,40 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { autobind } from '../util';
-import { EDU_LABELS } from '../constants';
+import { CAT_LABELS } from '../constants';
 
-export default class EducationLevelItem extends React.Component {
+export default class CategoryLevelItem extends React.Component {
   constructor(props) {
     super(props);
     autobind(this, ['_onClick']);
   }
 
   _onClick() {
-    console.log("CLICKKKKKED EDU");
+    console.log("CLICKKKKKED CAT" + this.props.checked);
     this.props.onCheckboxClick(this.props.value);
   }
 
   render() {
+    console.log("RENDERRRRRRRIINNNNG" + JSON.stringify(this.props));
     return (
       <li>
         <input
           id={this.props.id}
           type="checkbox"
-          value={this.props.value}
+          value={this.props.value.id}
           checked={this.props.checked}
           onChange={this._onClick}
-          name="education"
+          name="categories"
         />
         <label htmlFor={this.props.id}>
-          {EDU_LABELS[this.props.value]}
+          {this.props.value.title}
         </label>
       </li>
     );
   }
 }
 
-EducationLevelItem.propTypes = {
+CategoryLevelItem.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   checked: PropTypes.bool.isRequired,

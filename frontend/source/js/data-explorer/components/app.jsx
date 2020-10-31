@@ -77,11 +77,11 @@ class App extends React.Component {
   }
 
   setKeywordDisabled(childData) {
-    this.setState({ 
+    this.setState({
       laborTyped: childData,
       // keywordDisabled: childData.length > 0 ? false : true,
       keywordDisabled: childData.length === 0,
-      resetFilter: false 
+      resetFilter: false
     });
   }
 
@@ -141,31 +141,31 @@ class App extends React.Component {
                     <br />
                     <div className="search_block">
                       <div className="five columns reduce_right_margin">
-                        <LaborCategory 
-                          parentCallback={this.setKeywordDisabled} 
-                          api={this.props.api} 
+                        <LaborCategory
+                          parentCallback={this.setKeywordDisabled}
+                          api={this.props.api}
                           search_keywords={this.state.searchkeyword}
                         />
 
                       </div>
                       <div className="five columns reduce_right_margin keyword_filter">
-                        <KeywordFilter 
-                          parentCallback={this.setEnteredKeyword} 
+                        <KeywordFilter
+                          parentCallback={this.setEnteredKeyword}
                           keywordDisabled={this.state.keywordDisabled}
-                          search_keywords={this.state.searchkeyword} 
-                          resetFilter={this.state.resetFilter} 
+                          search_keywords={this.state.searchkeyword}
+                          resetFilter={this.state.resetFilter}
                           laborTyped={this.state.laborTyped}
                         />
                       </div>
                       <div className="two columns button_holder">
                         <span>
-                          <button 
+                          <button
                             className="submit usa-button-primary icon-search submit_button"
-                            aria-label="Search CALC" 
+                            aria-label="Search CALC"
                           />
-                        </span> 
+                        </span>
                         <span>
-                          <input 
+                          <input
                             onClick={this.handleResetClick}
                             className="reset usa-button usa-button-secondary reset_button"
                             type="reset"
@@ -216,7 +216,7 @@ class App extends React.Component {
                   <b>Note: </b>
                   68% of the prices fall between the +1 and -1 Standard Deviation.
                 </p>
-              </div>  
+              </div>
 
               <div className="">
                 <a

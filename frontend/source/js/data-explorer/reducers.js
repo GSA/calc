@@ -25,6 +25,7 @@ import {
   SET_PROPOSED_PRICE,
   SET_EXPERIENCE,
   TOGGLE_EDU_LEVEL,
+  TOGGLE_CAT_LEVEL,
   SET_SCHEDULE,
   SET_CONTRACT_YEAR,
   SET_QUERY_TYPE,
@@ -63,6 +64,7 @@ export function q(state = '', action) {
 }
 
 function education(state = [], action) {
+  console.log(action.type+"<-- ActionType: EDUCATiON ACTION SELECTED*************************************************"+action.level);
   if (action.type === TOGGLE_EDU_LEVEL) {
     if (state.indexOf(action.level) === -1) {
       return state.concat(action.level);
@@ -70,6 +72,20 @@ function education(state = [], action) {
     return state.filter(lvl => lvl !== action.level);
   }
   return state;
+}
+
+function categoryFunction(state = [], action) {
+  console.log(JSON.stringify(action));
+  console.log(action.type+"<-- ActionType: CATEGORY ACTION SELECTED*************************************************"+action.level);
+  console.log(JSON.stringify(state));
+  if (action.type === TOGGLE_CAT_LEVEL) {
+    if (state.indexOf(action.level) === -1) {
+      return state.concat(action.level);
+    }
+    return state.filter(lvl => lvl !== action.level);
+  }
+  return state;
+
 }
 
 function minExperience(state = MIN_EXPERIENCE, action) {
@@ -101,6 +117,7 @@ function businessSize(state = '', action) {
 }
 
 function sinNumberFunction(state = '', action) {
+  console.log(action.type+"<-- ActionType: SIN ACTION SELECTED*************************************************"+action.level);
   if (action.type === SET_SIN_NUMBER) {
     return action.sinNumber;
   }
@@ -198,6 +215,7 @@ const combinedReducer = combineReducers({
   exclude,
   q,
   education,
+  category: categoryFunction,
   min_experience: minExperience,
   max_experience: maxExperience,
   'contract-year': contractYear,

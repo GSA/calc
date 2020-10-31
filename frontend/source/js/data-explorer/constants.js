@@ -21,7 +21,41 @@ export const EDU_LABELS = {
   [EDU_MASTERS]: 'Masters Degree',
   [EDU_PHD]: 'Ph.D',
 };
+console.log("EDU_LABELS"+EDU_LABELS.EDU_HIGH_SCHOOL);
+/***  CATEGORIES ***/
+export const OFFICE_MGMT = '200%2C222';
+export const FACILITIES = '17';
+export const FURNITURE = '400';
+export const HUMAN_CAPITAL = '51 501, 51 504, 51 505, 51 506';
 
+export const CAT_LABELS = {
+  [OFFICE_MGMT]: 'Office Management',
+  [FACILITIES]: 'Facilities',
+  [FURNITURE]: 'Furniture and Furnishings',
+  [HUMAN_CAPITAL]: 'Human Capital',
+};
+//[{"code":"A","id":1,"title":"Office Management"},{"code":"B","id":2,"title":"Facilities"},{"code":"C","id":3,"title":"Furniture and Furnishings"},{"code":"D","id":4,"title":"Human Capital"},{"code":"E","id":5,"title":"Industrial Products and Services"},{"code":"F","id":6,"title":"Information Technology"},{"code":"G","id":7,"title":"Miscellaneous"},{"code":"H","id":8,"title":"Professional Services"},{"code":"I","id":9,"title":"Scientific Management and Solutions"},{"code":"J","id":10,"title":"Security and Protection"},{"code":"K","id":11,"title":"Transportation and Logistics Services"},{"code":"L","id":12,"title":"Travel"}]
+const SOLUTIONS_ID_API2 = 'https://solutionsid.app.cloud.gov/api/v1/schedule_cats?token=';
+// const SOLUTIONS_ID_API = 'https://solutionsid.app.cloud.gov/api/v1/schedule_category?token=';
+const SOLUTIONSID_API_TOKEN2 = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZXhwIjoxNjA2MzEzNTQ0fQ.L9OCuCruD8tDdggj-JcC65dkvLkKVBhqUFLeXiwW9Jo';
+var categories;
+    fetch(SOLUTIONS_ID_API2 + SOLUTIONSID_API_TOKEN2)
+    //fetch(TEST_API)
+      .then( (response) => response.json())
+      .then(data => categories = data)
+      .then(() => console.log("CON1:"+JSON.stringify(categories)))
+
+
+    /*if (categories !== undefined) {
+  console.log("*********************");
+  var schCats = categories[0]["scheduleCategories"];
+  console.log("CON3"+JSON.stringify(schCats));
+} else {
+  console.log("UUUUUUUUUUUUUUUUUUUUU");
+} */
+
+
+/*** END CATEGORIES ***/
 export const BUSINESS_SIZE_LABELS = {
   s: 'small business',
   o: 'other than small',
@@ -96,3 +130,5 @@ export const QUERY_BY_VENDOR = 'vendor_name';
 export const QUERY_BY_CONTRACT = 'idv_piid';
 
 export const DEFAULT_QUERY_BY = QUERY_BY_SCHEDULE;
+
+export const SOLUTIONSID_API_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZXhwIjoxNjA2MzEzNTQ0fQ.L9OCuCruD8tDdggj-JcC65dkvLkKVBhqUFLeXiwW9Jo';

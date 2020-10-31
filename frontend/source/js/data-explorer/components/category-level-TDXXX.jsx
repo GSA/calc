@@ -6,7 +6,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import SlideyPanel from './slidey-panel';
-import EducationLevelItem from './education-level-item';
+import CategoryLevelItem from './category-level-item';
 
 import {
   autobind,
@@ -15,11 +15,11 @@ import {
 } from '../util';
 
 import {
-  EDU_LABELS,
+  CAT_LABELS,
 } from '../constants';
 
 import {
-  toggleEducationLevel,
+  toggleCatLevel,
 } from '../actions';
 
 // TODO: We could just use jQuery for this, but I wanted to decouple
@@ -45,7 +45,7 @@ function elementContains(container, contained) {
  *   license: http://www.opensource.org/licenses/mit-license.php
  */
 
-export class EducationLevel extends React.Component {
+export class CategoryLevel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -87,17 +87,16 @@ export class EducationLevel extends React.Component {
   }
 
   handleCheckboxClick(level) {
-    this.props.toggleEducationLevel(level);
+    this.props.toggleCatLevel(level);
   }
 
   render() {
     const { levels, idPrefix } = this.props;
-    console.log(JSON.stringify(this.props));
+    console.log("THISSSPROPPPS"+JSON.stringify(this.props));
     const inputs = Object.keys(EDU_LABELS).map((value) => {
       const id = idPrefix + value;
-      console.log("EDU IDDDD " + JSON.stringify(id));
       return (
-        <EducationLevelItem
+        <CategoryLevelItem
           key={value}
           id={id}
           checked={levels.indexOf(value) >= 0}
@@ -106,22 +105,23 @@ export class EducationLevel extends React.Component {
         />
       );
     });
-    console.log("EDUUUUUU " + inputs);
     let linkContent;
 
     if (levels.length === 0) {
+      console.log("1111111111111");
       linkContent = (
         <span className="eduSelect">
 Select
           <span className="usa-sr-only">
             {' '}
-to reveal Education Level options
+to reveal Category TD3 options
           </span>
         </span>
       );
     } else {
+      console.log("222222222222");
       const selectedLevels = levels.map((value) => {
-        const label = EDU_LABELS[value];
+        const label = CAT_LABELS[value];
         return (
           <span key={value} title={label}>
             {label}
@@ -135,15 +135,15 @@ to reveal Education Level options
       );
     }
 
-    const eduLevelId = `${this.props.idPrefix}education_level`;
+    const eduLevelId = `${this.props.idPrefix}category_level`;
 
     return (
       <div>
-        <label htmlFor={eduLevelId}>
-Education level:
+        <label htmlFor={catLevelId}>
+CAT TD level:
         </label>
         <dl
-          id={eduLevelId}
+          id={catLevelId}
           className="dropdown"
           ref={(el) => { this.dropdownEl = el; }}
         >
@@ -164,12 +164,12 @@ Education level:
             <div className="multiSelect">
               <fieldset>
                 <legend className="usa-sr-only">
-Education level:
+CAT TD2 level:
                 </legend>
 
                 <SlideyPanel
                   component="ul"
-                  expanded={this.state.expanded}
+                  expanded={!this.state.expanded}
                 >
                   {inputs}
                 </SlideyPanel>
@@ -182,17 +182,17 @@ Education level:
   }
 }
 
-EducationLevel.propTypes = {
+CategoryLevel.propTypes = {
   levels: PropTypes.array.isRequired,
   idPrefix: PropTypes.string,
-  toggleEducationLevel: PropTypes.func.isRequired,
+  toggleCatLevel: PropTypes.func.isRequired,
 };
 
-EducationLevel.defaultProps = {
-  idPrefix: 'education-level-',
+CategoryLevel.defaultProps = {
+  idPrefix: 'category-level-',
 };
 
 export default connect(
-  state => ({ levels: state.education }),
-  { toggleEducationLevel },
-)(EducationLevel);
+  state => ({ levels: state.category }),
+  { toggleCatLevel },
+)(CategoryLevel);

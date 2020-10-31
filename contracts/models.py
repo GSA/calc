@@ -161,7 +161,8 @@ class ContractsQuerySet(models.QuerySet):
         else:
             queryset = super(ContractsQuerySet, self)\
                 .order_by(*args, **kwargs)
-
+        print("******************MODELS.PY*****************")
+        print(edu_sort_sql)
         return queryset
 
     def multi_phrase_search(self, query, query_by=None, *args, **kwargs):

@@ -20,10 +20,7 @@ function Loader() {
 
 async function Category({ idPrefix, category, setCategory }) {
   const categoryid = `${idPrefix}category`;
-  const handleChange = (e) => {
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$"+JSON.stringify(e.target));
-    setCategory(e.target.value);
-  };
+  const handleChange = (e) => { setCategory(e.target.value); };
 
   const categorydata = await fetch('https://solutionsid.app.cloud.gov/api/v1/schedule_category?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZXhwIjoxNjA2MzEzNTQ0fQ.L9OCuCruD8tDdggj-JcC65dkvLkKVBhqUFLeXiwW9Jo');
   const categoryposts = await categorydata.json();

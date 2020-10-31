@@ -9,6 +9,7 @@ export const SET_SORT = 'SET_SORT';
 export const SET_PROPOSED_PRICE = 'SET_PROPOSED_PRICE';
 export const SET_EXPERIENCE = 'SET_EXPERIENCE';
 export const TOGGLE_EDU_LEVEL = 'TOGGLE_EDU_LEVEL';
+export const TOGGLE_CAT_LEVEL = 'TOGGLE_CAT_LEVEL';
 export const SET_SCHEDULE = 'SET_SCHEDULE';
 export const SET_CONTRACT_YEAR = 'SET_CONTRACT_YEAR';
 export const SET_QUERY_TYPE = 'SET_QUERY_TYPE';
@@ -69,6 +70,11 @@ export function setExperience(subtype, years) {
 
 export function toggleEducationLevel(level) {
   return { type: TOGGLE_EDU_LEVEL, level };
+}
+
+export function toggleCatLevel(level) {
+  console.log("TOOOOOOOGGGGGLIIIINNGGGGG"+level);
+  return { type: TOGGLE_CAT_LEVEL, level };
 }
 
 export function setSchedule(schedule) {
