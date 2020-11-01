@@ -27,11 +27,39 @@ nav ul {
 }
 
 // USWDS override, because Django's markup doesn't play nice by default
+// .field-is_muted input[type=checkbox],
+// .field-is_muted input[type=radio] {
+//     position: static;
+//     left: 0;
+//     width: auto;
+// }
+
 .field-is_muted input[type=checkbox],
-.field-is_muted input[type=radio] {
+input[type=radio]{
+    padding: 0.45em 0 0 0.25em;
     position: static;
     left: 0;
-    width: auto;
+    // width: auto;
+    // content: "\2714";
+    border: 0.1em solid #000;
+    border-radius: 0.2em;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    padding-left: 0.2em;
+    padding-bottom: 0.3em;
+    margin-right: 0.2em;
+    vertical-align: bottom;
+    color: transparent;
+    transition: .2s;
+    
+}
+
+.field-is_muted input[type=checkbox]:checked  {
+  background-color: #557f8e;
+  // background-image: url(../static/frontend/images/arrow-down-gray.svg);
+  border-color: rgb(151, 188, 230);
+  // color: rgb(223, 25, 25);
 }
 
 .messagelist li {
