@@ -33,6 +33,9 @@ from data_capture.models import capability_statement as conSta
 import boto3
 from django.db.models import Q
 
+#For BLS PET
+from data_capture.models import bls_data,bls_lcat,bls_pricing,bls_occupation_lcat_mapping,bls_state,bls_state_city_mapping,bls_occs
+
 
 DOCS_DESCRIPTION = dedent("""
 CALC's back-end exposes a public API for its labor rates data.
@@ -718,6 +721,128 @@ class GetCapabilityStatement(APIView):
                     response = JsonResponse({'Error': '1',
                                             'ErrorMessage': 'Error While Downloading'})
         return response
+
+
+class GetBLSGetPrice(APIView):
+    def post(slef,request):
+        data = request.data
+        occupationCode = data['occupation_code']
+        lcatId = data['lcat_id']
+        areaId = data['area_id']
+
+        lcatTitleInstance = bls_lcat.objects.get(id=lcatId)
+        stateCityMappingInstance = bls_state_city_mapping.objects.get(id=areaId)
+        blsPriceInstance = bls_pricing.objects.filter(
+            occ_code = occupationCode,
+            # lcat_id = lcatTitleInstance,
+            area_code = stateCityMappingInstance
+        )
+        result = []
+        if blsPriceInstance:
+            result = [{
+                'h_mean' : price.h_mean,
+                'h_median' : price.h_median,
+                'h_pct10' : price.h_pct10,
+                'h_pct25' : price.h_pct25,
+                'h_pct50' : price.h_pct50,                                                                                                             
+                'h_pct75' : price.h_pct75,
+                'h_pct90' : price.h_pct90,
+            } for price in blsPriceInstance]
+        return JsonResponse({'Error':0,'Error_Message':'','data':result})
+
+class GetBLSAutocomplete(APIView):
+    def get(self,request,search_term):
+        if search_term == 'occupation':
+            try:
+                blsData = bls_occs.objects.order_by('occupation').values('occupation_code','occupation').distinct()
+                if blsData:
+                    result = [{
+                        "code":n['occupation_code'],
+                        "occupation":n['occupation']
+                    } for n in blsData]
+                    return JsonResponse({'Error': 0,'ErrorMessage': '','data':result})
+                else:
+                    return JsonResponse({'Error': 1,'ErrorMessage': 'Something Went Wrong','data':[]})
+            except:
+                return JsonResponse({'Error': 1,'ErrorMessage': 'Something Went Wrong','data':[]})
+        elif search_term == 'state':
+            try:
+                blsState = bls_state.objects.all().order_by('state')
+                if blsState:
+                    result = [{
+                        "id":n.id,
+                        "state":n.state,
+                        "code":n.state_code
+                    } for n in blsState]
+                    return JsonResponse({'Error': 0,'ErrorMessage': '','data':result})
+                else:
+                    return JsonResponse({'Error': 1,'ErrorMessage': 'Something Went Wrong','data':[]})
+            except:
+                return JsonResponse({'Error': 1,'ErrorMessage': 'Something Went Wrong','data':[]})
+
+
+
+
+    def post(self,request,search_term):
+        if search_term == 'lcat':
+            data = request.data
+            occupationID = data['occ_id']
+            blsLcatRef = bls_occupation_lcat_mapping.objects.filter(occupation_code = occupationID)
+            result = [{
+                    'lcat_id':0,
+                    'lcat_title':'ancillary'
+                }]
+            eandqlevels = [
+                {
+                "value": "JR", "description": "WL1"
+                }, {
+                "value": "JY", "description": "WL2"
+                }, {
+                "value": "SR", "description": "WL3"
+                }, {
+                "value": "XP", "description": "WL4"
+                },
+            ]
+            if len(blsLcatRef) > 0:
+                result = []
+                for n in blsLcatRef:
+                    #if not n.lcat.lcat_title == "nan":
+                    node = {
+                        'lcat_id':n.lcat.id,
+                        'lcat_title':n.lcat.lcat_title
+                    }
+                    result.append(node)
+                eandqlevels = [
+                    {
+                    "value": "JR", "description": "Junior"
+                    }, {
+                    "value": "JY", "description": "Journeyman"
+                    }, {
+                    "value": "SR", "description": "Senior"
+                    }, {
+                    "value": "XP", "description": "SME"
+                    },
+                ]
+            finalResult = {
+                'lcat_details':result,
+                'eandqlevels':eandqlevels
+            }
+            return JsonResponse({'Error': 0,'ErrorMessage': '','data':finalResult})
+        elif search_term == 'area':
+            data = request.data
+            stateCode = data['state_code']
+            blsStateIns = bls_state.objects.filter(state_code = stateCode)
+            result = []
+            if blsStateIns:
+                cities = bls_state_city_mapping.objects.filter(state = blsStateIns[0])
+                result = [{
+                    'id':n.id,
+                    'city':n.city
+                }for n in cities]
+            return JsonResponse({'Error': 0,'ErrorMessage': '','data':result})
+
+
+
 
 
 class GetCapabilityStatementUrl(APIView):

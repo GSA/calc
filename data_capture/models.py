@@ -364,3 +364,80 @@ class SubmittedPriceListRow(models.Model):
 class capability_statement(models.Model):
     contract_number = models.CharField(max_length=50, null=False, blank=False)
     url = models.URLField(max_length=2500, null=False, blank=False)
+
+
+class bls_data(models.Model):
+    series_id = models.CharField(primary_key=True,null=False,blank=False,max_length=300)
+    series_title = models.CharField(null=False,blank=False,max_length=2000)
+    area_code = models.CharField(null=False,blank=False,max_length=100)
+    area_level = models.CharField(null=False,blank=False,max_length=100)
+    area_text = models.CharField(null=False,blank=False,max_length=100)
+    occupation_code = models.CharField(null=False,blank=False,max_length=100)
+    occupation_text = models.CharField(null=False,blank=False,max_length=300)
+    job_char_code = models.CharField(null=False,blank=False,max_length=100)
+    job_char_text = models.CharField(null=False,blank=False,max_length=2000)
+    work_level_code =  models.CharField(null=False,blank=False,max_length=100)
+    work_level_text =  models.CharField(null=False,blank=False,max_length=300)
+    average_hourly_wage = models.CharField(null=False,blank=False,max_length=100)
+    relative_std_error = models.CharField(null=False,blank=False,max_length=20)
+    average_hourly_wage_footnote = models.CharField(max_length=100)
+    relative_std_error_footnote = models.CharField(max_length=100)
+
+    def __str__(self):
+        return "bls_data"
+
+class bls_lcat(models.Model):
+    id = models.AutoField(primary_key=True)
+    lcat_title = models.CharField(null=False,blank=False,max_length=200)
+
+    def __str__(self):
+        return "bls_lcat"
+
+class bls_occs(models.Model):
+    id = models.AutoField(primary_key=True)
+    occupation_code= models.IntegerField()
+    occupation = models.CharField(null=False,blank=False,max_length=500)
+
+    def __str__(self):
+        return "bls_occs"
+
+
+class bls_state(models.Model):
+    id = models.AutoField(primary_key=True)
+    state = models.CharField(null=False,blank=False,max_length=200)
+    state_code = models.CharField(null=False,blank=False,max_length=10)
+
+    def __str__(self):
+        return "bls_state"
+
+class bls_state_city_mapping(models.Model):
+    id = models.AutoField(primary_key=True)
+    state = models.ForeignKey(bls_state,on_delete=models.CASCADE)
+    city = models.CharField(null=False,blank=False,max_length=200)
+
+    def __str__(self):
+        return "bls_state_city_mapping"
+
+class bls_occupation_lcat_mapping(models.Model):
+    id = models.AutoField(primary_key=True)
+    lcat = models.ForeignKey(bls_lcat,on_delete=models.CASCADE)
+    occupation_code = models.CharField(max_length=100)
+
+    def __str__(self):
+        return "bls_occupation_lcat_mapping"
+
+class bls_pricing(models.Model):
+    id = models.AutoField(primary_key = True)
+    occ_code = models.IntegerField()
+    lcat_id = models.ForeignKey(bls_lcat,on_delete=models.CASCADE)
+    area_code = models.ForeignKey(bls_state_city_mapping,on_delete=models.CASCADE, blank=True, null = True)
+    h_mean = models.DecimalField(max_digits=6, decimal_places=2)
+    h_median = models.DecimalField(max_digits=6, decimal_places=2)
+    h_pct10 = models.DecimalField(max_digits=6, decimal_places=2)
+    h_pct25 = models.DecimalField(max_digits=6, decimal_places=2)
+    h_pct50 = models.DecimalField(max_digits=6, decimal_places=2)
+    h_pct75 = models.DecimalField(max_digits=6, decimal_places=2)
+    h_pct90 = models.DecimalField(max_digits=6, decimal_places=2)
+
+    def __str__(self):
+        return 'bls_pricing'
