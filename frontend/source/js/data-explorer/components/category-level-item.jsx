@@ -11,12 +11,13 @@ export default class CategoryLevelItem extends React.Component {
   }
 
   _onClick() {
-    console.log("CLICKKKKKED CAT" + this.props.checked);
+    // console.log("CLICKKKKKED CAT" + this.props.checked);
     this.props.onCheckboxClick(this.props.value);
   }
 
   render() {
     console.log("RENDERRRRRRRIINNNNG" + JSON.stringify(this.props));
+    //console.log("PROPS: " + this.props.value.id + " - " + this.props.checked);
     return (
       <li>
         <input
