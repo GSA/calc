@@ -14,7 +14,7 @@ export function BusinessSize({ idPrefix, size, setSize }) {
   return (
     <div className="filter filter-business_size">
       <label htmlFor={id}>
-Business size:
+        Business size:
       </label>
       <select
         id={id}

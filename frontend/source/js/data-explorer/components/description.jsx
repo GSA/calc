@@ -60,10 +60,10 @@ export function Description({
       <DescriptionFilter key="exp" label="experience">
         {minExperience}
         {' '}
--
+        -
         {maxExperience}
         {' '}
-years
+        years
       </DescriptionFilter>,
     );
   }

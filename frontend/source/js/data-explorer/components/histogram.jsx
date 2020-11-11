@@ -466,7 +466,7 @@ class Histogram extends React.Component {
         ref={(svg) => { this.svgEl = svg; }}
       >
         <title>
-Price histogram
+          Price histogram
         </title>
         <desc>
           A histogram showing the distribution of labor category prices.

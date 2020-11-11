@@ -43,7 +43,7 @@ async function Category({ idPrefix, category, setCategory }) {
   return (
     <div className="filter filter-category">
       <label htmlFor={categoryid}>
-          Category:
+        Category:
       </label>
       <select
         categoryid={categoryid}
