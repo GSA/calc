@@ -111,7 +111,7 @@
   },
   "homepage": "https://github.com/18F/CALC#readme",
   "engines": {
-    "node": ">=6.14.4 <7.0",
+    "node": ">=6.14.4",
     "npm": ">=3.10.0"
   },
   "jest": {
