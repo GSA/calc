@@ -61,7 +61,7 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.7.4",
     "sinon": "2.1.0",
-    "typescript": "^2.9.2",
+    "typescript": "^3.5.3",
     "uswds": "1.6.9",
     "vinyl-named": "^1.1.0",
     "webpack": "^4.29.0",
