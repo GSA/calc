@@ -42,7 +42,7 @@ async function SubCategory({ idPrefix, category, setCategory }) {
   return (
     <div className="filter filter-category">
       <label htmlFor={categoryid}>
-          SubCategory:
+        SubCategory:
       </label>
       <select
         categoryid={categoryid}

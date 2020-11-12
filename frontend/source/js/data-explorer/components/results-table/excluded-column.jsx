@@ -31,7 +31,7 @@ function BaseDataCell({ excludeRow, result }) {
           onClick={handleExcludeRow(result.id)}
           aria-label={tooltip}
         >
-            &times;
+          &times;
         </a>
       </Tooltip>
     </td>
