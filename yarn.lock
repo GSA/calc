@@ -293,10 +293,10 @@ JSONStream@^1.0.3:
     jsonparse "^1.2.0"
     through ">=2.2.7 <3"
 
-a11y-dialog@2.5.2:
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/a11y-dialog/-/a11y-dialog-2.5.2.tgz#8ee88899448d18dc01c06207755d2178d6fd645d"
-  integrity sha1-juiImUSNGNwBwGIHdV0heNb9ZF0=
+a11y-dialog@2.5.7:
+  version "2.5.7"
+  resolved "https://registry.yarnpkg.com/a11y-dialog/-/a11y-dialog-2.5.7.tgz#ac197a788f9a8e13a78ba9b4431662afb73f8113"
+  integrity sha1-rBl6eI+ajhOni6m0QxZir7c/gRM=
 
 abab@^2.0.0:
   version "2.0.5"
