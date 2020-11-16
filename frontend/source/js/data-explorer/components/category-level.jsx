@@ -3,13 +3,11 @@
 import PropTypes from 'prop-types';
 
 import React from 'react';
+
 import { connect } from 'react-redux';
-/* import { browserHistory } from 'react-router';
-import * as querystring from 'querystring';  */
 
 import SlideyPanel from './slidey-panel';
 import CategoryLevelItem from './category-level-item';
-//import EducationLevelItem from './category-level-item';
 
 import { parse as urlParse } from "url";
 
@@ -45,8 +43,7 @@ function elementContains(container, contained) {
 }
 
 const SOLUTIONS_ID_API = 'https://solutionsid.app.cloud.gov/api/v1/schedule_cats?token=';
-// const SOLUTIONS_ID_API = 'https://solutionsid.app.cloud.gov/api/v1/schedule_category?token=';
-const SOLUTIONS_ID_SUBCATEGORY_API = 'https://solutionsid.app.cloud.gov/api/v1/schedule_subcategory/cat/';
+const SOLUTIONS_ID_SUBCATEGORY_API = 'https://solutionsid.app.cloud.gov/api/v1/category_details/cat/';
 const SOLUTIONSID_API_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZXhwIjoxNjA2MzEzNTQ0fQ.L9OCuCruD8tDdggj-JcC65dkvLkKVBhqUFLeXiwW9Jo';
 
 /**
@@ -59,14 +56,17 @@ const SOLUTIONSID_API_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwi
  */
 
 export class CategoryLevel extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
+      isMounted: true,
       expanded: false,
       categoryData: [],
       subCategoryData: [],
       catData: [],
       subCatData: [],
+      sinData: '',
     };
     autobind(this, ['handleToggleMenu', 'handleDocumentClick',
       'handleCheckboxClick']);
@@ -84,35 +84,14 @@ export class CategoryLevel extends React.Component {
   }
 
   componentWillMount() {
+    // Not used
     console.log(JSON.stringify(this.props));
-    console.log('%%%%%%%%%%%%%%%%%%%');
-    console.log(JSON.stringify(this.state));
-    // console.log('%%%%%%%%%' + this.window.location + '%%%%%%%%%%');
-      console.log(typeof window);
-    /* if (typeof window !== 'undefined') {
-           // window.location.href = "/?sinNumber=202";
-    }
-
-
-    const qsFields = parseQueryString(
-      this.window.location.search.substring(1)
-    ); // substring after '?' char
-    console.log(qsFields);
-    const qsFields = parseQueryString(
-      this.window.location.search.substring(1)
-    ); // substring after '?' char
-    console.log("*******" +  qsFields);*/
-            console.log('this is: ', this);
-
-      console.log("SUB RESPONSE: " + this.state.subCategoryData);
-      //let url = this.window.location.href;
-      //console.log(url.pathname + " URL SEARCH: " + url.search);
-      // console.log(urlParse(server.requests[0].url));
   }
 
   componentWillUnmount() {
     document.removeEventListener('click', this.handleDocumentClick);
     document.removeEventListener('focus', this.handleDocumentClick, true);
+    this.state.isMounted = false;
   }
 
   handleDocumentClick(e) {
@@ -124,13 +103,7 @@ export class CategoryLevel extends React.Component {
     if (!elementContains(this.dropdownEl, e.target)) {
       this.setState({ expanded: false });
     }
-    console.log("INSIDE handleDocumentClick");
-    /*
-    const qsFields = parseQueryString(
-      this.window.location.search.substring(1)
-    ); // substring after '?' char
-    console.log(qsFields);
-    */
+
   }
 
   handleToggleMenu(e) {
@@ -145,21 +118,15 @@ export class CategoryLevel extends React.Component {
   }
 
   handleCheckboxClick(level) {
-      console.log("CLICKEDDDDD:" + JSON.stringify(level.id));
-      console.log(level.title);
       // Gets SIN NUBMER FOR THE SELECTED CATEGORY
       fetch(SOLUTIONS_ID_SUBCATEGORY_API + level.id + '?token=' + SOLUTIONSID_API_TOKEN)
       .then( (response) => response.json() )
       .then(subCategoryList => {
-        this.setState({ subCategoryData: subCategoryList });
+        this.setState({ subCategoryData: subCategoryList.all_categories });
       });
+
       document.subCatData = this.state.subCategoryData;
       this.props.toggleCatLevel(level);
-
-      //SIN NUMBERS  874 503; 874 507
-      /*if (typeof window !== 'undefined') {
-          window.location.href = "/?sinNumber=874 503; 874 507; 222; 223";
-      }*/
 
   }
 
@@ -174,8 +141,7 @@ export class CategoryLevel extends React.Component {
 
   render() {
     const { levels, idPrefix, history } = this.props;
-    //console.log("-----------------------");
-    //console.log(JSON.stringify(this.props));
+
     let inputs = '';
 
     let cats = this.state.categoryData;
@@ -191,15 +157,14 @@ export class CategoryLevel extends React.Component {
             let chex = false;
             const id = idPrefix + value;
             if (levels.length > 0) {
-                // @TODO FIX, works for the last value only
+                // @TODO FIX, works for one checkbox for now
                 const selectedLevels = levels.map((val) => {
                     chex = (val.id-1 == value);
                 });
             }
-            //console.log("BUILDING:::");
-            //console.log("key: " + JSON.stringify(value ) + " catsArray[key]: " + catsArray[value]);
+            //console.log("key: " + JSON.stringify(value ) + " catsArray[key]: " + JSON.stringify(catsArray[value]));
             //console.log("key: " + JSON.stringify(value ) +  " ID: " + id + " CHECKED: " + chex + " Value: " + catsArray[value-1].id);
-            //console.log("------------------------------------------------------------------------------------");
+
             return (
                 <CategoryLevelItem
                     key={JSON.stringify(value)}
@@ -210,7 +175,6 @@ export class CategoryLevel extends React.Component {
                 />
             );
         }));
-                  // OLD VALUE: value={catsArray[value]}
 
     }
 
@@ -228,22 +192,8 @@ to reveal Schedule Categories options
         </span>
       );
     } else {
-      console.log("SELECTED LEVELS2:"+JSON.stringify(levels));
-      //let searchParams = this.props.location.pathname;
 
       const selectedLevels = levels.map((value) => {
-      /* URL history.push({
-          pathname: '/',
-          search: '?sin=222'
-        });
-        var path = windowLocation.pathname + windowLocation.search;
-        console.log("PATH: " + path);
-        let currentUrlParams = new URLSearchParams(window.location.search);
-        currentUrlParams.set('sin', 222);
-        console.log(window.location.pathname + "?" + currentUrlParams.toString() + "CURRENT URL PARAMS: "+currentUrlParams);
-*/
-        // this.props.history.push(window.location.pathname + "?" + currentUrlParams.toString());
-
         const label = value.title; //The label in the input field populated when user selects one or more categories
         return (
           <span key={value.code} title={label}>
@@ -259,14 +209,27 @@ to reveal Schedule Categories options
     }
 
     const catLevelId = `${this.props.idPrefix}category_level`;
+    let urlSin="?sinNumber="; //?sinNumber=222%3B777
 
-    console.log("CATTTTT catLevelId: " + catLevelId);
-    console.log('this state is: ', this.state);
+    if ( this.state.subCategoryData.length > 0 && this.state.subCategoryData !== null) {
+      Object.keys(this.state.subCategoryData).forEach(key => {
+        let sin = this.state.subCategoryData[key].legacy_sin;
+        urlSin+=sin.replace(/\s+/g, '-')+"%3B";
+      });
 
-    console.log("SUB RESPONSE: " + JSON.stringify(this.state.subCategoryData));
-      //let url = this.window.location.href;
-      //console.log(url.pathname + " URL SEARCH: " + url.search);
-      // console.log(urlParse(server.requests[0].url));
+      if (this.state.isMounted) {
+        this.setState({ sinData: urlSin });
+        this.setState({ isMounted : false });
+
+        // Build URL and load that URL (doesn't work)
+        var url = window.location.origin;
+        url = url + urlSin;
+        window.location.href = url;
+      }
+      // EXAMPLE SINS IN CALC: 541-1 382-1 541614SVC 541-4B, 541-4E
+      // 541-4E (3) & 874-1 (29)  874-1,541-4E
+    }
+
     return (
       <div>
         <label htmlFor={catLevelId}>
@@ -316,6 +279,8 @@ CategoryLevel.propTypes = {
   levels: PropTypes.array.isRequired,
   idPrefix: PropTypes.string,
   toggleCatLevel: PropTypes.func.isRequired,
+  //sinNumber: PropTypes.string.isRequired,
+  setSinNumber: PropTypes.func.isRequired,
   history: PropTypes.string,
 };
 
@@ -325,5 +290,6 @@ CategoryLevel.defaultProps = {
 
 export default connect(
   state => ({ levels: state.category }),
-  { toggleCatLevel },
+  { toggleCatLevel } //NEED TO USE THE setSinNumber: setSinNumberAction
 )(CategoryLevel);
+
