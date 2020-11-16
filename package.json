@@ -43,7 +43,7 @@
     "gulp-if": "^2.0.2",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^4.0.1",
-    "gulp-sourcemaps": "1.6.0",
+    "gulp-sourcemaps": "1.12.1",
     "gulp-uglify": "^3.0.1",
     "gulp-util": "^3.0.7",
     "isomorphic-fetch": "^3.0.0",
