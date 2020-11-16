@@ -11,8 +11,6 @@ import CategoryLevelItem from './category-level-item';
 
 import { parse as urlParse } from "url";
 
-import { setSinNumber as setSinNumberAction } from '../actions';
-
 import {
   autobind,
   handleEnterOrSpace,
@@ -25,7 +23,7 @@ import {
 } from '../constants';
 
 import {
-  toggleCatLevel,
+  toggleCatLevel, setSinNumber
 } from '../actions';
 
 // TODO: We could just use jQuery for this, but I wanted to decouple
@@ -210,11 +208,14 @@ to reveal Schedule Categories options
 
     const catLevelId = `${this.props.idPrefix}category_level`;
     let urlSin="?sinNumber="; //?sinNumber=222%3B777
+    let mySinNumber;
 
     if ( this.state.subCategoryData.length > 0 && this.state.subCategoryData !== null) {
       Object.keys(this.state.subCategoryData).forEach(key => {
         let sin = this.state.subCategoryData[key].legacy_sin;
         urlSin+=sin.replace(/\s+/g, '-')+"%3B";
+        // set sinNumber to sin
+        mySinNumber = sin.replace(/\s+/g, '-')
       });
 
       if (this.state.isMounted) {
@@ -224,7 +225,9 @@ to reveal Schedule Categories options
         // Build URL and load that URL (doesn't work)
         var url = window.location.origin;
         url = url + urlSin;
-        window.location.href = url;
+        // window.location.href = url;
+        // dispatch the setSinNumber action by propType
+        this.props.setSinNumber(mySinNumber);
       }
       // EXAMPLE SINS IN CALC: 541-1 382-1 541614SVC 541-4B, 541-4E
       // 541-4E (3) & 874-1 (29)  874-1,541-4E
@@ -290,6 +293,6 @@ CategoryLevel.defaultProps = {
 
 export default connect(
   state => ({ levels: state.category }),
-  { toggleCatLevel } //NEED TO USE THE setSinNumber: setSinNumberAction
+  { toggleCatLevel, setSinNumber } //NEED TO USE THE setSinNumber: setSinNumberAction
 )(CategoryLevel);
 
