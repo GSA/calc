@@ -4,7 +4,7 @@
   "private": true,
   "description": "An estimator for hourly rates on professional services contracts",
   "dependencies": {
-    "a11y-dialog": "2.5.2",
+    "a11y-dialog": "2.5.7",
     "async-reactor": "^1.2.2",
     "axe-core": "^2.1.7",
     "babel-core": "^6.26.0",
