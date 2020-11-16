@@ -1638,10 +1638,10 @@ boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-bourbon-neat@1.9.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/bourbon-neat/-/bourbon-neat-1.9.0.tgz#fa38ea0ccbd857f0232030f5efd3b8a225b2a424"
-  integrity sha512-DlJn56ILF33mHL/WH3aKTGiEso6qZU/lovt8yX4TTrcQu+NNxkNXi46UC2T+iBxXsK15IQnCm9WJ25vIKgFcUQ==
+bourbon-neat@1.9.1:
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/bourbon-neat/-/bourbon-neat-1.9.1.tgz#f7932e889bb24ac908c45d399b04bd5b0df1e949"
+  integrity sha512-W4gjJx1j+KPNF8Bg/3ecaTHPMC7IJ2pFKmYEZanWtzFk9MpM9kn+f14iXypIj8htHMRmzVByhzFhVWwuDKSTYg==
   dependencies:
     node-sass "^4.1.1"
 
