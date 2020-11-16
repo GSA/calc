@@ -182,7 +182,7 @@ export class CategoryLevel extends React.Component {
 
       linkContent1 = (
         <span className="eduSelect">
-Select
+(all)
           <span className="usa-sr-only">
             {' '}
 to reveal Schedule Categories options
@@ -207,27 +207,21 @@ to reveal Schedule Categories options
     }
 
     const catLevelId = `${this.props.idPrefix}category_level`;
-    let urlSin="?sinNumber="; //?sinNumber=222%3B777
-    let mySinNumber;
+    let urlSin='';
+    let catSinNumbers='';
 
     if ( this.state.subCategoryData.length > 0 && this.state.subCategoryData !== null) {
       Object.keys(this.state.subCategoryData).forEach(key => {
         let sin = this.state.subCategoryData[key].legacy_sin;
-        urlSin+=sin.replace(/\s+/g, '-')+"%3B";
-        // set sinNumber to sin
-        mySinNumber = sin.replace(/\s+/g, '-')
+        // Collect all sin numbers for the category and format to adhere with syntax in calc
+        catSinNumbers+=sin.replace(/ /g, '-')+";";
       });
 
       if (this.state.isMounted) {
         this.setState({ sinData: urlSin });
         this.setState({ isMounted : false });
-
-        // Build URL and load that URL (doesn't work)
-        var url = window.location.origin;
-        url = url + urlSin;
-        // window.location.href = url;
         // dispatch the setSinNumber action by propType
-        this.props.setSinNumber(mySinNumber);
+        this.props.setSinNumber(catSinNumbers.slice(0, -1));
       }
       // EXAMPLE SINS IN CALC: 541-1 382-1 541614SVC 541-4B, 541-4E
       // 541-4E (3) & 874-1 (29)  874-1,541-4E
@@ -236,7 +230,7 @@ to reveal Schedule Categories options
     return (
       <div>
         <label htmlFor={catLevelId}>
-Category1:
+Category:
         </label>
         <dl
           id={catLevelId}
@@ -259,7 +253,7 @@ Category1:
             <div className="multiSelect">
               <fieldset>
                 <legend className="usa-sr-only">
-Category level:
+Category:
                 </legend>
 
                 <SlideyPanel

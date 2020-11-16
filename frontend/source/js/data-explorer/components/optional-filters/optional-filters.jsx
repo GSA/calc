@@ -19,12 +19,11 @@ const OptionalFilters = () => (
     <Experience />
     <Site />
     <BusinessSize />
-    <Category />
+    <CategoryLevel />
     <Subcategory />
     <SecurityClearence />
     <SinNumber />
     <ContractYear />
-    <CategoryLevel />
   </Fragment>
 );
 
