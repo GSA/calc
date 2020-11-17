@@ -8232,10 +8232,10 @@ simple-concat@^1.0.0:
   resolved "https://registry.yarnpkg.com/simple-concat/-/simple-concat-1.0.1.tgz#f46976082ba35c2263f1c8ab5edfe26c41c9552f"
   integrity sha512-cSFtAPtRhljv69IK0hTVZQ+OfE9nePi/rtJmw5UjHeVyVroEqJXP1sFztKUy1qU+xvz3u/sfYJLa947b7nAN2Q==
 
-sinon@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/sinon/-/sinon-2.1.0.tgz#e057a9d2bf1b32f5d6dd62628ca9ee3961b0cafb"
-  integrity sha1-4Fep0r8bMvXW3WJijKnuOWGwyvs=
+sinon@2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/sinon/-/sinon-2.4.1.tgz#021fd64b54cb77d9d2fb0d43cdedfae7629c3a36"
+  integrity sha512-vFTrO9Wt0ECffDYIPSP/E5bBugt0UjcBQOfQUMh66xzkyPEnhl/vM2LRZi2ajuTdkH07sA6DzrM6KvdvGIH8xw==
   dependencies:
     diff "^3.1.0"
     formatio "1.2.0"
