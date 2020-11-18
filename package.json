@@ -126,5 +126,8 @@
     ],
     "coverageDirectory": "./coverage/jest/",
     "setupTestFrameworkScriptFile": "./frontend/source/js/data-explorer/tests/setup.js"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.2.0"
   }
 }
