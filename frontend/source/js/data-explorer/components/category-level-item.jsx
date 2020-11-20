@@ -10,8 +10,8 @@ export default class CategoryLevelItem extends React.Component {
     autobind(this, ['_onClick']);
   }
 
-  _onClick() {
-    this.props.onCheckboxClick(this.props.value);
+  _onClick(e) {
+    this.props.onCheckboxClick(e.target.id, this.props.value, e.target.checked);
   }
 
   render() {
@@ -23,7 +23,7 @@ export default class CategoryLevelItem extends React.Component {
           type="checkbox"
           value={this.props.value.id}
           checked={this.props.checked}
-          onChange={this._onClick}
+          onChange={(e) => this._onClick(e)}
           name="categories"
         />
         <label htmlFor={this.props.id}>

@@ -23,7 +23,7 @@ import {
 } from '../constants';
 
 import {
-  toggleCatLevel, setSinNumber
+  addCatLevel, removeCatLevel, setSinNumber
 } from '../actions';
 
 // TODO: We could just use jQuery for this, but I wanted to decouple
@@ -65,6 +65,7 @@ export class CategoryLevel extends React.Component {
       catData: [],
       subCatData: [],
       sinData: '',
+      checkedItems: new Map()
     };
     autobind(this, ['handleToggleMenu', 'handleDocumentClick',
       'handleCheckboxClick']);
@@ -115,17 +116,39 @@ export class CategoryLevel extends React.Component {
     });
   }
 
-  handleCheckboxClick(level) {
+  handleCheckboxClick(inputId, level, isChecked) {
+    // not sure if we really need to store a checked items list in state, but doing so for now
+    this.setState((prevState) => ({
+      checkedItems: prevState.checkedItems.set(inputId, isChecked),
+    }));
+
+    document.subCatData = this.state.subCategoryData;
+    
+    if (isChecked) {
       // Gets SIN NUBMER FOR THE SELECTED CATEGORY
-      fetch(SOLUTIONS_ID_SUBCATEGORY_API + level.id + '?token=' + SOLUTIONSID_API_TOKEN)
-      .then( (response) => response.json() )
-      .then(subCategoryList => {
-        this.setState({ subCategoryData: subCategoryList.all_categories });
-      });
-
-      document.subCatData = this.state.subCategoryData;
-      this.props.toggleCatLevel(level);
-
+      fetch(
+        SOLUTIONS_ID_SUBCATEGORY_API + level.id + '?token=' + SOLUTIONSID_API_TOKEN
+      )
+        .then((response) => response.json())
+        .then((subCategoryList) => {
+          // append subCategoryList to subCategoryData state
+          this.setState({ subCategoryData: this.state.subCategoryData.concat(subCategoryList.all_categories) }, () => {
+            // call add category level action
+            this.props.addCatLevel(level);
+            // add sin numbers to filter state
+            this.handleSinNumbers();
+          })       
+        });
+    // removes selected category from state
+    } else {
+      // call remove category level action
+      this.props.removeCatLevel(level);
+      // remove the selected category data from subCategoryData state, note the trailing space at end, TODO will be fixed in data response
+      let filteredSubCategories = this.state.subCategoryData.filter(element => element.category_code !== `${level.code} `);
+      this.setState({subCategoryData: filteredSubCategories}, () => {
+        this.handleSinNumbers();
+      });     
+    }
   }
 
   findIndex(array, attr, value) {
@@ -135,6 +158,21 @@ export class CategoryLevel extends React.Component {
           }
       }
       return -1;
+  }
+
+  handleSinNumbers(status) {
+    let urlSin = '';
+    let catSinNumbers = '';
+
+    if (this.state.subCategoryData.length > 0 && this.state.subCategoryData !== null) {
+      let sin = this.state.subCategoryData.map((item) => item.legacy_sin.replace(/ /g, '-') + ';').join('');
+      // replace all current selected catSinNumbers in dispatch to state, setSinNumber action propType
+      this.props.setSinNumber(sin.slice(0, -1));
+      // EXAMPLE SINS IN CALC: 541-1 382-1 541614SVC 541-4B, 541-4E
+      // 541-4E (3) & 874-1 (29)  874-1,541-4E
+    } else {
+      this.props.setSinNumber('');
+    }  
   }
 
   render() {
@@ -151,23 +189,12 @@ export class CategoryLevel extends React.Component {
         let catsArray = JSON.parse(scheduleCategories);
 
         inputs = Object.keys(catsArray).map((value => {
-
-            let chex = false;
             const id = idPrefix + value;
-            if (levels.length > 0) {
-                // @TODO FIX, works for one checkbox for now
-                const selectedLevels = levels.map((val) => {
-                    chex = (val.id-1 == value);
-                });
-            }
-            //console.log("key: " + JSON.stringify(value ) + " catsArray[key]: " + JSON.stringify(catsArray[value]));
-            //console.log("key: " + JSON.stringify(value ) +  " ID: " + id + " CHECKED: " + chex + " Value: " + catsArray[value-1].id);
-
             return (
                 <CategoryLevelItem
                     key={JSON.stringify(value)}
                     id={id}
-                    checked={chex}
+                    checked={this.state.checkedItems.get(id)}
                     value={catsArray[value]}
                     onCheckboxClick={this.handleCheckboxClick}
                 />
@@ -207,25 +234,6 @@ to reveal Schedule Categories options
     }
 
     const catLevelId = `${this.props.idPrefix}category_level`;
-    let urlSin='';
-    let catSinNumbers='';
-
-    if ( this.state.subCategoryData.length > 0 && this.state.subCategoryData !== null) {
-      Object.keys(this.state.subCategoryData).forEach(key => {
-        let sin = this.state.subCategoryData[key].legacy_sin;
-        // Collect all sin numbers for the category and format to adhere with syntax in calc
-        catSinNumbers+=sin.replace(/ /g, '-')+";";
-      });
-
-      if (this.state.isMounted) {
-        this.setState({ sinData: urlSin });
-        this.setState({ isMounted : false });
-        // dispatch the setSinNumber action by propType
-        this.props.setSinNumber(catSinNumbers.slice(0, -1));
-      }
-      // EXAMPLE SINS IN CALC: 541-1 382-1 541614SVC 541-4B, 541-4E
-      // 541-4E (3) & 874-1 (29)  874-1,541-4E
-    }
 
     return (
       <div>
@@ -275,7 +283,8 @@ Category:
 CategoryLevel.propTypes = {
   levels: PropTypes.array.isRequired,
   idPrefix: PropTypes.string,
-  toggleCatLevel: PropTypes.func.isRequired,
+  addCatLevel: PropTypes.func.isRequired,
+  removeCatLevel: PropTypes.func.isRequired,
   //sinNumber: PropTypes.string.isRequired,
   setSinNumber: PropTypes.func.isRequired,
   history: PropTypes.string,
@@ -287,6 +296,6 @@ CategoryLevel.defaultProps = {
 
 export default connect(
   state => ({ levels: state.category }),
-  { toggleCatLevel, setSinNumber } //NEED TO USE THE setSinNumber: setSinNumberAction
+  { addCatLevel, removeCatLevel, setSinNumber } //NEED TO USE THE setSinNumber: setSinNumberAction
 )(CategoryLevel);
 
