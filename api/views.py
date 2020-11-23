@@ -303,9 +303,9 @@ def get_contracts_queryset(request_params, wage_field):
     sin_number = request_params.get('sinNumber', None)
 
     if sin_number is not None:
-        items=sin_number.split(';')
+        items = sin_number.split(';')
         idList = []
-        #Collect list of ids for each sin then filter contracts
+        # Collect list of ids for each sin then filter contracts
         for idx, sinval in enumerate(items):
             tempContracts = contracts.filter(sin__icontains=sinval)
             for conts in tempContracts:

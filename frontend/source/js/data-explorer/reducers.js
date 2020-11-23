@@ -88,9 +88,7 @@ function categoryFunction(state = [], action) {
   if (action.type === REMOVE_CAT_LEVEL) {
     return state.filter(lvl => action.level.id !== lvl.id);
   }
-
   return state;
-
 }
 
 function minExperience(state = MIN_EXPERIENCE, action) {
