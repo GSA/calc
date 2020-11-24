@@ -12,6 +12,10 @@ filename='loadDataLog.log',
 filemode='w', 
 format='%(asctime)s - %(levelname)s - %(message)s')
 
+def getCustomStateCode(city):
+    cus_statecode =  "".join([c[0] for c in city.upper().split(' ')])[:6]
+    return "CUS_"+cus_statecode
+
 def alterColum(col):
     return col.lower().strip().replace(' ','_').replace('\n','_')
 
@@ -54,13 +58,42 @@ for index, row in excell.iterrows():
                     )
                     stateCityMappingInstance.save()
                     areaInstanceArr.append(stateCityMappingInstance)
-                    logging.info('MAPPED'+areaName+stateCode)
+                    #logging.info('MAPPED'+areaName+stateCode)
                 else: 
                     areaInstanceArr.append(stateCityMappingInstance[0])
-                    logging.info('ALREADY EXISTS'+areaName+stateCode)
+                    #logging.info('ALREADY EXISTS'+areaName+stateCode)
             else:
                 areaInstanceArr.append(None)
-                logging.info('-------UNKNOWN STATE IN TABLE'+ stateCode)
+                #logging.info('-------UNKNOWN STATE IN TABLE'+ stateCode)
+    else:
+        #making city as a state 
+        custom_state_code = getCustomStateCode(city)
+        stateInstance = bls_state.objects.filter(
+            state = str(city).strip()
+        )
+        if not stateInstance: #creating new state DB  object if not exists
+            stateInstance = bls_state(
+                state_code = custom_state_code,
+                state = str(city).strip()
+            )
+            stateInstance.save()
+        else:
+            stateInstance = stateInstance[0]
+
+
+        stateCityMappingInstance = bls_state_city_mapping.objects.filter(state = stateInstance,city = areaName)
+        if not stateCityMappingInstance:
+            stateCityMappingInstance = bls_state_city_mapping(
+                state = stateInstance,
+                city = areaName
+            )
+            stateCityMappingInstance.save()
+            areaInstanceArr.append(stateCityMappingInstance)
+            #logging.info('MAPPED'+areaName+stateCode)
+        else: 
+            areaInstanceArr.append(stateCityMappingInstance[0])
+            #logging.info('ALREADY EXISTS'+areaName+stateCode)
+
     
     #for occupation
     occupationCode = row['occ_code'].replace('-','')
@@ -74,6 +107,8 @@ for index, row in excell.iterrows():
 
     #for lcat mapping
     lcatTitle = str(row['oasis_lcats']).strip()
+    if lcatTitle == "":
+        lcatTitle = "ancillary"
     lcatTitleInstance = bls_lcat.objects.filter(lcat_title=lcatTitle)
     if not lcatTitleInstance:
         #adding new lcattitle if not exists

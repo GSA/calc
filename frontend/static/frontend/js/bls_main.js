@@ -176,38 +176,38 @@ $(document).ready(() => {
     secondary_form_data = objectifyForm($('.secondary_form').serializeArray());
     console.log(primary_form_data);
     console.log(secondary_form_data);
-    $.get({
-      beforeSend: activateLoader(el),
-      url: "https://oasispet.gsa.gov/cpet/cpetPricingTool/generateMsaWages",
-      data: {
-        "cpetId": primary_form_data['cpetId'],
-        "sEQLevel": secondary_form_data['eqLevel'],
-        "sMsa": secondary_form_data['msa'],
-        "sSocCode": secondary_form_data['socCode'],
-        "sWageScale": secondary_form_data['radioWageScaleOption'],
-        "sMarkupPercent": secondary_form_data['markupPercent'],
-        "IndirectRateLevelDisplay": secondary_form_data['IndirectRateLevelDisplay'],
-        "sEstimateHours1": secondary_form_data['estimatedHours1'],
-        "sEstimateHours2": secondary_form_data['estimatedHours2'],
-        "sEstimateHours3": secondary_form_data['estimatedHours3'],
-        "sEstimateHours4": secondary_form_data['estimatedHours4'],
-        "sEstimateHours5": secondary_form_data['estimatedHours5'],
-      },
-      success: (res) => {
-        console.log(res);
-        deactivateLoader();
-        trdata = "<tr>";
-        trdata += "<td>" + res.titleSoc + "</td>";
-        trdata += "<td>" + res.eqLcatTile + "</td>";
-        trdata += "<td>" + res.stateMsa + "</td>";
-        trdata += "<td>" + res.hoursEstimate + "</td>";
-        trdata += "<td>$" + res.estHourlyRate + "</td>";
-        trdata += "<td>$" + res.totalEstAmount + "</td>";
-        trdata += "<tr>";
-        $('.bls_result_tbody').empty().append(trdata)
-        $('.bls_result').show();
-      }
-    });
+    // $.get({
+    //   beforeSend: activateLoader(el),
+    //   url: "https://oasispet.gsa.gov/cpet/cpetPricingTool/generateMsaWages",
+    //   data: {
+    //     "cpetId": primary_form_data['cpetId'],
+    //     "sEQLevel": secondary_form_data['eqLevel'],
+    //     "sMsa": secondary_form_data['msa'],
+    //     "sSocCode": secondary_form_data['socCode'],
+    //     "sWageScale": secondary_form_data['radioWageScaleOption'],
+    //     "sMarkupPercent": secondary_form_data['markupPercent'],
+    //     "IndirectRateLevelDisplay": secondary_form_data['IndirectRateLevelDisplay'],
+    //     "sEstimateHours1": secondary_form_data['estimatedHours1'],
+    //     "sEstimateHours2": secondary_form_data['estimatedHours2'],
+    //     "sEstimateHours3": secondary_form_data['estimatedHours3'],
+    //     "sEstimateHours4": secondary_form_data['estimatedHours4'],
+    //     "sEstimateHours5": secondary_form_data['estimatedHours5'],
+    //   },
+    //   success: (res) => {
+    //     console.log(res);
+    //     deactivateLoader();
+    //     trdata = "<tr>";
+    //     trdata += "<td>" + res.titleSoc + "</td>";
+    //     trdata += "<td>" + res.eqLcatTile + "</td>";
+    //     trdata += "<td>" + res.stateMsa + "</td>";
+    //     trdata += "<td>" + res.hoursEstimate + "</td>";
+    //     trdata += "<td>$" + res.estHourlyRate + "</td>";
+    //     trdata += "<td>$" + res.totalEstAmount + "</td>";
+    //     trdata += "<tr>";
+    //     $('.bls_result_tbody').empty().append(trdata)
+    //     $('.bls_result').show();
+    //   }
+    // });
     return false;  
   };
   var primary_data;

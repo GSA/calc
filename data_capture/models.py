@@ -397,9 +397,16 @@ class bls_occs(models.Model):
     id = models.AutoField(primary_key=True)
     occupation_code= models.IntegerField()
     occupation = models.CharField(null=False,blank=False,max_length=500)
-
+    
     def __str__(self):
         return "bls_occs"
+
+class bls_base_year_increment(models.Model):
+    year = models.IntegerField()
+    avg_rate_inc = models.DecimalField(max_digits=6, decimal_places=1)
+
+    def __str__(self):
+        return "bls_base_year_increment"
 
 
 class bls_state(models.Model):

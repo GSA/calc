@@ -806,12 +806,12 @@ class GetBLSAutocomplete(APIView):
             if len(blsLcatRef) > 0:
                 result = []
                 for n in blsLcatRef:
-                    #if not n.lcat.lcat_title == "nan":
-                    node = {
-                        'lcat_id':n.lcat.id,
-                        'lcat_title':n.lcat.lcat_title
-                    }
-                    result.append(node)
+                    if not n.lcat.lcat_title == "nan":
+                        node = {
+                            'lcat_id':n.lcat.id,
+                            'lcat_title':n.lcat.lcat_title
+                        }
+                        result.append(node)
                 eandqlevels = [
                     {
                     "value": "JR", "description": "Junior"
