@@ -4,7 +4,7 @@ default-docker-config: &default-docker-config
   docker:
     - image: circleci/python:3.6-browsers
       environment:
-        CI_NODE_VERSION: 6.14.4
+        CI_NODE_VERSION: 14.9.0
         NPM_CONFIG_ENGINE_STRICT: true
         WD_CHROME_ARGS: --headless --no-sandbox --disable-setuid-sandbox
         SKIP_STATIC_ASSET_BUILDING: yup

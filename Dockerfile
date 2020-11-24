@@ -1,6 +1,6 @@
 FROM python:3.6.4
 
-ENV NODE_VERSION=6
+ENV NODE_VERSION=14
 
 RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash -
 

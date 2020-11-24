@@ -32,7 +32,7 @@ export function LoadingIndicator({ error, inProgress }) {
         * convey status information to visually impaired users. */}
       <div className="loading-indicator" aria-hidden="true">
         <p className="message">
-Loading results...
+          Loading results...
         </p>
         {errorMessage}
       </div>
