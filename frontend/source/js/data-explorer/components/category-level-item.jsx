@@ -21,7 +21,7 @@ export default class CategoryLevelItem extends React.Component {
           type="checkbox"
           value={this.props.value.id}
           checked={this.props.checked}
-          onChange={ (e) => { this._onClick(e); } }
+          onChange={(e) => {this._onClick(e);}}
           name="categories"
         />
         <label htmlFor={this.props.id}>
