@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* global document */
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -57,11 +58,13 @@ export class CategoryLevel extends React.Component {
   componentDidMount() {
     document.addEventListener('click', this.handleDocumentClick);
     document.addEventListener('focus', this.handleDocumentClick, true);
+
     fetch(SOLUTIONS_ID_API + SOLUTIONSID_API_TOKEN)
       .then((response) => response.json())
       .then(categoryList => {
         this.setState({ categoryData: categoryList });
       });
+
     document.catData = this.state.categoryData;
   }
 
