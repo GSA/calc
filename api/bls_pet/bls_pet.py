@@ -4,10 +4,10 @@ from django.conf import settings
 from django.http import JsonResponse
 
 
-@require_http_methods(["GET","POST"])
+@require_http_methods(["GET", "POST"])
 def autocomplete(request, search_type=None):
     if request.method == 'POST':
-        response = JsonResponse({'Error': '1', 'ErrorMessage': 'FROm POST'})
+        response = JsonResponse({'Error': '1', 'ErrorMessage': 'FROM POST'})
         return response
     elif request.method == 'GET':
         response = JsonResponse({'Error': search_type, 'ErrorMessage': 'FROM GET'})

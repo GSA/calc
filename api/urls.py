@@ -42,5 +42,5 @@ urlpatterns = [
     url(r'^contract/capability_statement/url/(?P<contractnumberlist>[\w,-]+)/$',
         capability_statement.get_bulk_capability_statment),
 
-    #url(r'^bls_pet/autocomplte/(?P<search_type>[\w-]+)/$',bls_pet.autocomplete),  # after login
+    # url(r'^bls_pet/autocomplte/(?P<search_type>[\w-]+)/$',bls_pet.autocomplete),  # after login
 ]
