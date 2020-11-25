@@ -27,3 +27,4 @@ Sphinx==1.5.2
 sphinx-rtd-theme==0.1.9
 recommonmark==0.4.0
 Werkzeug==0.16.0
+pandas==0.23.3
