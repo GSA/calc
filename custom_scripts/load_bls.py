@@ -3,8 +3,7 @@
 #   -exec(open('custom_scripts/load_bls.py').read())
 
 import pandas as pd
-from data_capture.models import (bls_lcat, bls_occupation_lcat_mapping,
-                                bls_state, bls_state_city_mapping)
+from data_capture.models import (bls_lcat, bls_occupation_lcat_mapping)
 import os
 
 

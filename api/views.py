@@ -34,7 +34,7 @@ import boto3
 from django.db.models import Q
 
 # For BLS PET
-from data_capture.models import (bls_lcat, bls_pricing, bls_occupation_lcat_mapping,
+from data_capture.models import (bls_pricing, bls_occupation_lcat_mapping,
                                  bls_state, bls_state_city_mapping, bls_occs)
 
 
@@ -737,10 +737,10 @@ class GetBLSGetPrice(APIView):
     def post(slef, request):
         data = request.data
         occupationCode = data['occupation_code']
-        lcatId = data['lcat_id']
+        # lcatId = data['lcat_id']
         areaId = data['area_id']
 
-        lcatTitleInstance = bls_lcat.objects.get(id=lcatId)
+        # lcatTitleInstance = bls_lcat.objects.get(id=lcatId)
         stateCityMappingInstance = bls_state_city_mapping.objects.get(id=areaId)
         blsPriceInstance = bls_pricing.objects.filter(
             occ_code=occupationCode,
@@ -776,7 +776,7 @@ class GetBLSAutocomplete(APIView):
                 else:
                     return JsonResponse({'Error': 1, 'ErrorMessage': 'Something Went Wrong',
                                         'data': []})
-            except:
+            except Exception as e:
                 return JsonResponse({'Error': 1, 'ErrorMessage': 'Something Went Wrong',
                                      'data': []})
         elif search_term == 'state':
@@ -792,7 +792,7 @@ class GetBLSAutocomplete(APIView):
                 else:
                     return JsonResponse({'Error': 1, 'ErrorMessage': 'Something Went Wrong',
                                          'data': []})
-            except:
+            except Exception as e:
                 return JsonResponse({'Error': 1, 'ErrorMessage': 'Something Went Wrong',
                                      'data': []})
 
