@@ -4,8 +4,8 @@
 
 import logging
 import pandas as pd
-from data_capture.models import (bls_data, bls_pricing, bls_lcat, bls_occupation_lcat_mapping,
-                                 bls_state, bls_state_city_mapping, bls_occs)
+from data_capture.models import (bls_pricing, bls_lcat, bls_occupation_lcat_mapping,
+                                bls_state_city_mapping, bls_state, bls_occs)
 import os
 
 logging.basicConfig(level=logging.INFO,

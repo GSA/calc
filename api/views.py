@@ -34,7 +34,7 @@ import boto3
 from django.db.models import Q
 
 # For BLS PET
-from data_capture.models import (bls_data, bls_lcat, bls_pricing, bls_occupation_lcat_mapping,
+from data_capture.models import (bls_lcat, bls_pricing, bls_occupation_lcat_mapping,
                                  bls_state, bls_state_city_mapping, bls_occs)
 
 
@@ -802,18 +802,18 @@ class GetBLSAutocomplete(APIView):
             occupationID = data['occ_id']
             blsLcatRef = bls_occupation_lcat_mapping.objects.filter(occupation_code=occupationID)
             result = [{
-                    'lcat_id': 0,
-                    'lcat_title': 'ancillary'
-                }]
+                'lcat_id': 0,
+                'lcat_title': 'ancillary'
+            }]
             eandqlevels = [
                 {
-                "value": "JR", "description": "WL1"
+                    "value": "JR", "description": "WL1"
                 }, {
-                "value": "JY", "description": "WL2"
+                    "value": "JY", "description": "WL2"
                 }, {
-                "value": "SR", "description": "WL3"
+                    "value": "SR", "description": "WL3"
                 }, {
-                "value": "XP", "description": "WL4"
+                    "value": "XP", "description": "WL4"
                 },
             ]
             if len(blsLcatRef) > 0:
@@ -827,13 +827,13 @@ class GetBLSAutocomplete(APIView):
                         result.append(node)
                 eandqlevels = [
                     {
-                    "value": "JR", "description": "Junior"
-                     }, {
-                    "value": "JY", "description": "Journeyman"
-                     }, {
-                    "value": "SR", "description": "Senior"
+                        "value": "JR", "description": "Junior"
                     }, {
-                     "value": "XP", "description": "SME"
+                        "value": "JY", "description": "Journeyman"
+                    }, {
+                        "value": "SR", "description": "Senior"
+                    }, {
+                        "value": "XP", "description": "SME"
                     },
                 ]
             finalResult = {

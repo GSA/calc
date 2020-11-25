@@ -1,6 +1,6 @@
 # from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
-from django.conf import settings
+# from django.conf import settings
 from django.http import JsonResponse
 
 

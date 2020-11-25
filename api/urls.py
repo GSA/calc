@@ -3,7 +3,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.documentation import include_docs_urls
 from .capability_statement import capability_statement
-from .bls_pet import bls_pet
+# from .bls_pet import bls_pet
 
 from api import views
 
