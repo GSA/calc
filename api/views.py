@@ -747,7 +747,7 @@ class GetBLSGetPrice(APIView):
             # lcat_id=lcatTitleInstance,
             area_code=stateCityMappingInstance
         )
-        result = []
+        result: list = []
         if blsPriceInstance:
             result = [{
                 'h_mean': price.h_mean,
