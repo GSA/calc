@@ -165,14 +165,14 @@ export class SubCategoryLevel extends React.Component {
       let selectedCategories = JSON.stringify(levels);
 
       const catsArray = JSON.parse(scheduleCategories);
-
+      // checked={this.state.checkedItems.get(id)}
       inputs = Object.keys(catsArray).map((value => {
         const id = idPrefix + value;
         return (
           <SubCategoryLevelItem
             key={JSON.stringify(value)}
             id={id}
-            checked={this.state.checkedItems.get(id)}
+            checked={levels.indexOf(value) >= 0}
             value={catsArray[value]}
             onCheckboxClick={this.handleCheckboxClick}
           />
