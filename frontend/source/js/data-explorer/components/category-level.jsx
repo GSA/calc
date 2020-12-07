@@ -171,7 +171,7 @@ export class CategoryLevel extends React.Component {
           <CategoryLevelItem
             key={JSON.stringify(value)}
             id={id}
-            checked={this.state.checkedItems.get(id)}
+            checked={this.state.checkedItems.get(id) ? this.state.checkedItems.get(id) : false }
             value={catsArray[value]}
             onCheckboxClick={this.handleCheckboxClick}
           />
