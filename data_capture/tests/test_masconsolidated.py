@@ -8,7 +8,7 @@ from ..schedules import mas_consolidated as mas, registry
 from django.test import TestCase, override_settings
 from django.core.exceptions import ValidationError
 MAS = '{}.MASConsolidatedPriceList'.format(mas.__name__)
-file_name = 'Price_Proposal_Template_SERVICES_AND_TRAINING_102919.xlsx'
+file_name = 'Price_Proposal_Template_SERVICES_AND_TRAINING_Refresh_5_112020.xlsx.xlsx'
 MAS_XLSX_PATH = path('static', 'data_capture', file_name)
 
 # TODO: These tests should be DRY'd out since they nearly identical to test_s70
