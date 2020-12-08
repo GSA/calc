@@ -1,7 +1,7 @@
 # TO RUN THIS FILE
 #   -python manage.py shell
 #   -exec(open('custom_scripts/load_bls.py').read())
-
+'''
 import pandas as pd
 from data_capture.models import (bls_lcat, bls_occupation_lcat_mapping)
 import os
@@ -9,7 +9,7 @@ import os
 
 def alterColum(col):
     return col.lower().strip().replace(' ', '_').replace('\n', '_')
-
+'''
 
 '''
 #FOR BLS DATA
@@ -42,7 +42,7 @@ for index, row in excell.iterrows():
     )
     bls.save()
     print('INSERTED '+row['series_id'])
-'''
+
 
 # FOR LCAT DATA
 xlpath = os.path.join(os.getcwd(),
@@ -69,7 +69,7 @@ for index, row in excell.iterrows():
     else:
         print('COULD NOT FIND THE GIVEN LCAT' + lcatName)
 
-'''
+
 
 # FOR CITY AND STATE
 
