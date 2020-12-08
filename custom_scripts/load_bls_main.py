@@ -38,8 +38,7 @@ excell.columns = [alterColum(i) for i in excell.columns]
 
 
 # DELETE BASIC TABLES
-statesToBeDeleted = bls_state_city_mapping.objects.all()
-statesToBeDeleted.delete()
+bls_state_city_mapping.objects.all().delete()
 bls_occupation_lcat_mapping.objects.all().delete()
 bls_lcat.objects.all().delete()
 bls_occs.objects.all().delete()
