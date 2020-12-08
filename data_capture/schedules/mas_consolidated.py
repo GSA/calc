@@ -69,7 +69,7 @@ EXAMPLE_SHEET_ROWS = [
 
 DEFAULT_FIELD_TITLE_MAP_MAS = {
     'sin': 'SIN/SIN(s) Proposed',
-    'labor_category': 'Service Proposed',  # noqa
+    'labor_category': 'Service Proposed',
     'education_level': 'Minimum Education',
     'min_years_experience': 'Minimum Years of Experience',
     'unit_of_issue': 'Unit of Issue',
