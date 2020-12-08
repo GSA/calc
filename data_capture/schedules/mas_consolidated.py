@@ -7,7 +7,7 @@ from django.template.loader import render_to_string
 
 from .base import (BasePriceList, hourly_rates_only_validator,
                    min_price_validator)
-from .spreadsheet_utils import safe_cell_str_value, generate_column_index_map_mas
+from .spreadsheet_utils import safe_cell_str_value # generate_column_index_map_mas
 from .coercers import (strip_non_numeric, extract_min_education,
                        extract_hour_unit_of_issue)
 from contracts.models import EDUCATION_CHOICES
@@ -79,8 +79,11 @@ DEFAULT_FIELD_TITLE_MAP_MAS = {
     'security_clearance': 'Security Clearance Required'
 }
 
-#columnIndex = [1,2,5,6,12,19,4,7,8]
-columnIndex = {'sin': 1, 'labor_category': 2, 'education_level': 5, 'min_years_experience': 6, 'unit_of_issue': 12, 'price_including_iff': 19, 'keywords': 4, 'certifications': 7, 'security_clearance': 8}
+# columnIndex = [1,2,5,6,12,19,4,7,8]
+columnIndex = {'sin': 1, 'labor_category': 2, 'education_level': 5, 'min_years_experience': 6, 
+                'unit_of_issue': 12, 'price_including_iff': 19, 'keywords': 4, 
+                 'certifications': 7, 'security_clearance': 8}
+
 
 def glean_labor_categories_from_file(f, sheet_name=DEFAULT_SHEET_NAME):
     book = xlrd.open_workbook(file_contents=f.read())
@@ -102,8 +105,8 @@ def glean_labor_categories_from_book(book, sheet_name=DEFAULT_SHEET_NAME):
 
     cats = []
 
-    #heading_row = sheet.row(0)
-    #col_idx_map = generate_column_index_map_mas(heading_row,DEFAULT_FIELD_TITLE_MAP_MAS)
+    # heading_row = sheet.row(0)
+    # col_idx_map = generate_column_index_map_mas(heading_row,DEFAULT_FIELD_TITLE_MAP_MAS)
     col_idx_map = columnIndex
     coercion_map = {
         'price_including_iff': strip_non_numeric,
