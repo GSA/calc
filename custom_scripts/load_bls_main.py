@@ -38,11 +38,11 @@ excell.columns = [alterColum(i) for i in excell.columns]
 
 
 # DELETE BASIC TABLES
-bls_state_city_mapping.objects.all().delete()
-bls_occupation_lcat_mapping.objects.all().delete()
-bls_lcat.objects.all().delete()
-bls_occs.objects.all().delete()
-bls_pricing.objects.all().delete()
+# bls_state_city_mapping.objects.all().delete()
+# bls_occupation_lcat_mapping.objects.all().delete()
+# bls_lcat.objects.all().delete()
+# bls_occs.objects.all().delete()
+# bls_pricing.objects.all().delete()
 
 for index, row in excell.iterrows():
     # state and city mapping
