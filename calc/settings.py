@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", __file__)
 import dj_database_url
 import dj_email_url
 from dotenv import load_dotenv

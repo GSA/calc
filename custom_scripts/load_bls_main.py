@@ -12,16 +12,15 @@ logging.basicConfig(level=logging.INFO,
                     filename='loadDataLog.log', filemode='w',
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
+
 class Loadblsmain():
 
     def getCustomStateCode(city):
         cus_statecode = "".join([c[0] for c in city.upper().split(' ')])[:6]
         return "CUS_" + cus_statecode
 
-
     def alterColum(col):
         return col.lower().strip().replace(' ', '_').replace('\n', '_')
-
 
     def getStateCodeFromCity(city):
         arr = city.split(',')
@@ -36,7 +35,6 @@ class Loadblsmain():
     sheetname = 'Main_data'
     excell = pd.read_excel(xlpath, sheet_name=sheetname)
     excell.columns = [alterColum(i) for i in excell.columns]
-
 
     # DELETE BASIC TABLES
     # bls_state_city_mapping.objects.all().delete()
@@ -103,7 +101,8 @@ class Loadblsmain():
         occupationTitle = str(row['occ_title']).strip()
         ocupationInstance = bls_occs.objects.filter(occupation_code=occupationCode)
         if not ocupationInstance:
-            ocupationInstance = bls_occs(occupation_code=occupationCode, occupation=occupationTitle)
+            ocupationInstance = bls_occs(occupation_code=occupationCode,
+                                         occupation=occupationTitle)
             ocupationInstance.save()
         # for lcat mapping
         lcatTitle = str(row['oasis_lcats']).strip()
@@ -121,7 +120,7 @@ class Loadblsmain():
         # mapping occs_code aaand lcat_title
         # (this is only becase to extract the lcat title based on selected occuption)
         occupationLcatIns = bls_occupation_lcat_mapping.objects.filter(occupation_code=occupationCode,
-                                                                    lcat=lcatTitleInstance)
+                                                                       lcat=lcatTitleInstance)
         if not occupationLcatIns:
             occupationLcatIns = bls_occupation_lcat_mapping(occupation_code=occupationCode,
                                                             lcat=lcatTitleInstance)
@@ -158,3 +157,6 @@ class Loadblsmain():
                 h_pct90=h_pct90,
             )
             blsPriceInstance.save()
+
+if __name__=='__main__':
+    Loadblsmain()
