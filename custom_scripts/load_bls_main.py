@@ -30,11 +30,11 @@ class Loadblsmain():
             return False, arr[0]
 
     def __init__(self):
-    # FOR BLS DATA
-    xlpath = os.path.join(os.getcwd(), 'custom_scripts/BLS_main_data.xlsx')
-    sheetname = 'Main_data'
-    excell = pd.read_excel(xlpath, sheet_name=sheetname)
-    excell.columns = [alterColum(i) for i in excell.columns]
+        # FOR BLS DATA
+        xlpath = os.path.join(os.getcwd(), 'custom_scripts/BLS_main_data.xlsx')
+        sheetname = 'Main_data'
+        excell = pd.read_excel(xlpath, sheet_name=sheetname)
+        excell.columns = [alterColum(i) for i in excell.columns]
 
     # DELETE BASIC TABLES
     # bls_state_city_mapping.objects.all().delete()
@@ -84,7 +84,7 @@ class Loadblsmain():
             else:
                 stateInstance = stateInstance[0]
             stateCityMappingInstance = bls_state_city_mapping.objects.filter(state=stateInstance,
-                                                                            city=areaName)
+                                                                             city=areaName)
             if not stateCityMappingInstance:
                 stateCityMappingInstance = bls_state_city_mapping(
                     state=stateInstance,
@@ -119,8 +119,8 @@ class Loadblsmain():
             lcatTitleInstance = lcatTitleInstance[0]
         # mapping occs_code aaand lcat_title
         # (this is only becase to extract the lcat title based on selected occuption)
-        occupationLcatIns = bls_occupation_lcat_mapping.objects.filter(occupation_code=occupationCode,
-                                                                       lcat=lcatTitleInstance)
+        occupationLcatIns = bls_occupation_lcat_mapping.objects.filter
+                            (occupation_code=occupationCode,lcat=lcatTitleInstance)
         if not occupationLcatIns:
             occupationLcatIns = bls_occupation_lcat_mapping(occupation_code=occupationCode,
                                                             lcat=lcatTitleInstance)
@@ -158,5 +158,6 @@ class Loadblsmain():
             )
             blsPriceInstance.save()
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     Loadblsmain()
