@@ -52,16 +52,14 @@ $(document).ready(() => {
 
   getWageScaleOptions = (val,el) => {
     const occupation = $('#selectOccupation').val();
-    const lcat_id = $('#fldLcatValue').val();
-    const area_id = $('#selectMsa').val();
-    if (occupation !== "" && area_id != "" && lcat_id!= "") {
+    const area = $('#selectMsa').val();
+    if (occupation !== "" && area != "") {
       $.post({
         beforeSend: activateLoader(el),
         url: "http://localhost:8000/api/bls_pet/getprice",
         data: {
-          "lcat_id": lcat_id,
           "occupation_code": occupation,
-          "area_id":area_id
+          "area":area
         },
         success: (res) => {
           deactivateLoader();
@@ -72,19 +70,19 @@ $(document).ready(() => {
   };
 
   createMSA = (el) => {
-    const state_value = $(el).val();
-    if (state_value !== "") {
+    const occ_id = $(el).val();
+    if (occ_id !== "") {
       $.post({
         beforeSend: activateLoader(el),
         url: "http://localhost:8000/api/bls_pet/autocomplete/area/",
         data: {
-          "state_code": state_value,
+          "occ_id": occ_id,
         },
         success: (res) => {
           deactivateLoader();
-          optionData = '';
+          optionData = `<option value=''>Select One Area</option>`;
           res.data.map(d => {
-            optionData += `<option value='${d.id}'>${d.city}</option>`;
+            optionData += `<option value='${d.city}'>${d.city}</option>`;
           });
           $('#selectMsa').removeAttr('disabled').empty().append(optionData);
           // if (res.data.length > 0) {
@@ -169,45 +167,60 @@ $(document).ready(() => {
   filleIndirectRateDisplay = (el) => {
     $('#IndirectRateLevelDisplay').val($(el).find("option:selected").text());
   };
-  launchResult = (el) => {
-    $('.primary_form').hide();
-    $('.secondary_form').hide();
+  validateSecondary = (el) => {
     primary_form_data = objectifyForm($('.primary_form').serializeArray());
     secondary_form_data = objectifyForm($('.secondary_form').serializeArray());
-    console.log(primary_form_data);
-    console.log(secondary_form_data);
-    // $.get({
-    //   beforeSend: activateLoader(el),
-    //   url: "https://oasispet.gsa.gov/cpet/cpetPricingTool/generateMsaWages",
-    //   data: {
-    //     "cpetId": primary_form_data['cpetId'],
-    //     "sEQLevel": secondary_form_data['eqLevel'],
-    //     "sMsa": secondary_form_data['msa'],
-    //     "sSocCode": secondary_form_data['socCode'],
-    //     "sWageScale": secondary_form_data['radioWageScaleOption'],
-    //     "sMarkupPercent": secondary_form_data['markupPercent'],
-    //     "IndirectRateLevelDisplay": secondary_form_data['IndirectRateLevelDisplay'],
-    //     "sEstimateHours1": secondary_form_data['estimatedHours1'],
-    //     "sEstimateHours2": secondary_form_data['estimatedHours2'],
-    //     "sEstimateHours3": secondary_form_data['estimatedHours3'],
-    //     "sEstimateHours4": secondary_form_data['estimatedHours4'],
-    //     "sEstimateHours5": secondary_form_data['estimatedHours5'],
-    //   },
-    //   success: (res) => {
-    //     console.log(res);
-    //     deactivateLoader();
-    //     trdata = "<tr>";
-    //     trdata += "<td>" + res.titleSoc + "</td>";
-    //     trdata += "<td>" + res.eqLcatTile + "</td>";
-    //     trdata += "<td>" + res.stateMsa + "</td>";
-    //     trdata += "<td>" + res.hoursEstimate + "</td>";
-    //     trdata += "<td>$" + res.estHourlyRate + "</td>";
-    //     trdata += "<td>$" + res.totalEstAmount + "</td>";
-    //     trdata += "<tr>";
-    //     $('.bls_result_tbody').empty().append(trdata)
-    //     $('.bls_result').show();
-    //   }
-    // });
+    $.ajax({
+      type:"POST",
+      beforeSend: activateLoader(el),
+      url: "http://localhost:8000/api/bls_pet/getblswage",
+      data: {
+        "occ_id": secondary_form_data['socCode'],
+        "area": secondary_form_data['msa']
+      },
+      success: (results) => {
+        console.log(results);
+        deactivateLoader();
+        if(results['Error'] == 0){
+          occupationSelected = $('#selectOccupation').find('option:selected').text()+'( '+secondary_form_data['socCode']+')'
+     
+          $('.igce_summary').find('#occ').text(occupationSelected)
+          $('.igce_summary').find('#eandq').text(secondary_form_data['eqLevel'])
+          $('.igce_summary').find('#msa').text(secondary_form_data['msa'])
+          $('.igce_summary').find('#wagescale').text(secondary_form_data['radioWageScaleOption'])
+          $('.igce_summary').find('#in_rate_level').text(secondary_form_data['markupPercent'])
+          
+          $('.igce_summary').find('#cmds').text(secondary_form_data['comments'])
+
+
+          resultsTableids = ['igce_details_1','igce_details_2','igce_details_3','igce_details_4','igce_details_5']
+          let totlaPrice = 0;
+          $.each(resultsTableids,(index,element) => {
+            const estId = 'fldEstimatedHours'+(index+1)
+            estHour = document.getElementById(estId).value
+            const orderYear = 'order_year_'+(index+1)
+            if(index > 0){
+              orderYearSpan = document.querySelector('.'+orderYear)
+              orderYearSpan.innerHTML = estHour
+            }
+            const price = estHour*results['data']['value']
+            totlaPrice = price+totlaPrice;
+            tbodyEle = document.querySelector('.'+element)
+            $(tbodyEle).find('.result_occupation').text(occupationSelected)
+            $(tbodyEle).find('.result_eandq').text(secondary_form_data['eqLevel'])
+            $(tbodyEle).find('.result_msa').text(secondary_form_data['msa'])
+            $(tbodyEle).find('.result_est_hour').text(estHour)
+            $(tbodyEle).find('.result_est_hour_rate').text(results['data']['value'])
+            $(tbodyEle).find('.result_total').text(price)
+          });
+          $('.igce_summary').find('#lcat_est').text(totlaPrice)
+          $('.results').show();
+        }else{
+          alert(results['Error_Message'])
+        }
+        
+      }
+    });
     return false;  
   };
   var primary_data;
@@ -215,11 +228,6 @@ $(document).ready(() => {
   validatePrimary = (form_el) => {
     primary_data = $(form_el).serializeArray();
     launchPriceIndex();
-    return false;
-  };
-  validateSecondary = (form_el) => {
-    secondary_data = $(form_el).serializeArray();
-    launchResult($('.get_result_btn'));
     return false;
   };
 

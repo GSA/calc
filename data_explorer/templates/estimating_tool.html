@@ -216,7 +216,7 @@
       </div>
    </form>
 
-   <form class="secondary_form hidden" autocomplete="off" onsubmit="return validateSecondary(this)">
+   <form class="secondary_form" autocomplete="off" onsubmit="return validateSecondary(this)">
       <div class="box box_custom" >
          <div class="box-title">Price Estimating Tool</div>
          <div id="" class="box-content">
@@ -225,7 +225,7 @@
                   <label for="selectOccupation">Occupation<span class="required">*</span></label>
                </div>
                <div class="left column valueList ">
-                  <select id="selectOccupation" name="socCode" disabled="true" required onchange="getLACTTitle(this)">
+                  <select id="selectOccupation" name="socCode" disabled="true" required onchange="getLACTTitle(this),createMSA(this)">
                   </select>
                   <div id="selectOccupation_error" class="errorText ">
                   </div>
@@ -275,7 +275,7 @@
                   <label for="selectState">State<span class="required">*</span></label>
                </div>
                <div class="left column valueList ">
-                  <select onchange="createMSA(this)" name="selectState" disabled="true" required id="selectState">
+                  <select name="selectState" disabled="true" required id="selectState">
                      <option value="">Choose one...</option>
                   </select>
                   <div id="selectState_error" class="errorText ">
@@ -363,22 +363,22 @@
                <b>Estimated Numbers of Hours</b>
             </div>
             <div id="columns" class="eachrows">
-               <div class="left column labelList " id="fldEstimatedHours_base_label">
-                  <label  for="fldEstimatedHours_base">Base Year<span class="required">*</span></label>
-               </div>
-               <div class="left column valueList ">
-                  <input pattern="[0-9]+" required id="fldEstimatedHours_base" name="estimatedHours1" allowexitwithoutsave="false" class="assist-long-item assist-textBox tooltipped" type="text" value="" size="8" maxlength="8">
-                  <div id="fldEstimatedHours_base_error" class="errorText ">
-                  </div>
-               </div>
-            </div>
-            <div id="columns" class="eachrows">
                <div class="left column labelList " id="fldEstimatedHours1_label">
-                  <label  for="fldEstimatedHours1">Order Year 2<span class="required">*</span></label>
+                  <label  for="fldEstimatedHours1">Base Year<span class="required">*</span></label>
                </div>
                <div class="left column valueList ">
                   <input pattern="[0-9]+" required id="fldEstimatedHours1" name="estimatedHours1" allowexitwithoutsave="false" class="assist-long-item assist-textBox tooltipped" type="text" value="" size="8" maxlength="8">
                   <div id="fldEstimatedHours1_error" class="errorText ">
+                  </div>
+               </div>
+            </div>
+            <div id="columns" class="eachrows">
+               <div class="left column labelList " id="fldEstimatedHours2_label">
+                  <label  for="fldEstimatedHours2">Order Year 2<span class="required">*</span></label>
+               </div>
+               <div class="left column valueList ">
+                  <input pattern="[0-9]+" required id="fldEstimatedHours2" name="estimatedHours1" allowexitwithoutsave="false" class="assist-long-item assist-textBox tooltipped" type="text" value="" size="8" maxlength="8">
+                  <div id="fldEstimatedHours2_error" class="errorText ">
                   </div>
                </div>
             </div>
@@ -438,7 +438,7 @@
       <div class="loader_item"></div>
    </div> -->
 
-   <div style="padding: 10px;" class="bls_result">
+   <div class="results" style="padding: 10px;" class="bls_result">
       <div class="result_header">
          <div class="result_title">
             Pricing Information
@@ -459,13 +459,13 @@
          </thead>
          <tbody class="igce_summary">
             <tr>
-               <th>Occupation(SOC Code)</th>
-               <th>E&Q Level</th>
-               <th>MSA, State</th>
-               <th>Wage Scale</th>
-               <th>Indirect Rate Level</th>
-               <th>Total T&M LCAT Estimate</th>
-               <th>Comments</th>
+               <th id="occ" >Occupation(SOC Code)</th>
+               <th id="eandq" >E&Q Level</th>
+               <th id="msa" >MSA, State</th>
+               <th id="wagescale" >Wage Scale</th>
+               <th id="in_rate_level" >Indirect Rate Level</th>
+               <th id="lcat_est" >Total T&M LCAT Estimate</th>
+               <th id="cmds" >Comments</th>
             </tr>
          </tbody>
       </table>
@@ -486,17 +486,17 @@
          </thead>
          <tbody class="igce_details_1">
             <tr>
-               <th>Cost Estimators (13-1051)</th>
-               <th>JR-Business and Financial Operations Specialists, Group 4</th>
-               <th>Connecticut</th>
-               <th>1</th>
-               <th>$45.5</th>
-               <th>$45.5</th>
+               <th class="result_occupation">Cost Estimators (13-1051)</th>
+               <th class="result_eandq">JR-Business and Financial Operations Specialists, Group 4</th>
+               <th class="result_msa">Connecticut</th>
+               <th class="result_est_hour">1</th>
+               <th class="result_est_hour_rate">$45.5</th>
+               <th class="result_total">$45.5</th>
             </tr>
          </tbody>
       </table>
 
-      <h4 style="color:gray">IGCE Details - Task Order Year 2</h4>
+      <h4 style="color:gray">IGCE Details - Task Order Year <span class="order_year_2"></span></h4>
       <table>
          <thead>
             <tr>
@@ -510,17 +510,17 @@
          </thead>
          <tbody class="igce_details_2">
             <tr>
-               <th>Cost Estimators (13-1051)</th>
-               <th>JR-Business and Financial Operations Specialists, Group 4</th>
-               <th>Connecticut</th>
-               <th>2</th>
-               <th>$45.5</th>
-               <th>$45.5</th>
+               <th class="result_occupation">Cost Estimators (13-1051)</th>
+               <th class="result_eandq">JR-Business and Financial Operations Specialists, Group 4</th>
+               <th class="result_msa">Connecticut</th>
+               <th class="result_est_hour">1</th>
+               <th class="result_est_hour_rate">$45.5</th>
+               <th class="result_total">$45.5</th>
             </tr>
          </tbody>
       </table>
 
-      <h4 style="color:gray">IGCE Details - Task Order Year 3</h4>
+      <h4 style="color:gray">IGCE Details - Task Order Year <span class="order_year_3"></span></h4>
       <table>
          <thead>
             <tr>
@@ -534,17 +534,17 @@
          </thead>
          <tbody class="igce_details_3">
             <tr>
-               <th>Cost Estimators (13-1051)</th>
-               <th>JR-Business and Financial Operations Specialists, Group 4</th>
-               <th>Connecticut</th>
-               <th>3</th>
-               <th>$45.5</th>
-               <th>$45.5</th>
+               <th class="result_occupation">Cost Estimators (13-1051)</th>
+               <th class="result_eandq">JR-Business and Financial Operations Specialists, Group 4</th>
+               <th class="result_msa">Connecticut</th>
+               <th class="result_est_hour">1</th>
+               <th class="result_est_hour_rate">$45.5</th>
+               <th class="result_total">$45.5</th>
             </tr>
          </tbody>
       </table>
 
-      <h4 style="color:gray">IGCE Details - Task Order Year 4</h4>
+      <h4 style="color:gray">IGCE Details - Task Order Year <span class="order_year_4"></span></h4>
       <table>
          <thead>
             <tr>
@@ -558,17 +558,17 @@
          </thead>
          <tbody class="igce_details_4">
             <tr>
-               <th>Cost Estimators (13-1051)</th>
-               <th>JR-Business and Financial Operations Specialists, Group 4</th>
-               <th>Connecticut</th>
-               <th>4</th>
-               <th>$45.5</th>
-               <th>$45.5</th>
+               <th class="result_occupation">Cost Estimators (13-1051)</th>
+               <th class="result_eandq">JR-Business and Financial Operations Specialists, Group 4</th>
+               <th class="result_msa">Connecticut</th>
+               <th class="result_est_hour">1</th>
+               <th class="result_est_hour_rate">$45.5</th>
+               <th class="result_total">$45.5</th>
             </tr>
          </tbody>
       </table>
 
-      <h4 style="color:gray">IGCE Details - Task Order Year 5</h4>
+      <h4 style="color:gray">IGCE Details - Task Order Year <span class="order_year_5"></span></h4>
       <table>
          <thead>
             <tr>
@@ -582,12 +582,12 @@
          </thead>
          <tbody class="igce_details_5">
             <tr>
-               <th>Cost Estimators (13-1051)</th>
-               <th>JR-Business and Financial Operations Specialists, Group 4</th>
-               <th>Connecticut</th>
-               <th>5</th>
-               <th>$45.5</th>
-               <th>$45.5</th>
+               <th class="result_occupation">Cost Estimators (13-1051)</th>
+               <th class="result_eandq">JR-Business and Financial Operations Specialists, Group 4</th>
+               <th class="result_msa">Connecticut</th>
+               <th class="result_est_hour">1</th>
+               <th class="result_est_hour_rate">$45.5</th>
+               <th class="result_total">$45.5</th>
             </tr>
          </tbody>
       </table>

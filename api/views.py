@@ -34,8 +34,7 @@ import boto3
 from django.db.models import Q
 
 # For BLS PET
-from data_capture.models import (bls_pricing, bls_occupation_lcat_mapping,
-                                 bls_state, bls_state_city_mapping, bls_occs)
+from data_capture.models import (bls_state, bls_series_wages, bls_wage_pricing)
 
 
 DOCS_DESCRIPTION = dedent("""
@@ -733,19 +732,32 @@ class GetCapabilityStatement(APIView):
         return response
 
 
+class GetBLSWage(APIView):
+    def post(slef, request):
+        data = request.data
+        occupationCode = data['occ_id']
+        area = data['area']
+        wageInstance = bls_series_wages.objects.filter(
+            occupation_code=occupationCode,
+            city=area
+        ).values('value')
+        result = {}
+        if wageInstance:
+            result = {
+                'value': wageInstance[0].get('value'),
+            }
+            return JsonResponse({'Error': 0, 'Error_Message': '', 'data': result})
+        return JsonResponse({'Error': 1, 'Error_Message': 'No Data Found', 'data': result})
+
+
 class GetBLSGetPrice(APIView):
     def post(slef, request):
         data = request.data
         occupationCode = data['occupation_code']
-        # lcatId = data['lcat_id']
-        areaId = data['area_id']
-
-        # lcatTitleInstance = bls_lcat.objects.get(id=lcatId)
-        stateCityMappingInstance = bls_state_city_mapping.objects.get(id=areaId)
-        blsPriceInstance = bls_pricing.objects.filter(
+        area = data['area']
+        blsPriceInstance = bls_wage_pricing.objects.filter(
             occ_code=occupationCode,
-            # lcat_id=lcatTitleInstance,
-            area_code=stateCityMappingInstance
+            area=area
         )
         result: list = []
         if blsPriceInstance:
@@ -765,14 +777,14 @@ class GetBLSAutocomplete(APIView):
     def get(self, request, search_term):
         if search_term == 'occupation':
             try:
-                blsData = bls_occs.objects.order_by('occupation').values(
-                    'occupation_code', 'occupation').distinct()
+                blsData = bls_series_wages.objects.order_by('occupation_title').values(
+                    'occupation_code', 'occupation_title').distinct()
                 if blsData:
                     result = [{
                         "code": n['occupation_code'],
-                        "occupation": n['occupation']
+                        "occupation": n['occupation_title']
                     } for n in blsData]
-                    return JsonResponse({'Error': 0, 'ErrorMessage': '', 'data': result})
+                    return JsonResponse({'Error': 0, 'ErrorMessages': '', 'data': result})
                 else:
                     return JsonResponse({'Error': 1, 'ErrorMessage': 'Something Went Wrong',
                                         'data': []})
@@ -800,42 +812,50 @@ class GetBLSAutocomplete(APIView):
         if search_term == 'lcat':
             data = request.data
             occupationID = data['occ_id']
-            blsLcatRef = bls_occupation_lcat_mapping.objects.filter(occupation_code=occupationID)
+            wageDetails = bls_series_wages.objects.filter(occupation_code=occupationID).values(
+                'lcat_id', 'lcat_title').distinct()
             result = [{
                 'lcat_id': 0,
                 'lcat_title': 'ancillary'
             }]
             eandqlevels = [
                 {
-                    "value": "JR", "description": "WL1"
+                    "value": "JR", "description": "Junior"
                 }, {
-                    "value": "JY", "description": "WL2"
+                    "value": "JY", "description": "Journeyman"
                 }, {
-                    "value": "SR", "description": "WL3"
+                    "value": "SR", "description": "Senior"
                 }, {
-                    "value": "XP", "description": "WL4"
+                    "value": "XP", "description": "SME"
                 },
             ]
-            if len(blsLcatRef) > 0:
+
+            if len(wageDetails) > 0:
                 result = []
-                for n in blsLcatRef:
-                    if not n.lcat.lcat_title == "nan":
+                for n in wageDetails:
+                    if not n.get('lcat_title') == "nan":
                         node = {
-                            'lcat_id': n.lcat.id,
-                            'lcat_title': n.lcat.lcat_title
+                            'lcat_id': n.get('lcat_id'),
+                            'lcat_title': n.get('lcat_title')
                         }
                         result.append(node)
-                eandqlevels = [
-                    {
-                        "value": "JR", "description": "Junior"
-                    }, {
-                        "value": "JY", "description": "Journeyman"
-                    }, {
-                        "value": "SR", "description": "Senior"
-                    }, {
-                        "value": "XP", "description": "SME"
-                    },
-                ]
+                # if no lcat_title
+                if len(result) == 0:
+                    result = [{
+                        'lcat_id': 0,
+                        'lcat_title': 'ancillary'
+                    }]
+                    eandqlevels = [
+                        {
+                            "value": "JR", "description": "WL1"
+                        }, {
+                            "value": "JY", "description": "WL2"
+                        }, {
+                            "value": "SR", "description": "WL3"
+                        }, {
+                            "value": "XP", "description": "WL4"
+                        },
+                    ]
             finalResult = {
                 'lcat_details': result,
                 'eandqlevels': eandqlevels
@@ -843,14 +863,14 @@ class GetBLSAutocomplete(APIView):
             return JsonResponse({'Error': 0, 'ErrorMessage': '', 'data': finalResult})
         elif search_term == 'area':
             data = request.data
-            stateCode = data['state_code']
-            blsStateIns = bls_state.objects.filter(state_code=stateCode)
+            occupationCode = data['occ_id']
+            cities = bls_series_wages.objects.filter(occupation_code=occupationCode,
+                                                     city__isnull=False).values('city').distinct()
             result = []
-            if blsStateIns:
-                cities = bls_state_city_mapping.objects.filter(state=blsStateIns[0])
+            if cities:
                 result = [{
-                    'id': n.id,
-                    'city': n.city
+                    'id': 0,
+                    'city': n.get('city')
                 }for n in cities]
             return JsonResponse({'Error': 0, 'ErrorMessage': '', 'data': result})
 

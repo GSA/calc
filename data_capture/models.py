@@ -439,6 +439,37 @@ class bls_occupation_lcat_mapping(models.Model):
         return "bls_occupation_lcat_mapping"
 
 
+class bls_series_wages(models.Model):
+    series_id = models.TextField(blank=True, null=True)
+    year = models.TextField(blank=True, null=True)
+    period = models.TextField(blank=True, null=True)
+    value = models.TextField(blank=True, null=True)
+    footnote_codes = models.TextField(blank=True, null=True)
+    occupation_code = models.TextField(blank=True, null=True)
+    occupation_title = models.TextField(blank=True, null=True)
+    lcat_id = models.TextField(blank=True, null=True)
+    lcat_title = models.TextField(blank=True, null=True)
+    city = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return "bls_series_wages"
+
+
+class bls_wage_pricing(models.Model):
+    occ_code = models.IntegerField()
+    area = models.TextField(blank=True, null=True)
+    h_mean = models.DecimalField(max_digits=6, decimal_places=2)
+    h_median = models.DecimalField(max_digits=6, decimal_places=2)
+    h_pct10 = models.DecimalField(max_digits=6, decimal_places=2)
+    h_pct25 = models.DecimalField(max_digits=6, decimal_places=2)
+    h_pct50 = models.DecimalField(max_digits=6, decimal_places=2)
+    h_pct75 = models.DecimalField(max_digits=6, decimal_places=2)
+    h_pct90 = models.DecimalField(max_digits=6, decimal_places=2)
+
+    def __str__(self):
+        return 'bls_wage_pricing'
+
+
 class bls_pricing(models.Model):
     id = models.AutoField(primary_key=True)
     occ_code = models.IntegerField()
