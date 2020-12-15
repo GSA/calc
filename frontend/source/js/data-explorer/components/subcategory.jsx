@@ -21,7 +21,7 @@ async function SubCategory({ idPrefix, category, setCategory }) {
   const categoryid = `${idPrefix}category`;
   const handleChange = (e) => { setCategory(e.target.value); };
 
-  const categorydata = await fetch('https://solutionsid.app.cloud.gov/api/v1/schedule_subcategory?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6OCwiZXhwIjoxNjAzNTcyMjI2fQ.xWT47PaRGgiME5RvUfCKZbGSmGu8oJws7cGwVmAumJg');
+  const categorydata = await fetch('https://solutionsid.app.cloud.gov/api/v1/schedule_subcategory?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZXhwIjoxNjA2MzM0MzM4fQ.WAYwizCSwwW5vcYvjf_aDygwFYjKSSP7q_ShWYyW1zs');
   const categoryposts = await categorydata.json();
 
   let CATEGORY_LABEL = "";
@@ -42,7 +42,7 @@ async function SubCategory({ idPrefix, category, setCategory }) {
   return (
     <div className="filter filter-category">
       <label htmlFor={categoryid}>
-          SubCategory:
+        SubCategory:
       </label>
       <select
         categoryid={categoryid}

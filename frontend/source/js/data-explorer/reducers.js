@@ -25,6 +25,8 @@ import {
   SET_PROPOSED_PRICE,
   SET_EXPERIENCE,
   TOGGLE_EDU_LEVEL,
+  ADD_CAT_LEVEL,
+  REMOVE_CAT_LEVEL,
   SET_SCHEDULE,
   SET_CONTRACT_YEAR,
   SET_QUERY_TYPE,
@@ -68,6 +70,23 @@ function education(state = [], action) {
       return state.concat(action.level);
     }
     return state.filter(lvl => lvl !== action.level);
+  }
+  return state;
+}
+
+function categoryFunction(state = [], action) {
+  // add cat level
+  if (action.type === ADD_CAT_LEVEL) {
+    // add level to state
+    if (state.indexOf(action.level) === -1) {
+      return state.concat(action.level);
+    }
+    return state.filter(lvl => lvl !== action.level);
+  }
+
+  // remove cat level
+  if (action.type === REMOVE_CAT_LEVEL) {
+    return state.filter(lvl => action.level.id !== lvl.id);
   }
   return state;
 }
@@ -198,6 +217,7 @@ const combinedReducer = combineReducers({
   exclude,
   q,
   education,
+  category: categoryFunction,
   min_experience: minExperience,
   max_experience: maxExperience,
   'contract-year': contractYear,

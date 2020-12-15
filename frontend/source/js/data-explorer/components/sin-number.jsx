@@ -12,7 +12,7 @@ export function Sinnumber({ idPrefix, sinNumber, setSinNumber }) {
   return (
     <div className="filter filter-site">
       <label htmlFor={id}>
-Sin Number:
+        Sin Number:
       </label>
       <input
         type="text"

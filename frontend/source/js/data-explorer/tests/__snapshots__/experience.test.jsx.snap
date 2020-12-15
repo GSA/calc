@@ -33,6 +33,7 @@ exports[`<Experience> matches snapshot 1`] = `
       prefixCls="rc-slider"
       pushable={false}
       railStyle={Object {}}
+      reverse={false}
       step={1}
       tabIndex={Array []}
       trackStyle={

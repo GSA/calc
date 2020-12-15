@@ -68,7 +68,7 @@ export function ContractYear({ idPrefix, contractYear, setContractYear }) {
       <fieldset className="fieldset-inputs">
 
         <legend>
-Contract year:
+          Contract year:
         </legend>
 
         <span className="filter-more-info">
@@ -84,7 +84,7 @@ Contract year:
         </span>
 
         <h3 className="usa-sr-only">
-Contract Year
+          Contract Year
         </h3>
 
         <ul className="contract-year-block">

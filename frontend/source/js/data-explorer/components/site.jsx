@@ -14,7 +14,7 @@ export function Site({ idPrefix, site, setSite }) {
   return (
     <div className="filter filter-site">
       <label htmlFor={id}>
-Worksite:
+        Worksite:
       </label>
       <select
         id={id}
