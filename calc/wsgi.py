@@ -16,7 +16,7 @@ from .wsgi_middleware import static_url_rewriter
 
 from calc import settings
 
-from whitenoise import WhiteNoise 
+from whitenoise import WhiteNoise
 
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "calc.settings")
