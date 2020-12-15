@@ -3,7 +3,7 @@ import React from 'react';
 
 import { autobind } from '../util';
 
-export default class CategoryLevelItem extends React.Component {
+export default class SubCategoryLevelItem extends React.Component {
   constructor(props) {
     super(props);
     autobind(this, ['_onClick']);
@@ -19,20 +19,20 @@ export default class CategoryLevelItem extends React.Component {
         <input
           id={this.props.id}
           type="checkbox"
-          value={this.props.value.id}
+          value={this.props.value.legacy_sin}
           checked={this.props.checked}
           onChange={(e) => { this._onClick(e); }}
-          name="categories"
+          name="subcategories"
         />
         <label htmlFor={this.props.id}>
-          {this.props.value.title}
+          {this.props.value.sin_title}
         </label>
       </li>
     );
   }
 }
 
-CategoryLevelItem.propTypes = {
+SubCategoryLevelItem.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.object.isRequired,
   checked: PropTypes.bool.isRequired,
