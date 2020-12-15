@@ -40,7 +40,7 @@ try:
         WhiteNoise(get_wsgi_application(), settings.STATIC_ROOT),
         '/docs/',
         '/static/docs/',
-        
+
     )
 except Exception as e:
     print(e)

@@ -40,7 +40,7 @@ urlpatterns = [
     url(r'^auth/', include('uaa_client.urls', namespace='uaa_client')),
     url(r'session_security/', include('session_security.urls')),
     url(r'^account/', include('user_account.urls', namespace='user_account')),
-    url(r'^reports/', views.reports, name= 'reports')
+    url(r'^reports/', views.reports, name='reports')
 ]
 
 tests_url = url(r'^tests/$', TemplateView.as_view(template_name='tests.html'),
