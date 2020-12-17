@@ -1,5 +1,5 @@
-!/static/admin/reports.xlsx
 /static
+!/static/admin/reports.xlsx
 /static_compressed
 /frontend/static/frontend/built
 *.pyc
