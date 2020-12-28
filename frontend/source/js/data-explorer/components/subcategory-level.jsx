@@ -104,11 +104,9 @@ export class SubCategoryLevel extends React.Component {
     this.setState((prevState) => ({
       checkedItems: prevState.checkedItems.set(inputId, isChecked),
     }));
-    console.log('STATE:' + JSON.stringify(this.state));
     document.subCatData = this.state.checkedSubCategoryData;
 
     if (isChecked) {
-      this.props.addSubCatLevel(level.legacy_sin);
       // existing subCategoryData state contains all scheduleCategories at index 0, use specifc checkedSubCategoryData for managing the checked filtering
       this.setState(
         {
@@ -126,7 +124,7 @@ export class SubCategoryLevel extends React.Component {
       // removes selected category from state
     } else {
       // call remove category level action
-      this.props.removeSubCatLevel(level.legacy_sin);
+      this.props.removeSubCatLevel(level);
       // filter list of checked items by comparing the legacy_sin clicked to whats already in list
       // TODO may need to change after new data provided fixes the multiple SINs listed in UI
       let filteredSubCategories = this.state.checkedSubCategoryData.filter(
@@ -176,14 +174,14 @@ export class SubCategoryLevel extends React.Component {
 
     let inputs = '';
 
-    const cats = this.state.subCategoryData;
-    if (cats[0] !== undefined) {
-      let scheduleCategories = JSON.stringify(cats[0].scheduleCategories);
+    const subCats = this.state.subCategoryData;
+    if (subCats[0] !== undefined) {
+      let scheduleCategories = JSON.stringify(subCats[0].scheduleCategories);
       let selectedCategories = JSON.stringify(levels);
 
-      const catsArray = JSON.parse(scheduleCategories);
+      const subCatsArray = JSON.parse(scheduleCategories);
       // checked={this.state.checkedItems.get(id)}
-      inputs = Object.keys(catsArray).map((value) => {
+      inputs = Object.keys(subCatsArray).map((value) => {
         const id = idPrefix + value;
         return (
           <SubCategoryLevelItem
@@ -194,13 +192,13 @@ export class SubCategoryLevel extends React.Component {
                 ? this.state.checkedItems.get(id)
                 : false
             }
-            value={catsArray[value]}
+            value={subCatsArray[value]}
             onCheckboxClick={this.handleCheckboxClick}
           />
         );
       });
     }
-
+    // linkContent is rendered as the selected subCategory(s) in the Subcategory dropdown box, after list items are checked or unchecked
     let linkContent1;
     //console.log("LEVELS LENGTH SHOULD BE >0"); console.log(JSON.stringify(levels));
     if (levels.length === 0) {
@@ -215,10 +213,10 @@ export class SubCategoryLevel extends React.Component {
       );
     } else {
       const selectedLevels = levels.map((value) => {
-        const label = value.title; // The label in the input field
+        const label = value.sin_title; // The label in the input field
         // populated when user selects one or more categories
         return (
-          <span key={value.code} title={label}>
+          <span key={value.id} title={label}>
             {label}
           </span>
         );
@@ -279,7 +277,7 @@ SubCategoryLevel.defaultProps = {
   idPrefix: 'subcategory-level-',
 };
 
-export default connect((state) => ({ levels: state.category }), {
+export default connect((state) => ({ levels: state.sub_category }), {
   addSubCatLevel,
   removeSubCatLevel,
   setSinNumber,
