@@ -231,7 +231,7 @@ export class SubCategoryLevel extends React.Component {
         <label htmlFor={catLevelId}>Subcategory:</label>
         <dl
           id={catLevelId}
-          className="dropdown"
+          className="dropdown limitHeight"
           ref={(el) => {
             this.dropdownEl = el;
           }}

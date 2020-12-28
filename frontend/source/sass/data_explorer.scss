@@ -254,6 +254,10 @@ dl.dropdown {
   }
 }
 
+dl.dropdown.limitHeight ul {
+  max-height: 380px;
+}
+
 .multiSelect label {
   font-weight: 400;
   display: inline;
