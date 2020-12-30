@@ -1,5 +1,4 @@
 /static
-!/static/admin/reports.xlsx
 /static_compressed
 *.pyc
 *.swp
@@ -37,3 +36,4 @@ tag-message-*.txt
 release-*-instructions.txt
 release-*-instructions.html
 ~*.xls[x]
+!/static/admin/reports.xlsx
