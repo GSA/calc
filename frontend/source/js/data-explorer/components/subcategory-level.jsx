@@ -48,6 +48,7 @@ export class SubCategoryLevel extends React.Component {
       expanded: false,
       categoryData: [],
       subCategoryData: [],
+      checkedSubCategoryData: [],
       checkedItems: new Map()
     };
     autobind(this, ['handleToggleMenu', 'handleDocumentClick', 'handleCheckboxClick']);
@@ -57,6 +58,7 @@ export class SubCategoryLevel extends React.Component {
     document.addEventListener('click', this.handleDocumentClick);
     document.addEventListener('focus', this.handleDocumentClick, true);
 
+    // retrieve entire subCategory List, this should not be used for keeping the filtered checkedItems state in sync
     fetch(SOLUTIONS_ID_SUBCATS_API)
       .then((response) => response.json())
       .then(subCategoryList => {
@@ -100,26 +102,31 @@ export class SubCategoryLevel extends React.Component {
     this.setState((prevState) => ({
       checkedItems: prevState.checkedItems.set(inputId, isChecked),
     }));
-    
-    document.subCatData = this.state.subCategoryData;
+
+    document.subCatData = this.state.checkedSubCategoryData;
     
     if (isChecked) {
       this.props.addSubCatLevel(level.legacy_sin);
-      //this.handleSinNumbers();
+      // existing subCategoryData state contains all scheduleCategories at index 0, use specifc checkedSubCategoryData for managing the checked filtering
+      this.setState({checkedSubCategoryData:
+        this.state.checkedSubCategoryData.concat(level)}, () => {
+        // call add category level action
+        this.props.addSubCatLevel(level);
+        // add sin numbers to filter state
+        this.handleSinNumbers();
+      });
 
-      this.props.setSinNumber(level.legacy_sin.replace(/ /g, "-")); //.slice(0, -1)
     // removes selected category from state
     } else {
       // call remove category level action
       this.props.removeSubCatLevel(level.legacy_sin);
-      /*
-      // remove the selected category data from subCategoryData state,
-      // note the trailing space at end, TODO will be fixed in data response
-      let filteredSubCategories = this.state.subCategoryData.filter(
-        element => element.category_code !== `${level.code} `);
-      this.setState({ subCategoryData: filteredSubCategories }, () => {
+      // filter list of checked items by comparing the legacy_sin clicked to whats already in list
+      // TODO may need to change after new data provided fixes the multiple SINs listed in UI
+      let filteredSubCategories = this.state.checkedSubCategoryData.filter(
+        element => element.legacy_sin !== level.legacy_sin);
+      this.setState({ checkedSubCategoryData: filteredSubCategories }, () => {
         this.handleSinNumbers();
-      }); */
+      });     
     }
   }
 
@@ -139,17 +146,17 @@ export class SubCategoryLevel extends React.Component {
         "sin": "541922",
         "sin_title": "541922 Commercial Photography Services",
   */
-    //handleSinNumbers() {
-      //if (this.state.subCategoryData.length > 0 && this.state.subCategoryData !== null) {
-      ///const sin = this.state.subCategoryData.map((item) => item.legacy_sin.replace(/ /g, "-") + ";").join('');
+
+  handleSinNumbers() {
+    if (this.state.checkedSubCategoryData.length > 0 && this.state.checkedSubCategoryData !== null) {
+      const sin = this.state.checkedSubCategoryData.map((item) => item.legacy_sin.replace(/ /g, "-") + ";").join('');
       // replace all current selected catSinNumbers in dispatch to state,
       // setSinNumber action propType
-      //this.props.setSinNumber(legacy_sin.replace(/ /g, "-")); //.slice(0, -1)
-      //} else {
-      //this.props.setSinNumber('');
-      //}
-    //}
-  
+      this.props.setSinNumber(sin.slice(0, -1));
+    } else {
+      this.props.setSinNumber('');
+    }
+  }
 
   render() {
     const { levels, idPrefix } = this.props;

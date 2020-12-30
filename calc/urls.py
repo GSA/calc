@@ -10,6 +10,7 @@ from .sample_users import login_sample_user
 from .healthcheck import healthcheck
 from .robots import robots_txt
 from .changelog import django_view as view_changelog
+from calc import views
 
 # Wrap the admin site login with the staff_login_required
 # decorator, which will raise a PermissionDenied exception if a
@@ -39,6 +40,7 @@ urlpatterns = [
     url(r'^auth/', include('uaa_client.urls', namespace='uaa_client')),
     url(r'session_security/', include('session_security.urls')),
     url(r'^account/', include('user_account.urls', namespace='user_account')),
+    url(r'^reports/', views.reports, name='reports')
 ]
 
 tests_url = url(r'^tests/$', TemplateView.as_view(template_name='tests.html'),

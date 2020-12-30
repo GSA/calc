@@ -3,6 +3,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.documentation import include_docs_urls
 from .capability_statement import capability_statement
+# from .bls_pet import bls_pet
 
 from api import views
 
@@ -27,6 +28,10 @@ urlpatterns = [
         title='CALC API',
         description=views.DOCS_DESCRIPTION,
     )),
+    url(r'^bls_pet/autocomplete/(?P<search_term>[\w,-]+)/$', views.GetBLSAutocomplete.as_view()),
+    url(r'^bls_pet/getprice', views.GetBLSGetPrice.as_view()),
+
+
     url(r'^capabilitystatement/$', views.GetCapabilityStatement.as_view()),
     url(r'^capabilitystatement/url/$', views.GetCapabilityStatementUrl.as_view()),
     url(r'^swagger(?P<format>\.json|\.yaml)$',
@@ -36,4 +41,6 @@ urlpatterns = [
         capability_statement.get_capability_statment),  # after login
     url(r'^contract/capability_statement/url/(?P<contractnumberlist>[\w,-]+)/$',
         capability_statement.get_bulk_capability_statment),
+
+    # url(r'^bls_pet/autocomplte/(?P<search_type>[\w-]+)/$',bls_pet.autocomplete),  # after login
 ]
