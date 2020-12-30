@@ -25,7 +25,7 @@ export default class SubCategoryLevelItem extends React.Component {
           name="subcategories"
         />
         <label htmlFor={this.props.id}>
-          {this.props.value.sin_title}
+          {this.props.value.title}
         </label>
       </li>
     );

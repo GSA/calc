@@ -16,8 +16,7 @@ import {
   addSubCatLevel, removeSubCatLevel, setSinNumber
 } from '../actions';
 
-const SOLUTIONS_ID_SUBCATS_API = 'https://solutionsid.app.cloud.gov/api/v1/schedule-subcategories';
-const SOLUTIONS_ID_SUBCATEGORY_API = 'https://solutionsid.app.cloud.gov/api/v1/category_details/cat/';
+const SOLUTIONS_ID_SUBCATS_API = 'https://solutionsid.app.cloud.gov/api/v1/subcategories-combined-sins';
 
 // TODO: We could just use jQuery for this, but I wanted to decouple
 // the new React code from jQuery as much as possible for now.
@@ -64,7 +63,7 @@ export class SubCategoryLevel extends React.Component {
         this.setState({ subCategoryData: subCategoryList });
       });
 
-    document.catData = this.state.subCategoryData;
+    document.subCatData = this.state.subCategoryData;
   }
 
   componentWillUnmount() {
@@ -96,20 +95,18 @@ export class SubCategoryLevel extends React.Component {
   }
 
   handleCheckboxClick(inputId, level, isChecked) {
-    //console.log("CLICKEDDDDD:" + JSON.stringify(inputId) + " - " + JSON.stringify(isChecked) + " === " +JSON.stringify(level));
-    //CLICKEDDDDD:"subcategory-level-15" - true === {"category_id":1,"code":"A02","created_at":null,"description":null,"id":4,"legacy_sin":"58 10","rpt_off":"P","sin":"541990AV","sin_title":"541990AV Professional Audio/Video Services","title":"Audio Visual Services","updated_at":null}
-    //category-level.jsx?09fe:100 CLICKEDDDDD:"category-level-1" - true === {"code":"B","id":2,"title":"Facilities"}
     // not sure if we really need to store a checked items list in state,
     // but doing so for now
     this.setState((prevState) => ({
       checkedItems: prevState.checkedItems.set(inputId, isChecked),
     }));
-    console.log("STATE:" + JSON.stringify(this.state));
+    
     document.subCatData = this.state.subCategoryData;
     
     if (isChecked) {
       this.props.addSubCatLevel(level.legacy_sin);
       //this.handleSinNumbers();
+
       this.props.setSinNumber(level.legacy_sin.replace(/ /g, "-")); //.slice(0, -1)
     // removes selected category from state
     } else {
@@ -142,17 +139,17 @@ export class SubCategoryLevel extends React.Component {
         "sin": "541922",
         "sin_title": "541922 Commercial Photography Services",
   */
-
-  handleSinNumbers() {
-    if (this.state.subCategoryData.length > 0 && this.state.subCategoryData !== null) {
+    //handleSinNumbers() {
+      //if (this.state.subCategoryData.length > 0 && this.state.subCategoryData !== null) {
       ///const sin = this.state.subCategoryData.map((item) => item.legacy_sin.replace(/ /g, "-") + ";").join('');
       // replace all current selected catSinNumbers in dispatch to state,
       // setSinNumber action propType
       //this.props.setSinNumber(legacy_sin.replace(/ /g, "-")); //.slice(0, -1)
-    } else {
-      this.props.setSinNumber('');
-    }
-  }
+      //} else {
+      //this.props.setSinNumber('');
+      //}
+    //}
+  
 
   render() {
     const { levels, idPrefix } = this.props;
@@ -160,20 +157,21 @@ export class SubCategoryLevel extends React.Component {
     let inputs = '';
 
     const cats = this.state.subCategoryData;
+    
     if (cats[0] !== undefined) {
-      let scheduleCategories = JSON.stringify(cats[0].scheduleCategories);
-      let selectedCategories = JSON.stringify(levels);
-
-      const catsArray = JSON.parse(scheduleCategories);
+      let scheduleSubCategories = JSON.stringify(cats[0].scheduleSubCategories);
+      let selectedSubCategories = JSON.stringify(levels);
+      const SubCatsArray = JSON.parse(scheduleSubCategories);
+      
       // checked={this.state.checkedItems.get(id)}
-      inputs = Object.keys(catsArray).map((value => {
+      inputs = Object.keys(SubCatsArray).map((value => {
         const id = idPrefix + value;
         return (
           <SubCategoryLevelItem
             key={JSON.stringify(value)}
             id={id}
             checked={this.state.checkedItems.get(id) ? this.state.checkedItems.get(id) : false }
-            value={catsArray[value]}
+            value={SubCatsArray[value]}
             onCheckboxClick={this.handleCheckboxClick}
           />
         );
@@ -181,7 +179,6 @@ export class SubCategoryLevel extends React.Component {
     }
 
     let linkContent1;
-    //console.log("LEVELS LENGTH SHOULD BE >0"); console.log(JSON.stringify(levels));
     if (levels.length === 0) {
       linkContent1 = (
           <span className="eduSelect">
