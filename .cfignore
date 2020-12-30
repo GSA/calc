@@ -1,4 +1,5 @@
 /static
+!/static/admin/reports.xlsx
 /static_compressed
 *.pyc
 *.swp
