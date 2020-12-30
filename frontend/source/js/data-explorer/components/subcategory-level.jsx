@@ -16,8 +16,7 @@ import {
   addSubCatLevel, removeSubCatLevel, setSinNumber
 } from '../actions';
 
-const SOLUTIONS_ID_SUBCATS_API = 'https://solutionsid.app.cloud.gov/api/v1/schedule-subcategories';
-const SOLUTIONS_ID_SUBCATEGORY_API = 'https://solutionsid.app.cloud.gov/api/v1/category_details/cat/';
+const SOLUTIONS_ID_SUBCATS_API = 'https://solutionsid.app.cloud.gov/api/v1/subcategories-combined-sins';
 
 // TODO: We could just use jQuery for this, but I wanted to decouple
 // the new React code from jQuery as much as possible for now.
@@ -66,7 +65,7 @@ export class SubCategoryLevel extends React.Component {
         this.setState({ subCategoryData: subCategoryList });
       });
 
-    document.catData = this.state.subCategoryData;
+    document.subCatData = this.state.subCategoryData;
   }
 
   componentWillUnmount() {
@@ -103,7 +102,7 @@ export class SubCategoryLevel extends React.Component {
     this.setState((prevState) => ({
       checkedItems: prevState.checkedItems.set(inputId, isChecked),
     }));
-    console.log("STATE:" + JSON.stringify(this.state));
+
     document.subCatData = this.state.checkedSubCategoryData;
     
     if (isChecked) {
@@ -116,6 +115,7 @@ export class SubCategoryLevel extends React.Component {
         // add sin numbers to filter state
         this.handleSinNumbers();
       });
+
     // removes selected category from state
     } else {
       // call remove category level action
@@ -164,20 +164,21 @@ export class SubCategoryLevel extends React.Component {
     let inputs = '';
 
     const cats = this.state.subCategoryData;
+    
     if (cats[0] !== undefined) {
-      let scheduleCategories = JSON.stringify(cats[0].scheduleCategories);
-      let selectedCategories = JSON.stringify(levels);
-
-      const catsArray = JSON.parse(scheduleCategories);
+      let scheduleSubCategories = JSON.stringify(cats[0].scheduleSubCategories);
+      let selectedSubCategories = JSON.stringify(levels);
+      const SubCatsArray = JSON.parse(scheduleSubCategories);
+      
       // checked={this.state.checkedItems.get(id)}
-      inputs = Object.keys(catsArray).map((value => {
+      inputs = Object.keys(SubCatsArray).map((value => {
         const id = idPrefix + value;
         return (
           <SubCategoryLevelItem
             key={JSON.stringify(value)}
             id={id}
             checked={this.state.checkedItems.get(id) ? this.state.checkedItems.get(id) : false }
-            value={catsArray[value]}
+            value={SubCatsArray[value]}
             onCheckboxClick={this.handleCheckboxClick}
           />
         );
@@ -185,7 +186,6 @@ export class SubCategoryLevel extends React.Component {
     }
 
     let linkContent1;
-    //console.log("LEVELS LENGTH SHOULD BE >0"); console.log(JSON.stringify(levels));
     if (levels.length === 0) {
       linkContent1 = (
           <span className="eduSelect">
