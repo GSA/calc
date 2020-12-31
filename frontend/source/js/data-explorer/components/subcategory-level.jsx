@@ -201,7 +201,7 @@ export class SubCategoryLevel extends React.Component {
       );
     } else {
       const selectedLevels = levels.map((value) => {
-        const label = value.sin_title; // The label in the input field
+        const label = value.title; // The label in the input field
         // populated when user selects one or more categories
         return (
           <span key={value.id} title={label}>
