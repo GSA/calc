@@ -13,6 +13,7 @@ export const ADD_CAT_LEVEL = 'ADD_CAT_LEVEL';
 export const ADD_SUB_CAT_LEVEL = 'ADD_SUB_CAT_LEVEL';
 export const REMOVE_CAT_LEVEL = 'REMOVE_CAT_LEVEL';
 export const REMOVE_SUB_CAT_LEVEL = 'REMOVE_SUB_CAT_LEVEL';
+export const REMOVE_ALL_SUB_CAT_LEVELS = 'REMOVE_ALL_SUB_CAT_LEVELS';
 export const SET_SCHEDULE = 'SET_SCHEDULE';
 export const SET_CONTRACT_YEAR = 'SET_CONTRACT_YEAR';
 export const SET_QUERY_TYPE = 'SET_QUERY_TYPE';
@@ -89,6 +90,10 @@ export function removeCatLevel(level) {
 
 export function removeSubCatLevel(level) {
   return { type: REMOVE_SUB_CAT_LEVEL, level };
+}
+
+export function removeAllSubCatLevels() {
+  return { type: REMOVE_ALL_SUB_CAT_LEVELS };
 }
 
 export function setSchedule(schedule) {

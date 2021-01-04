@@ -29,6 +29,7 @@ import {
   ADD_SUB_CAT_LEVEL,
   REMOVE_CAT_LEVEL,
   REMOVE_SUB_CAT_LEVEL,
+  REMOVE_ALL_SUB_CAT_LEVELS,
   SET_SCHEDULE,
   SET_CONTRACT_YEAR,
   SET_QUERY_TYPE,
@@ -103,10 +104,16 @@ function subCategoryFunction(state = [], action) {
     return state.filter(lvl => lvl !== action.level);
   }
 
-  // remove cat level
+  // remove sub cat level
   if (action.type === REMOVE_SUB_CAT_LEVEL) {
     return state.filter(lvl => action.level.id !== lvl.id);
   }
+
+  // remove all sub categories
+  if (action.type === REMOVE_ALL_SUB_CAT_LEVELS) {
+    state = [];
+  }
+
   return state;
 }
 
