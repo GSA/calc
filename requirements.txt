@@ -61,3 +61,4 @@ boto3==1.9.253
 idna==2.10
 importlib-metadata==1.6.0
 importlib-resources==1.4.0
+django-click==2.2.0
