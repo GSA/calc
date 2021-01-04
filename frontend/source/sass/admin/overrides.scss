@@ -350,5 +350,8 @@ table th span:not(.tooltipstered).sortpriority {
   .selector ul.selector-chooser {
     background: transparent;
   }
+  .selector ul.selector-chooser li {
+    margin-left: 3px;
+  }
   .selector #id_groups_filter.selector-filter label { padding: 0; }
 }
