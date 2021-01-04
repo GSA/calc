@@ -10,7 +10,8 @@ import { autobind, handleEnterOrSpace, filterActive } from '../util';
 
 import { addSubCatLevel, removeSubCatLevel, setSinNumber } from '../actions';
 
-const SOLUTIONS_ID_SUBCATS_API = 'https://solutionsid.app.cloud.gov/api/v1/subcategories-combined-sins';
+const SOLUTIONS_ID_SUBCATS_API =
+  'https://solutionsid.app.cloud.gov/api/v1/subcategories-combined-sins';
 
 // TODO: We could just use jQuery for this, but I wanted to decouple
 // the new React code from jQuery as much as possible for now.
@@ -62,14 +63,23 @@ export class SubCategoryLevel extends React.Component {
       .then((subCategoryList) => {
         this.setState({ subCategoryData: subCategoryList });
       });
-
-    document.subCatData = this.state.subCategoryData;
   }
 
   componentWillUnmount() {
     document.removeEventListener('click', this.handleDocumentClick);
     document.removeEventListener('focus', this.handleDocumentClick, true);
     this.state.isMounted = false;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // clear checked items and checked data when there are no levels
+    // category level component will reset redux state subcategory levels for filtering upon category selection
+    if (prevProps.levels !== this.props.levels) {
+      if (this.props.levels.length == 0) {
+        this.state.checkedItems.clear();
+        this.setState({ checkedSubCategoryData: [] });
+      }
+    }
   }
 
   handleDocumentClick(e) {
@@ -101,19 +111,24 @@ export class SubCategoryLevel extends React.Component {
     this.setState((prevState) => ({
       checkedItems: prevState.checkedItems.set(inputId, isChecked),
     }));
-    document.subCatData = this.state.checkedSubCategoryData;
 
     if (isChecked) {
       // existing subCategoryData state contains all scheduleCategories at index 0, use specifc checkedSubCategoryData for managing the checked filtering
-      this.setState({checkedSubCategoryData:
-        this.state.checkedSubCategoryData.concat(level)}, () => {
-        // call add category level action
-        this.props.addSubCatLevel(level);
-        // add sin numbers to filter state
-        this.handleSinNumbers();
-      });
+      this.setState(
+        {
+          checkedSubCategoryData: this.state.checkedSubCategoryData.concat(
+            level
+          ),
+        },
+        () => {
+          // call add category level action
+          this.props.addSubCatLevel(level);
+          // add sin numbers to filter state
+          this.handleSinNumbers();
+        }
+      );
 
-    // removes selected category from state
+      // removes selected category from state
     } else {
       // call remove category level action
       this.props.removeSubCatLevel(level);
@@ -162,37 +177,60 @@ export class SubCategoryLevel extends React.Component {
   }
 
   render() {
-    const { levels, idPrefix } = this.props;
+    const { levels, idPrefix, categoryLevels } = this.props;
 
+    // imputs object passed into SubCategoryLevelItem attributes
     let inputs = '';
-
+    // array used to populate the subcategory items checkbox list, dependent on category selection filtering later
+    let subCatsArray = [];
+    // all the fetched subcategory data in state
     const subCatsData = this.state.subCategoryData;
-    
+
+    // filter subCatsArray list contingent on category item ids selected in redux and state, and render the inputs object into the SubCategoryLevelItem component
     if (subCatsData[0] !== undefined) {
-      let scheduleSubCategories = JSON.stringify(subCatsData[0].scheduleSubCategories);
+      let scheduleSubCategories = JSON.stringify(
+        subCatsData[0].scheduleSubCategories
+      );
       let selectedSubCategories = JSON.stringify(levels);
-      const subCatsArray = JSON.parse(scheduleSubCategories);
-      
-      // checked={this.state.checkedItems.get(id)}
-      inputs = Object.keys(subCatsArray).map((value => {
+      // simplify the category levels selected, by mapping the ids
+      const categoriesIdsSelected = this.props.categoryLevels.map(
+        (element) => element.id
+      );
+      if (categoriesIdsSelected.length !== 0) {
+        // filter sub category array to list its subcategories by the category ids selected
+        subCatsArray = JSON.parse(scheduleSubCategories).filter(
+          (subCatElement) =>
+            categoriesIdsSelected.indexOf(subCatElement.category_id) >= 0
+        );
+      } else {
+        subCatsArray = JSON.parse(scheduleSubCategories);
+      }
+
+      // put inputs into SubCategoryLevelItem component
+      inputs = Object.keys(subCatsArray).map((value) => {
         const id = idPrefix + value;
         return (
           <SubCategoryLevelItem
             key={JSON.stringify(value)}
             id={id}
-            checked={this.state.checkedItems.get(id) ? this.state.checkedItems.get(id) : false }
+            checked={
+              this.state.checkedItems.get(id)
+                ? this.state.checkedItems.get(id)
+                : false
+            }
             value={subCatsArray[value]}
             onCheckboxClick={this.handleCheckboxClick}
           />
         );
-      }));
+      });
     }
+
     // linkContent is rendered as the selected subCategory(s) in the Subcategory dropdown box, after list items are checked or unchecked
     let linkContent1;
     if (levels.length === 0) {
       linkContent1 = (
         <span className="eduSelect">
-          (all)
+          (all) Total: {subCatsArray.length}
           <span className="usa-sr-only">
             {' '}
             to reveal Schedule Subcategories options
@@ -255,6 +293,7 @@ export class SubCategoryLevel extends React.Component {
 
 SubCategoryLevel.propTypes = {
   levels: PropTypes.array.isRequired,
+  categoryLevels: PropTypes.array.isRequired,
   idPrefix: PropTypes.string,
   addSubCatLevel: PropTypes.func.isRequired,
   removeSubCatLevel: PropTypes.func.isRequired,
@@ -265,8 +304,11 @@ SubCategoryLevel.defaultProps = {
   idPrefix: 'subcategory-level-',
 };
 
-export default connect((state) => ({ levels: state.sub_category }), {
-  addSubCatLevel,
-  removeSubCatLevel,
-  setSinNumber,
-})(SubCategoryLevel);
+export default connect(
+  (state) => ({ levels: state.sub_category, categoryLevels: state.category }),
+  {
+    addSubCatLevel,
+    removeSubCatLevel,
+    setSinNumber,
+  }
+)(SubCategoryLevel);
