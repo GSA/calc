@@ -1,6 +1,6 @@
 <script {{ csp_nonce }} async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
 <script>
-    
+
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
@@ -8,4 +8,5 @@
   gtag('config', 'GA_MEASUREMENT_ID', {'anonymizeIp': true}, {'forceSSL': true}, {'tansport': beacon});
 
   gtag('set',{'dimension1':'{% if is_safe_mode_enabled %}safe mode enabled{% endif %}'});
+  
 </script>
