@@ -13,7 +13,7 @@ import {
 } from '../util';
 
 import {
-  addCatLevel, removeCatLevel, setSinNumber
+  addCatLevel, removeCatLevel, setSinNumber, removeAllSubCatLevels
 } from '../actions';
 
 const SOLUTIONS_ID_API = 'https://solutionsid.app.cloud.gov/api/v1/schedule-categories';
@@ -130,6 +130,8 @@ export class CategoryLevel extends React.Component {
         this.handleSinNumbers();
       });     
     }
+    // need to clean up subcategories whenever a category is clicked
+    this.props.removeAllSubCatLevels();
   }
 
   /*findIndex(array, attr, value) {
@@ -260,6 +262,7 @@ CategoryLevel.propTypes = {
   idPrefix: PropTypes.string,
   addCatLevel: PropTypes.func.isRequired,
   removeCatLevel: PropTypes.func.isRequired,
+  removeAllSubCatLevels: PropTypes.func.isRequired,
   setSinNumber: PropTypes.func.isRequired,
 };
 
@@ -269,5 +272,5 @@ CategoryLevel.defaultProps = {
 
 export default connect(
   state => ({ levels: state.category }),
-  { addCatLevel, removeCatLevel, setSinNumber }
+  { addCatLevel, removeCatLevel, setSinNumber, removeAllSubCatLevels }
 )(CategoryLevel);
