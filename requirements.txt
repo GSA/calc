@@ -26,7 +26,7 @@ djangorestframework==3.11.1
 docutils==0.15.2
 drf-yasg==1.17.0
 filelock==3.0.12
-gunicorn==19.10.0   
+gunicorn==19.10.0
 inflection==0.5.1
 itypes==1.2.0
 Jinja2==2.11.2
@@ -54,6 +54,7 @@ semantic_version==2.6.0
 django-session-security==2.6.5
 # Needed for price list analysis
 nltk==3.4.5
+xlrd==1.2.0
 xlsxwriter==0.9.6
 urllib3==1.25.9
 boto3==1.9.253
