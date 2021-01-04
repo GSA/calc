@@ -46,7 +46,6 @@ pandas
 psycopg2==2.7.3.2
 six==1.12.0
 whitenoise==3.3.0
-requests==2.20
 python-dotenv==0.6.3
 pytz==2016.10
 redis==3.5.3
