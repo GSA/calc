@@ -741,7 +741,7 @@ class GetBLSWage(APIView):
             occupation_code=occupationCode,
             city=area
         ).values('value')
-        result = {}
+        result: dict = {}
         if wageInstance:
             result = {
                 'value': wageInstance[0].get('value'),
