@@ -22,6 +22,9 @@
 input[type="radio"].radio_option{
   transform: translate(0px,4px);
 }
+:checked{
+  background-color: rgb(86, 86, 219);
+}
 .upload-chooser-cap{
   font-size: 1.3em;
 }

@@ -191,6 +191,7 @@ dl.dropdown {
     position:relative;
     ul {
       background-color: $color-white;
+      box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.25);
       border:0;
       color:#000;
       left:0px;
@@ -252,6 +253,10 @@ dl.dropdown {
     margin-right: 6px;
     width: auto;
   }
+}
+
+dl.dropdown.limitHeight ul {
+  max-height: 380px;
 }
 
 .multiSelect label {

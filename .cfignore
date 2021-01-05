@@ -36,3 +36,4 @@ tag-message-*.txt
 release-*-instructions.txt
 release-*-instructions.html
 ~*.xls[x]
+!/static/admin/reports.xlsx

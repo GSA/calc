@@ -13,12 +13,11 @@ import {
 } from '../util';
 
 import {
-  addCatLevel, removeCatLevel, setSinNumber
+  addCatLevel, removeCatLevel, setSinNumber, removeAllSubCatLevels
 } from '../actions';
 
-const SOLUTIONS_ID_API = 'https://solutionsid.app.cloud.gov/api/v1/schedule_cats?token=';
-const SOLUTIONS_ID_SUBCATEGORY_API = 'https://solutionsid.app.cloud.gov/api/v1/category_details/cat/';
-const SOLUTIONSID_API_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZXhwIjoxNjA2MzEzNTQ0fQ.L9OCuCruD8tDdggj-JcC65dkvLkKVBhqUFLeXiwW9Jo';
+const SOLUTIONS_ID_API = 'https://solutionsid.app.cloud.gov/api/v1/schedule-categories';
+const SOLUTIONS_ID_SUBCATEGORY_API = 'https://solutionsid.app.cloud.gov/api/v1/category-details/category/';
 
 // TODO: We could just use jQuery for this, but I wanted to decouple
 // the new React code from jQuery as much as possible for now.
@@ -59,7 +58,7 @@ export class CategoryLevel extends React.Component {
     document.addEventListener('click', this.handleDocumentClick);
     document.addEventListener('focus', this.handleDocumentClick, true);
 
-    fetch(SOLUTIONS_ID_API + SOLUTIONSID_API_TOKEN)
+    fetch(SOLUTIONS_ID_API)
       .then((response) => response.json())
       .then(categoryList => {
         this.setState({ categoryData: categoryList });
@@ -107,7 +106,7 @@ export class CategoryLevel extends React.Component {
     
     if (isChecked) {
       // Gets SIN Number for the selected category
-      fetch(SOLUTIONS_ID_SUBCATEGORY_API + level.id + '?token=' + SOLUTIONSID_API_TOKEN)
+      fetch(SOLUTIONS_ID_SUBCATEGORY_API + level.id)
         .then((response) => response.json())
         .then((subCategoryList) => {
           // append subCategoryList to subCategoryData state
@@ -131,6 +130,8 @@ export class CategoryLevel extends React.Component {
         this.handleSinNumbers();
       });     
     }
+    // need to clean up subcategories whenever a category is clicked
+    this.props.removeAllSubCatLevels();
   }
 
   /*findIndex(array, attr, value) {
@@ -150,7 +151,7 @@ export class CategoryLevel extends React.Component {
       this.props.setSinNumber(sin.slice(0, -1));
     } else {
       this.props.setSinNumber('');
-    }  
+    }
   }
 
   render() {
@@ -172,7 +173,7 @@ export class CategoryLevel extends React.Component {
           <CategoryLevelItem
             key={JSON.stringify(value)}
             id={id}
-            checked={this.state.checkedItems.get(id)}
+            checked={this.state.checkedItems.get(id) ? this.state.checkedItems.get(id) : false }
             value={catsArray[value]}
             onCheckboxClick={this.handleCheckboxClick}
           />
@@ -261,6 +262,7 @@ CategoryLevel.propTypes = {
   idPrefix: PropTypes.string,
   addCatLevel: PropTypes.func.isRequired,
   removeCatLevel: PropTypes.func.isRequired,
+  removeAllSubCatLevels: PropTypes.func.isRequired,
   setSinNumber: PropTypes.func.isRequired,
 };
 
@@ -270,5 +272,5 @@ CategoryLevel.defaultProps = {
 
 export default connect(
   state => ({ levels: state.category }),
-  { addCatLevel, removeCatLevel, setSinNumber }
+  { addCatLevel, removeCatLevel, setSinNumber, removeAllSubCatLevels }
 )(CategoryLevel);
