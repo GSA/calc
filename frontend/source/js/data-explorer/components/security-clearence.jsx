@@ -14,7 +14,7 @@ export function SecurityClearance({ idPrefix, securityClearance, setSecurityClea
   return (
     <div className="filter filter-security-clearance">
       <label htmlFor={id}>
-Security Clearance:
+        Security Clearance:
       </label>
       <select
         id={id}

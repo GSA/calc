@@ -32,8 +32,8 @@ NON_PROD_INSTANCE_NAME = os.environ.get('NON_PROD_INSTANCE_NAME', '')
 
 print('heres the non prod instance name', NON_PROD_INSTANCE_NAME)
 # SECURITY WARNING: don't run with debug turned on in production!  Only used for Testing
-# if NON_PROD_INSTANCE_NAME == 'staging':
-if NON_PROD_INSTANCE_NAME == 'sandbox':
+if NON_PROD_INSTANCE_NAME == 'staging':
+    # if NON_PROD_INSTANCE_NAME == 'sandbox':
     DEBUG = True
 else:
     DEBUG = 'DEBUG' in os.environ

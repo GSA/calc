@@ -47,7 +47,7 @@ export default class StoreRatesAutoRequester {
   _startRatesRequest(store) {
     if (this.request) {
       this.request.abort();
-    }   
+    }
     const data = getRatesParameters(store.getState());
     const defaults = {
       histogram: HISTOGRAM_BINS,
@@ -64,7 +64,7 @@ export default class StoreRatesAutoRequester {
     });
   }
 
-  middleware(store) {   
+  middleware(store) {
     return next => (action) => {
       const oldState = store.getState();
       const result = next(action);

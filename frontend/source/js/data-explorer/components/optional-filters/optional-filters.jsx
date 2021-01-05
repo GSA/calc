@@ -7,6 +7,8 @@ import Experience from '../experience';
 import SecurityClearence from '../security-clearence';
 import SinNumber from '../sin-number';
 import Site from '../site';
+import CategoryLevel from '../category-level';
+import SubcategoryLevel from '../subcategory-level';
 
 const OptionalFilters = () => (
   <Fragment>
@@ -14,6 +16,8 @@ const OptionalFilters = () => (
     <Experience />
     <Site />
     <BusinessSize />
+    <CategoryLevel />
+    <SubcategoryLevel />
     <SecurityClearence />
     <SinNumber />
     <ContractYear />

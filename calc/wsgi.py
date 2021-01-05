@@ -14,6 +14,10 @@ from calc.settings_utils import load_cups_from_vcap_services
 
 from .wsgi_middleware import static_url_rewriter
 
+from calc import settings
+
+from whitenoise import WhiteNoise
+
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "calc.settings")
 
@@ -33,9 +37,10 @@ load_cups_from_vcap_services()
 
 try:
     application = static_url_rewriter(
-        get_wsgi_application(),
+        WhiteNoise(get_wsgi_application(), settings.STATIC_ROOT),
         '/docs/',
-        '/static/docs/'
+        '/static/docs/',
+
     )
 except Exception as e:
     print(e)

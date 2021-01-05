@@ -17,7 +17,7 @@ export function ExportData({ querystring }) {
       title="Click to export your search results to an Excel file (CSV)"
       href={href}
     >
-⬇ Export data (CSV)
+      ⬇ Export data (CSV)
     </a>
   );
 }
