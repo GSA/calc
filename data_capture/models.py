@@ -421,6 +421,15 @@ class bls_state(models.Model):
         return "bls_state"
 
 
+class bls_wage_states(models.Model):
+    id = models.AutoField(primary_key=True)
+    state = models.CharField(null=False, blank=False, max_length=800)
+    state_code = models.CharField(null=False, blank=False, max_length=800)
+
+    def __str__(self):
+        return "bls_wage_states"
+
+
 class bls_state_city_mapping(models.Model):
     id = models.AutoField(primary_key=True)
     state = models.ForeignKey(bls_state, on_delete=models.CASCADE)
