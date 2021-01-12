@@ -1,5 +1,18 @@
 /* eslint-disable */
 $(document).ready(() => {
+  const currentPage = window.location.href;
+  let API_URL = "https://calc.gsa.gov"
+  if(currentPage.indexOf('localhost') != -1){
+    API_URL = "http://localhost:8000"
+  }
+  else if(currentPage.indexOf('calc-dev') != -1){
+    API_URL = "https://calc-dev.app.cloud.gov"
+  }
+  else if(currentPage.indexOf('calc.gsa') != -1){
+    API_URL = "https://calc.gsa.gov"
+  }
+  
+
   showWarningBanner = () => {
     deactivateLoader();
     $('.primary_form').hide();
@@ -52,16 +65,14 @@ $(document).ready(() => {
 
   getWageScaleOptions = (val,el) => {
     const occupation = $('#selectOccupation').val();
-    const lcat_id = $('#fldLcatValue').val();
-    const area_id = $('#selectMsa').val();
-    if (occupation !== "" && area_id != "" && lcat_id!= "") {
+    const area = $('#selectMsa').val();
+    if (occupation !== "" && area != "") {
       $.post({
         beforeSend: activateLoader(el),
-        url: "http://localhost:8000/api/bls_pet/getprice",
+        url: API_URL+"/api/bls_pet/getprice",
         data: {
-          "lcat_id": lcat_id,
           "occupation_code": occupation,
-          "area_id":area_id
+          "area":area
         },
         success: (res) => {
           deactivateLoader();
@@ -72,24 +83,22 @@ $(document).ready(() => {
   };
 
   createMSA = (el) => {
-    const state_value = $(el).val();
-    if (state_value !== "") {
+    const statecode = $(el).val();
+    if (statecode !== "") {
       $.post({
         beforeSend: activateLoader(el),
-        url: "http://localhost:8000/api/bls_pet/autocomplete/area/",
+        url: API_URL+"/api/bls_pet/autocomplete/area/",
         data: {
-          "state_code": state_value,
+          "statecode": statecode,
+          "occupation":$('#selectOccupation').val()
         },
         success: (res) => {
           deactivateLoader();
-          optionData = '';
+          optionData = `<option value=''>Select One Area</option>`;
           res.data.map(d => {
-            optionData += `<option value='${d.id}'>${d.city}</option>`;
+            optionData += `<option value='${d.city}'>${d.city}</option>`;
           });
-          $('#selectMsa').removeAttr('disabled').empty().append(optionData);
-          // if (res.data.length > 0) {
-          //   getWageScaleOptions(res[0]['sMsa'],$('#selectMsa'));
-          // }                   
+          $('#selectMsa').removeAttr('disabled').empty().append(optionData);               
         }
       });
     }
@@ -111,9 +120,10 @@ $(document).ready(() => {
 
   callForStateList = () => {
     const stateElement = $('#selectState');
-    $.get({
+    $.post({
       beforeSend: activateLoader(stateElement),
-      url: "http://localhost:8000/api/bls_pet/autocomplete/state/",
+      data:{"occupation":$('#selectOccupation').val()},
+      url: API_URL+"/api/bls_pet/autocomplete/state/",
       success: (res) => {
         deactivateLoader();
         optionData = `<option data-attr_dbid='' value=''>Choose one...</option>`;
@@ -131,7 +141,7 @@ $(document).ready(() => {
     if (value_occupation != "") {
       $.post({
         beforeSend: activateLoader(el),
-        url: "http://localhost:8000/api/bls_pet/autocomplete/lcat/",
+        url: API_URL+"/api/bls_pet/autocomplete/lcat/",
         data:{"occ_id":value_occupation},
         success: (res) => {
           $('#fldLcatTitle').val(res.data.lcat_details[0].lcat_title);
@@ -150,6 +160,7 @@ $(document).ready(() => {
 
   launchPriceIndex = () => {
     $('.primary_form').hide();
+    $('.results').hide()
     $('.secondary_form').show();
   };
 
@@ -161,53 +172,104 @@ $(document).ready(() => {
     return returnArray;
   };
   goback = () => {
-    $('.bls_result_tbody').empty();
-    $('.bls_result').hide();
-    $('.primary_form').hide();
-    $('.secondary_form').show();        
+    resetFinalResetSet();
+    $('.results').hide();
+    $('.secondary_form').hide();  
+    $('.primary_form').show();      
   };
+
+
+  function resetFinalResetSet () {
+    $('.primary_form').trigger('reset');
+    $('.secondary_form').trigger('reset');
+    $('.igce_summary').find('#occ').text('')
+    $('.igce_summary').find('#eandq').text('')
+    $('.igce_summary').find('#msa').text('')
+    $('.igce_summary').find('#wagescale').text('')
+    $('.igce_summary').find('#in_rate_level').text('')
+    $('.igce_summary').find('#cmds').text('')
+
+
+    resultsTableids = ['igce_details_1','igce_details_2','igce_details_3','igce_details_4','igce_details_5']
+    
+    $.each(resultsTableids,(index,element) => {
+      
+      tbodyEle = document.querySelector('.'+element)
+      $(tbodyEle).find('.result_occupation').text('')
+      $(tbodyEle).find('.result_eandq').text('')
+      $(tbodyEle).find('.result_msa').text('')
+      $(tbodyEle).find('.result_est_hour').text('')
+      $(tbodyEle).find('.result_est_hour_rate').text('')
+      $(tbodyEle).find('.result_total').text('');
+    });
+    $('.igce_summary').find('#lcat_est').text('');
+  }
+
+
   filleIndirectRateDisplay = (el) => {
     $('#IndirectRateLevelDisplay').val($(el).find("option:selected").text());
   };
-  launchResult = (el) => {
-    $('.primary_form').hide();
-    $('.secondary_form').hide();
+
+  function getFinalPricePerYear(hour,baseprice){
+    const priceToBeAdded = additionalPrice[hour]
+    return parseFloat(baseprice)+parseFloat(priceToBeAdded)
+  }
+  validateSecondary = (el) => {
     primary_form_data = objectifyForm($('.primary_form').serializeArray());
     secondary_form_data = objectifyForm($('.secondary_form').serializeArray());
-    console.log(primary_form_data);
-    console.log(secondary_form_data);
-    // $.get({
-    //   beforeSend: activateLoader(el),
-    //   url: "https://oasispet.gsa.gov/cpet/cpetPricingTool/generateMsaWages",
-    //   data: {
-    //     "cpetId": primary_form_data['cpetId'],
-    //     "sEQLevel": secondary_form_data['eqLevel'],
-    //     "sMsa": secondary_form_data['msa'],
-    //     "sSocCode": secondary_form_data['socCode'],
-    //     "sWageScale": secondary_form_data['radioWageScaleOption'],
-    //     "sMarkupPercent": secondary_form_data['markupPercent'],
-    //     "IndirectRateLevelDisplay": secondary_form_data['IndirectRateLevelDisplay'],
-    //     "sEstimateHours1": secondary_form_data['estimatedHours1'],
-    //     "sEstimateHours2": secondary_form_data['estimatedHours2'],
-    //     "sEstimateHours3": secondary_form_data['estimatedHours3'],
-    //     "sEstimateHours4": secondary_form_data['estimatedHours4'],
-    //     "sEstimateHours5": secondary_form_data['estimatedHours5'],
-    //   },
-    //   success: (res) => {
-    //     console.log(res);
-    //     deactivateLoader();
-    //     trdata = "<tr>";
-    //     trdata += "<td>" + res.titleSoc + "</td>";
-    //     trdata += "<td>" + res.eqLcatTile + "</td>";
-    //     trdata += "<td>" + res.stateMsa + "</td>";
-    //     trdata += "<td>" + res.hoursEstimate + "</td>";
-    //     trdata += "<td>$" + res.estHourlyRate + "</td>";
-    //     trdata += "<td>$" + res.totalEstAmount + "</td>";
-    //     trdata += "<tr>";
-    //     $('.bls_result_tbody').empty().append(trdata)
-    //     $('.bls_result').show();
-    //   }
-    // });
+    $.ajax({
+      type:"POST",
+      beforeSend: activateLoader(el),
+      url: API_URL+"/api/bls_pet/getblswage",
+      data: {
+        "occ_id": secondary_form_data['socCode'],
+        "area": secondary_form_data['msa']
+      },
+      success: (results) => {
+        console.log(results);
+        deactivateLoader();
+        if(results['Error'] == 0){
+          occupationSelected = $('#selectOccupation').find('option:selected').text()+'( '+secondary_form_data['socCode']+')'
+     
+          $('.igce_summary').find('#occ').text(occupationSelected)
+          $('.igce_summary').find('#eandq').text(secondary_form_data['eqLevel'])
+          $('.igce_summary').find('#msa').text(secondary_form_data['msa'])
+          $('.igce_summary').find('#wagescale').text(secondary_form_data['radioWageScaleOption'])
+          $('.igce_summary').find('#in_rate_level').text(secondary_form_data['markupPercent'])
+          $('.igce_summary').find('#cmds').text(secondary_form_data['comments'])
+
+
+          resultsTableids = ['igce_details_1','igce_details_2','igce_details_3','igce_details_4','igce_details_5']
+          let totlaPrice = 0;
+          $.each(resultsTableids,(index,element) => {
+            const estId = 'fldEstimatedHours'+(index+1)
+            estHour = document.getElementById(estId).value
+            const orderYear = 'order_year_'+(index+1)
+            if(index > 0){
+              orderYearSpan = document.querySelector('.'+orderYear)
+              orderYearSpan.innerHTML = estHour
+            }
+            const updatedprice = getFinalPricePerYear(estHour,results['data']['value'])
+            const price = updatedprice*estHour
+            totlaPrice = price+totlaPrice;
+            tbodyEle = document.querySelector('.'+element)
+            $(tbodyEle).find('.result_occupation').text(occupationSelected)
+            $(tbodyEle).find('.result_eandq').text(secondary_form_data['eqLevel'])
+            $(tbodyEle).find('.result_msa').text(secondary_form_data['msa'])
+            $(tbodyEle).find('.result_est_hour').text(estHour)
+            $(tbodyEle).find('.result_est_hour_rate').text(updatedprice.toFixed(2))
+            $(tbodyEle).find('.result_total').text(price.toFixed(2))
+          });
+          $('.igce_summary').find('#lcat_est').text(totlaPrice.toFixed(2));
+          $('.primary_form').hide();
+          $('.secondary_form').hide();
+          $('.results').show();
+        }else{
+          alert(results['Error_Message'])
+        }
+        
+      }
+    });
     return false;  
   };
   var primary_data;
@@ -217,19 +279,22 @@ $(document).ready(() => {
     launchPriceIndex();
     return false;
   };
-  validateSecondary = (form_el) => {
-    secondary_data = $(form_el).serializeArray();
-    launchResult($('.get_result_btn'));
-    return false;
-  };
 
-
+ var additionalPrice;
+ function getAddtionalPriceList(){
+  $.get({
+    url: API_URL+"/api/bls_pet/autocomplete/additional_price/",
+    success: (res) => {
+      additionalPrice = res.data;
+    }
+  });
+ } 
  function getAllOccupation(){
    const el = $('#selectOccupation');
    const el_err = $('#selectOccupation_error');
   $.get({
     beforeSend: activateLoader(el),
-    url: "http://localhost:8000/api/bls_pet/autocomplete/occupation/",
+    url: "/api/bls_pet/autocomplete/occupation/",
     success: (res) => {
       if (res.Error != 0){
         $(el_err).text(res.ErrorMessage);return false;
@@ -241,10 +306,12 @@ $(document).ready(() => {
       });
       $(el).removeAttr('disabled');
       deactivateLoader();
+      
     }
   });
   }
 
 
-  getAllOccupation()
+  getAllOccupation();
+  getAddtionalPriceList();
 });

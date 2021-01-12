@@ -34,7 +34,7 @@ export default class CategoryLevelItem extends React.Component {
 
 CategoryLevelItem.propTypes = {
   id: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.object.isRequired,
   checked: PropTypes.bool.isRequired,
   onCheckboxClick: PropTypes.func.isRequired,
 };
