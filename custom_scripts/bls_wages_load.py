@@ -8,7 +8,8 @@
 # from django.db.models import Q
 
 
-# wageList = bls_series_wages.objects.filter(Q(city__isnull=True) | Q(occupation_title__isnull=True))
+# wageList = bls_series_wages.objects.filter(Q(city__isnull=True) |
+#                                            Q(occupation_title__isnull=True))
 # print('----------EMPTY-------------', wageList.count())
 # # wageList = bls_series_wages.objects.filter(series_id = 'WMU00244201020000001500002506')
 # headers = {'Content-type': 'application/json'}

@@ -742,7 +742,7 @@ class GetBLSWage(APIView):
             occupation_code=occupationCode,
             city=area
         ).values('value')
-        result = {}
+        result: dict = {}
         if wageInstance:
             result = {
                 'value': wageInstance[0].get('value'),
@@ -794,14 +794,14 @@ class GetBLSAutocomplete(APIView):
                                      'data': []})
 
         elif search_term == 'additional_price':
-            result = {}
+            resullt: dict = {}
             for ad in bls_wage_year_addition_price.objects.all():
-                result[ad.year] = ad.price
+                resullt[ad.year] = ad.price
 
             return JsonResponse({
                 'Error': 0,
                 'Error_Message': '',
-                'data': result
+                'data': resullt
             })
         else:
             return JsonResponse({
@@ -873,9 +873,11 @@ class GetBLSAutocomplete(APIView):
             relations = bls_wage_states_area_relation.objects.filter(state=stateIns,
                                                                      city_id__in=ocupationIds)
             cities = []
-            addedCities = []
+            addedCities: list = []
             for rel in relations:
-                if not rel.city.city in addedCities:
+                if rel.city.city in addedCities:
+                    pass
+                else:
                     cities.append({
                         'id': 0,
                         'city': rel.city.city
@@ -888,12 +890,14 @@ class GetBLSAutocomplete(APIView):
             wageInstance = bls_series_wages.objects.filter(occupation_code=occupationCode,
                                                            city__isnull=False)
             states = []
-            addedStatescode = []
+            addedStatescode: list = []
             for occupations in wageInstance:
                 statesIds = bls_wage_states_area_relation.objects.filter(city=occupations)
 
                 for st in statesIds:
-                    if not st.state.state_code in addedStatescode:
+                    if st.state.state_code in addedStatescode:
+                        pass
+                    else:
                         states.append({"state": st.state.state, "code": st.state.state_code})
                         addedStatescode.append(st.state.state_code)
 
