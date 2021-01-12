@@ -214,10 +214,10 @@ and run `python manage.py createsuperuser`. You'll need to do some environment
 setup on the remote host, as described at [Cloud Foundry's SSH docs](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html#ssh-env):
 
 ```sh
-export HOME=/home/vcap/app
-export TMPDIR=/home/vcap/tmp
-cd /home/vcap/app
-source /home/vcap/app/.profile.d/python.sh
+export HOME=/path/to/app
+export TMPDIR=/path/to/tmp
+cd /path/to/app
+source /path/to/app/.profile.d/python.sh
 ```
 
 ### Testing production deployments

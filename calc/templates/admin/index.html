@@ -2,6 +2,7 @@
 {# Copyright (c) Django Software Foundation and individual contributors. License: https://github.com/django/django/blob/stable/1.8.x/LICENSE #}
 {% extends "admin/base_site.html" %}
 {% load i18n admin_static %}
+{% load static %}
 
 {% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}" />{% endblock %}
 
@@ -84,7 +85,11 @@
       </table>
       </div>
     {% endfor %}
-{% else %}
+    <div><h2>Reports </h2>
+      <a href="../static/admin/reports.xlsx">Contracts without Pricing Data </a> 
+       <div><small style="color: #6a7075;">This report shows contracts that currently do not have pricing data in CALC</small></div>
+      </div>
+    {% else %}
     <p>{% trans "You don't have permission to edit anything." %}</p>
 {% endif %}
 </div>
