@@ -176,15 +176,15 @@ workflows:
   build-test-and-deploy:
     jobs:
       - build
-  nightly:
-    jobs:
-      - prod-test
-    triggers:
-      - schedule:
+  # nightly:
+    # jobs:
+      # - prod-test
+    # triggers:
+      # - schedule:
           # every night at 2:11 AM UTC (10:11 PM ET)
-          cron: "11 02 * * *"
-          filters:
-            branches:
-              only:
-                - master
+          # cron: "11 02 * * *"
+          # filters:
+            # branches:
+              # only:
+                # - master
 
