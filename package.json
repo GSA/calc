@@ -47,7 +47,7 @@
     "gulp-uglify": "^3.0.1",
     "gulp-util": "^3.0.7",
     "isomorphic-fetch": "^3.0.0",
-    "jest": "24.0.0",
+    "jest": "23.6.0",
     "jquery": "^3.5.1",
     "node-fetch": "3.0.0-beta.9",
     "prop-types": "^15.6.1",
@@ -91,11 +91,7 @@
     "kind-of": "^6.0.3",
     "minimist": "^1.2.2",
     "ajv": "^6.12.3",
-    "node-notifier": "^8.0.1",
-    "y18n": "^5.0.5",
-    "cache-base": "^1.0.1",
-    "ini": "^1.3.6",
-    "ua-parser-js": "^0.7.23"
+    "node-notifier": "^8.0.1"
   },
   "scripts": {
     "gulp": "gulp",
