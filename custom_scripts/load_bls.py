@@ -3,15 +3,15 @@
 #   -exec(open('custom_scripts/load_bls.py').read())
 '''
 import pandas as pd
-from data_capture.models import (bls_lcat, bls_occupation_lcat_mapping)
+from data_capture.models import (bls_series_wages)
 import os
 
 
 def alterColum(col):
     return col.lower().strip().replace(' ', '_').replace('\n', '_')
-'''
 
-'''
+
+
 #FOR BLS DATA
 xlpath = os.path.join(os.getcwd(),'custom_scripts/BLS_Data_for_PET.xlsx')
 sheetname = 'MWE_2018'
@@ -19,25 +19,40 @@ excell = pd.read_excel(xlpath,sheet_name=sheetname)
 #making every column items lowercase
 excell.columns = [alterColum(i) for i in excell.columns]
 
+
+series_id = models.TextField(blank=True, null=True)
+    year = models.TextField(blank=True, null=True)
+    period = models.TextField(blank=True, null=True)
+    value = models.TextField(blank=True, null=True)
+    footnote_codes = models.TextField(blank=True, null=True)
+    occupation_code = models.TextField(blank=True, null=True)
+    occupation_title = models.TextField(blank=True, null=True)
+    lcat_id = models.TextField(blank=True, null=True)
+    lcat_title = models.TextField(blank=True, null=True)
+    city = models.TextField(blank=True, null=True)
+    commerce_industry = models.TextField(blank=True, null=True)
+    measure_data_type = models.TextField(blank=True, null=True)
+    created_at = models.TextField(blank=True, null=True)
+    updated_at = models.TextField(blank=True, null=True)
+    period_name = models.TextField(blank=True, null=True)
+    latest = models.TextField(blank=True, null=True)
+
 for index, row in excell.iterrows():
-    if bls_data.objects.filter(series_id = row['series_id']):
-        bls_data.objects.get(series_id = row['series_id']).delete()
-        print('DELETED '+row['series_id']+' AND INSERTING AS NEW DATA')
-    bls = bls_data(
+    bls = get_or_create(
         series_id = row['series_id'],
-        series_title = row['series_title'],
-        area_code = row['area_code'],
-        area_level = row['area_level'],
-        area_text = row['area_text'],
-        occupation_code = row['occupation_code'],
+        year = row['series_title'],
+        value = row['area_code'],
+        footnote_codes = row['area_level'],
+        occupation_code = row['area_text'],
+        occupation_title = row['occupation_code'],
         occupation_text = row['occupation_text'],
-        job_char_code =row['job_characteristic_code'],
-        job_char_text = row['job_characteristic_text'],
-        work_level_code = row['work_level_code'],
-        work_level_text = row['work_level_text'],
-        average_hourly_wage = row['average_hourly_wage'],
-        relative_std_error = row['relative_standard_error'],
-        average_hourly_wage_footnote = row['average_hourly_wage_footnote'],
+        lcat_id =row['job_characteristic_code'],
+        lcat_title = row['job_characteristic_text'],
+        city = row['work_level_code'],
+        commerce_industry = row['work_level_text'],
+        measure_data_type = row['average_hourly_wage'],
+        created_at = row['relative_standard_error'],
+        updated_at = row['average_hourly_wage_footnote'],
         relative_std_error_footnote = row['relative_standard_error_footnote'],
     )
     bls.save()

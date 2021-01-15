@@ -5,7 +5,7 @@
 # # import logging
 # # import pandas as pd
 # # import os
-# from data_capture.models import (bls_series_wages,
+# from data_capture.models import (bls_series_wages_a,
 #                                  bls_wage_states_area_relation, bls_wage_states, bls_state)
 # from django.db.models import Q
 
@@ -18,11 +18,11 @@
 #         return False, arr[0]
 
 
-# allPricingData = bls_series_wages.objects.filter(Q(city__isnull=False))
+# allPricingData = bls_series_wages_a.objects.filter(Q(area__isnull=False))
 
 
 # for eachrow in allPricingData:
-#     city = eachrow.city
+#     city = eachrow.area
 #     stateCode, cityName = getStateCodeFromCity(city)
 #     if not stateCode:
 #         stateCode = [cityName]

@@ -216,7 +216,7 @@
       </div>
    </form>
 
-   <form class="secondary_form" autocomplete="off" onsubmit="return validateSecondary(this)">
+   <form class="secondary_form hidden" autocomplete="off" onsubmit="return validateSecondary(this)">
       <div class="box box_custom" >
          <div class="box-title">Price Estimating Tool</div>
          <div id="" class="box-content">
@@ -225,7 +225,7 @@
                   <label for="selectOccupation">Occupation<span class="required">*</span></label>
                </div>
                <div class="left column valueList ">
-                  <select id="selectOccupation" name="socCode" disabled="true" required onchange="getLACTTitle(this),createMSA(this)">
+                  <select id="selectOccupation" name="socCode" disabled="true" required onchange="getLACTTitle(this)">
                   </select>
                   <div id="selectOccupation_error" class="errorText ">
                   </div>
@@ -275,7 +275,7 @@
                   <label for="selectState">State<span class="required">*</span></label>
                </div>
                <div class="left column valueList ">
-                  <select name="selectState" disabled="true" required id="selectState">
+                  <select onchange="createMSA(this)" name="selectState" disabled="true" required id="selectState">
                      <option value="">Choose one...</option>
                   </select>
                   <div id="selectState_error" class="errorText ">

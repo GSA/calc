@@ -412,13 +412,7 @@ class capability_statement(models.Model):
 #         return "bls_base_year_increment"
 
 
-# class bls_state(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     state = models.CharField(null=False, blank=False, max_length=200)
-#     state_code = models.CharField(null=False, blank=False, max_length=10)
 
-#     def __str__(self):
-#         return "bls_state"
 
 
 # class bls_state_city_mapping(models.Model):
@@ -439,6 +433,14 @@ class capability_statement(models.Model):
 #         return "bls_occupation_lcat_mapping"
 
 # ACTIVE TABLLES
+class bls_state(models.Model):
+    id = models.AutoField(primary_key=True)
+    state = models.CharField(null=False, blank=False, max_length=200)
+    state_code = models.CharField(null=False, blank=False, max_length=10)
+
+    def __str__(self):
+        return "bls_state"
+
 
 class bls_series_wages(models.Model):
     series_id = models.TextField(blank=True, null=True)
@@ -451,9 +453,37 @@ class bls_series_wages(models.Model):
     lcat_id = models.TextField(blank=True, null=True)
     lcat_title = models.TextField(blank=True, null=True)
     city = models.TextField(blank=True, null=True)
+    commerce_industry = models.TextField(blank=True, null=True)
+    measure_data_type = models.TextField(blank=True, null=True)
+    created_at = models.TextField(blank=True, null=True)
+    updated_at = models.TextField(blank=True, null=True)
+    period_name = models.TextField(blank=True, null=True)
+    latest = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return "bls_series_wages"
+
+
+class bls_series_wages_a(models.Model):
+    series_id = models.TextField(blank=True, null=True)
+    year = models.TextField(blank=True, null=True)
+    period = models.TextField(blank=True, null=True)
+    value = models.TextField(blank=True, null=True)
+    footnote_codes = models.TextField(blank=True, null=True)
+    occupation_code = models.TextField(blank=True, null=True)
+    occupation = models.TextField(blank=True, null=True)
+    lcat_id = models.TextField(blank=True, null=True)
+    lcat_title = models.TextField(blank=True, null=True)
+    area = models.TextField(blank=True, null=True)
+    commerce_industry = models.TextField(blank=True, null=True)
+    measure_data_type = models.TextField(blank=True, null=True)
+    created_at = models.TextField(blank=True, null=True)
+    updated_at = models.TextField(blank=True, null=True)
+    period_name = models.TextField(blank=True, null=True)
+    latest = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return "bls_series_wages_a"
 
 
 class bls_wage_pricing(models.Model):
@@ -490,7 +520,7 @@ class bls_wage_year_addition_price(models.Model):
 
 class bls_wage_states_area_relation(models.Model):
     state = models.ForeignKey(bls_wage_states, on_delete=models.CASCADE)
-    city = models.ForeignKey(bls_series_wages, on_delete=models.CASCADE)
+    city = models.ForeignKey(bls_series_wages_a, on_delete=models.CASCADE)
 
     def __str__(self):
         return "bls_wage_states_area_relation"
