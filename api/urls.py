@@ -30,6 +30,7 @@ urlpatterns = [
     )),
     url(r'^bls_pet/autocomplete/(?P<search_term>[\w,-]+)/$', views.GetBLSAutocomplete.as_view()),
     url(r'^bls_pet/getprice', views.GetBLSGetPrice.as_view()),
+    url(r'^bls_pet/getblswage', views.GetBLSWage.as_view()),
 
 
     url(r'^capabilitystatement/$', views.GetCapabilityStatement.as_view()),
