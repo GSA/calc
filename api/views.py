@@ -888,7 +888,7 @@ class GetBLSAutocomplete(APIView):
             data = request.data
             occupationCode = data['occupation']
             wageInstance = bls_series_wages_a.objects.filter(occupation_code=occupationCode,
-                                                           area__isnull=False)
+                                                             area__isnull=False)
             states = []
             addedStatescode: list = []
             for occupations in wageInstance:

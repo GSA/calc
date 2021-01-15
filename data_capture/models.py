@@ -412,9 +412,6 @@ class capability_statement(models.Model):
 #         return "bls_base_year_increment"
 
 
-
-
-
 # class bls_state_city_mapping(models.Model):
 #     id = models.AutoField(primary_key=True)
 #     state = models.ForeignKey(bls_state, on_delete=models.CASCADE)
