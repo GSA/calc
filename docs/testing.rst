@@ -1,4 +1,6 @@
-## Testing
+=========
+Testing
+=========
 
 CALC provides a custom Django management command to run all linters and tests:
 

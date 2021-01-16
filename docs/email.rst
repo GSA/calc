@@ -1,4 +1,6 @@
-## Email
+================================
+Email
+================================
 
 CALC sends email in HTML and plaintext format.
 

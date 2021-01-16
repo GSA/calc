@@ -1,4 +1,6 @@
-## Continuous integration
+================================
+Continuous integration
+================================
 
 CALC uses a number of third-party services to ensure consistent code quality.
 

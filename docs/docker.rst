@@ -1,4 +1,8 @@
-## Using Docker
+=========
+Docker
+=========
+
+ ## Using Docker
 
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>

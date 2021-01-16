@@ -1,4 +1,6 @@
-# Change log
+================================
+Change Log
+================================
 
 All notable changes to this project will be documented in this file,
 which uses the format described in
@@ -104,42 +106,41 @@ contract vehicles, not just schedules (#2067).
   production. Because of this, the `API_HOST` and `WHITELISTED_IPS`
   settings have been removed (#1766).
 - A number of changes have been made to CALC's CSS:
-    - CALC now uses the US Web Design System; it was formerly using
+   * CALC now uses the US Web Design System; it was formerly using
       bits and pieces of it that we had copy-and-pasted from USWDS.
       For more details on how we override USWDS and define our own
       custom variables, see the front-end developer guide.
-    - CALC now uses USWDS's `usa-sr-only` class for screenreader-only
+   * CALC now uses USWDS's `usa-sr-only` class for screenreader-only
       content instead of `sr-only` (#1958).
-    - CALC no longer uses words like "primary" and "secondary" in its
+   * CALC no longer uses words like "primary" and "secondary" in its
       SASS color names, instead opting for the actual names of the
       colors, such as `color-blue-darker` and `color-green-bright` (#1947).
 - A number of changes have been made to the project's use of
   Google Analytics (GA):
-    - Clicks on the "download graph" button in the Data Explorer are now
-      tracked by GA (#1706).
-    - Both Google Analytics accounts (DAP and standard GA) now
-      behave in almost exactly the same ways, which should
-      reduce confusion (#1852, #1853).
-    - DAP is no longer used when users are authenticated (#1843).
+  * Clicks on the "download graph" button in the Data Explorer are now tracked by GA (#1706).
+  * Both Google Analytics accounts (DAP and standard GA) now
+  behave in almost exactly the same ways, which should
+  reduce confusion (#1852, #1853).
+  * DAP is no longer used when users are authenticated (#1843).
 - The developer documentation has been updated in a
   number of ways (#1698). In particular:
-    - The Docker way of developing is now the default and _only_
-      documented way of doing things. In other words, we no
-      longer document how to get CALC up and running without
-      Docker (#1793).
-    - Docker troubleshooting documentation is now significantly
-      more helpful (#1904).
-    - API documentation has been moved to `/api/docs/`. It is now
-      interactive (that is, users can enter search criteria and
-      see the response returned by the server). It is auto-generated
-      by Django REST Framework, which has been upgraded to
-      3.8.2 (#1797, #1811, #1870, #1893).
-    - A documentation section on analytics has been added (#1857).
+  * The Docker way of developing is now the default and _only_
+  documented way of doing things. In other words, we no
+  longer document how to get CALC up and running without
+  Docker (#1793).
+  * Docker troubleshooting documentation is now significantly
+  more helpful (#1904).
+  * API documentation has been moved to `/api/docs/`. It is now
+  interactive (that is, users can enter search criteria and
+  see the response returned by the server). It is auto-generated
+  by Django REST Framework, which has been upgraded to
+  3.8.2 (#1797, #1811, #1870, #1893).
+  * A documentation section on analytics has been added (#1857).
 - More source code has been documented and refactored for
   readability/maintainability. In particular:
-    - Data capture schedule code has been documented and type-annotated (#1826).
-    - The `Contract` model is now documented (#1850).
-    - The project's CSS is now documented (#1871).
+  * Data capture schedule code has been documented and type-annotated (#1826).
+  * The `Contract` model is now documented (#1850).
+  * The project's CSS is now documented (#1871).
 - Issue/PR numbers in the `/updates/` page are now automatically
   linked to their corresponding pages on GitHub (#1816).
 - Searching for users in the admin panel works again (#1794).

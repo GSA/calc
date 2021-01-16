@@ -1,4 +1,6 @@
-## Authentication and authorization
+================================
+Authentication and authorization
+================================
 
 CALC uses cloud.gov's [User Account and Authentication (UAA)](https://cloud.gov/docs/apps/leveraging-authentication/) server to authenticate users. Django's typical username/password authentication is not used.
 
