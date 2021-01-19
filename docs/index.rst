@@ -36,6 +36,7 @@ Welcome to CALC's developer documentation!
    analytics
    ci
    release
+   changelog
    Change log <https://calc-dev.app.cloud.gov/updates/>
 
 .. toctree::
@@ -44,7 +45,8 @@ Welcome to CALC's developer documentation!
 
    CALC home <https://calc-dev.app.cloud.gov/>
    CALC data quality report <https://calc-dev.app.cloud.gov/data-quality-report/>
-   GitHub <https://github.com/18F/calc>
+   Old GitHub <https://github.com/18F/calc>
+   New GitHub <https://github.com/GSA/calc>
 
 Indices and tables
 ==================
