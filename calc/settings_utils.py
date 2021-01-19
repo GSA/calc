@@ -54,6 +54,8 @@ def load_redis_url_from_vcap_services(name: str,
             env['REDIS_URL'] = url
             return
 
+def load_redis_url_from_vcap_services_ver2():
+    pass
 
 def is_running_tests(argv: List[str]=sys.argv) -> bool:
     '''
