@@ -16,7 +16,7 @@ import dj_email_url
 from dotenv import load_dotenv
 from typing import Tuple, Any, Dict  # NOQA
 from .settings_utils import (load_cups_from_vcap_services,
-                             load_redis_url_from_vcap_services,
+                             load_redis_url_from_vcap_services_ver2,
                              is_running_tests)
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -27,10 +27,11 @@ if os.path.exists(DOTENV_PATH):
     load_dotenv(DOTENV_PATH)
 
 load_cups_from_vcap_services()
-load_redis_url_from_vcap_services('calc-redis32')
+
+load_redis_url_from_vcap_services_ver2()
+
 NON_PROD_INSTANCE_NAME = os.environ.get('NON_PROD_INSTANCE_NAME', '')
 
-print('heres the non prod instance name', NON_PROD_INSTANCE_NAME)
 # SECURITY WARNING: don't run with debug turned on in production!  Only used for Testing
 if NON_PROD_INSTANCE_NAME == 'staging':
     # if NON_PROD_INSTANCE_NAME == 'sandbox':

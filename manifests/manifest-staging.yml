@@ -3,7 +3,7 @@ defaults: &defaults
   services:
     - calc-db
     - calc-env
-    - calc-redis32
+    - calc-aws-redis
   buildpack: python_buildpack
   stack: cflinuxfs3
   timeout: 180
