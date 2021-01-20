@@ -54,9 +54,20 @@ def load_redis_url_from_vcap_services(name: str,
             env['REDIS_URL'] = url
             return
 
-def load_redis_url_from_vcap_services_ver2(vcap):
-    vcap['aws-redis']['credentials']
-    pass
+def load_redis_url_from_vcap_services_ver2(env: Environ=os.environ):
+    if 'VCAP_SERVICES' not in env:
+        return
+
+    # cloud.gov wraps JSON in array, so [0] unwraps it
+    vcap = json.loads(env['VCAP_SERVICES'])
+    creds = vcap['aws-elasticache-redis'][0]['credentials']
+    url = 'redis://:{password}@{hostname}:{port}'.format(
+        password=creds['password'],
+        hostname=creds['hostname'],
+        port=creds['port']
+    )
+    env['REDIS_URL'] = url
+    return
 
 def is_running_tests(argv: List[str]=sys.argv) -> bool:
     '''
