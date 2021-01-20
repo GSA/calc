@@ -288,7 +288,7 @@ LOGGING: Dict[str, Any] = {
             'formatter': 'verbose'
         },
         'console': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
@@ -297,7 +297,7 @@ LOGGING: Dict[str, Any] = {
         'django': {
             'handlers': ['console', 'file'],
             'propagate': True,
-            'level': 'INFO',
+            'level': 'DEBUG',
         },
         'uaa_client': {
             'handlers': ['console', 'file'],
@@ -307,7 +307,7 @@ LOGGING: Dict[str, Any] = {
         'calc': {
             'handlers': ['console', 'file'],
             'propagate': True,
-            'level': 'INFO',
+            'level': 'DEBUG',
         },
         'contracts': {
             'handlers': ['console', 'contracts_file'],
@@ -316,11 +316,11 @@ LOGGING: Dict[str, Any] = {
         },
         'rq.worker': {
             'handlers': ['console'],
-            'level': 'INFO',
+            'level': 'DEBUG',
         },
         'rq_scheduler': {
             'handlers': ['console'],
-            'level': 'INFO',
+            'level': 'DEBUG',
         },
         'slackbot': {
             'handlers': ['console'],
