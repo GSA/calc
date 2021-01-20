@@ -16,7 +16,6 @@ import dj_email_url
 from dotenv import load_dotenv
 from typing import Tuple, Any, Dict  # NOQA
 from .settings_utils import (load_cups_from_vcap_services,
-                             load_redis_url_from_vcap_services,
                              load_redis_url_from_vcap_services_ver2,
                              is_running_tests)
 
@@ -28,7 +27,7 @@ if os.path.exists(DOTENV_PATH):
     load_dotenv(DOTENV_PATH)
 
 load_cups_from_vcap_services()
-#load_redis_url_from_vcap_services('calc-redis32')
+# load_redis_url_from_vcap_services('calc-redis32')
 load_redis_url_from_vcap_services_ver2()
 
 NON_PROD_INSTANCE_NAME = os.environ.get('NON_PROD_INSTANCE_NAME', '')
