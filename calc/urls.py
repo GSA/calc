@@ -43,6 +43,10 @@ urlpatterns = [
     url(r'^reports/', views.reports, name='reports')
 ]
 
+urlpatterns += [
+    url(r'^django-rq/', include('django_rq.urls')),
+]
+
 tests_url = url(r'^tests/$', TemplateView.as_view(template_name='tests.html'),
                 name="tests")
 
