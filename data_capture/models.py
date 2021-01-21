@@ -411,6 +411,7 @@ class bls_base_year_increment(models.Model):
     def __str__(self):
         return "bls_base_year_increment"
 
+
 class bls_state(models.Model):
     id = models.AutoField(primary_key=True)
     state = models.CharField(null=False, blank=False, max_length=200)
