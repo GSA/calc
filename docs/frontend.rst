@@ -1,4 +1,6 @@
-# Front end
+==========
+Front end
+==========
 
 In general, front end code is in the [frontend](../frontend/) directory.
 

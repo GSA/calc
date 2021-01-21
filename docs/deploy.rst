@@ -1,4 +1,6 @@
-## Deploying to Cloud Foundry
+================================
+Deploying to Cloud Foundry
+================================
 
 **This section is only of interest to 18F team members.**
 
@@ -49,14 +51,16 @@ only production dependencies will be installed.
 * Spaces: `dev`, `prod`
 * Apps:
   * `dev` space:
-    * `calc-dev`
-    * `calc-rqworker`
-    * `calc-rqscheduler`
+   - `calc-dev`
+   - `calc-rqworker`
+   - `calc-rqscheduler`
+
   * `prod` space:
-    * `calc-prod`
-    * `calc-rqworker`
-    * `calc-rqscheduler`
-    * `calc-maintenance`
+   - `calc-prod`
+   - `calc-rqworker`
+   - `calc-rqscheduler`
+   - `calc-maintenance`
+
 * Routes:
   * calc-dev.app.cloud.gov -> `dev` space, `calc-dev` app
   * calc-prod.app.cloud.gov -> `prod` space, `calc-prod` app

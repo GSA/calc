@@ -1,4 +1,6 @@
-## Environment variables
+================================
+Environment variables
+================================
 
 Unlike traditional Django settings, we use environment variables
 for configuration to be compliant with [twelve-factor][] apps.

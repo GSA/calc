@@ -1,4 +1,6 @@
-## Setup
+=============
+Setup
+=============
 
 CALC is primarily a [Django] project.
 

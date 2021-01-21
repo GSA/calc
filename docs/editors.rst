@@ -1,4 +1,6 @@
-## Editor integration
+================================
+Editor integration
+================================
 
 It's often convenient to install editor integrations for
 CALC's languages to provide useful functionality like autocompletion
