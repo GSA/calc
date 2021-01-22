@@ -25,6 +25,6 @@ tqdm==4.21.0
 # production, so they can stay here.
 #Sphinx==1.5.2 - major upgrade
 Sphinx==3.4.3
-sphinx-rtd-theme==0.1.9
+sphinx-rtd-theme==0.5.1
 recommonmark==0.4.0
 Werkzeug==0.16.0

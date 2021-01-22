@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(DOCS_DIR)
 # -- Project information -----------------------------------------------------
 
 project = 'Calc'
-copyright = '2021, Teddy Desta'
+copyright = '2021, GSA'
 author = 'Teddy Desta'
 
 # The full version, including alpha/beta/rc tags

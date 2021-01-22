@@ -81,7 +81,7 @@ CALC's `requirements-dev.txt` file will install [`ipdb`][].
 
 To drop into an interactive debugging section:
 
-1. In a _separate terminal_ from the one that's already
+1. In a _separate terminal from the one that's already
    running `docker-compose up`, run:
 
    ```
