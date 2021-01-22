@@ -1,12 +1,12 @@
-================================
+==========================
 Deploying to Cloud Foundry
-================================
+==========================
 
 **This section is only of interest to 18F team members.**
 
 In general, you should not need to do any manual deployments of CALC because we use automated deploys from CircleCI for both our development and production deployed instances. See our [Release process](release.md) docs for how we tag and deploy new production releases.
 
-### Prerequisites
+:Prerequisites
 
 Download the Cloud Foundry CLI according to the [cloud.gov instructions][].
 Make sure you are using at least version v6.17.1, otherwise pushing
@@ -19,7 +19,7 @@ plugin for Cloud Foundry, which is used for zero-downtime deploys.
 You can install via
 `cf install-plugin autopilot -f -r CF-Community`.
 
-### Logging in to cloud.gov from the terminal
+:Logging in to cloud.gov from the terminal
 
 CALC is deployed to the GovCloud instance of cloud.gov. You will need to login
 to via the GovCloud api of cloud.gov:
@@ -50,22 +50,28 @@ only production dependencies will be installed.
 * Organization: `fas-calc`
 * Spaces: `dev`, `prod`
 * Apps:
-  * `dev` space:
-   - `calc-dev`
-   - `calc-rqworker`
-   - `calc-rqscheduler`
+  - `dev` space:
+  
+  * `calc-dev`
 
-  * `prod` space:
-   - `calc-prod`
-   - `calc-rqworker`
-   - `calc-rqscheduler`
-   - `calc-maintenance`
+  * `calc-rqworker`
+
+  * `calc-rqscheduler`
+
+  - `prod` space:
+
+  * `calc-prod`
+
+  * `calc-rqworker`
+
+  * `calc-rqscheduler`
+
+  * `calc-maintenance`
 
 * Routes:
   * calc-dev.app.cloud.gov -> `dev` space, `calc-dev` app
   * calc-prod.app.cloud.gov -> `prod` space, `calc-prod` app
-  * calc.gsa.gov -> `prod` space, `calc-prod` app
-    or the maintenance page app, `calc-maintenance`
+  * calc.gsa.gov -> `prod` space, `calc-prod` app or the maintenance page app, `calc-maintenance`
 
 ### Services
 
@@ -96,7 +102,7 @@ environment variables that will be used when setting up CALC's User Provided Ser
 
 See the [Identity Provider Service docs][IPS] for up-to-date information on its use.
 
-#### User Provided Service (UPS)
+:User Provided Service (UPS)
 
 For cloud.gov deployments, this project makes use of a [User Provided Service (UPS)][UPS] to get its configuration
 variables, instead of using the local environment.
@@ -106,12 +112,15 @@ application instance. This will need to be done for every Cloud Foundry `space`.
 First, create a JSON file (e.g. `credentials-dev.json`) with all the configuration values specified as per the
 [Environment variables](environment.md). **DO NOT COMMIT THIS FILE.**
 
-```json
-{
-  "SECRET_KEY": "my secret key",
-  "...": "other environment variables"
-}
-```
+
+.. code-block:: python
+
+    {
+      "SECRET_KEY": "my secret key",
+      "...": "other environment variables"
+    }
+
+
 
 Then enter the following commands (filling in the main application instance name
 for `<APP_INSTANCE>`) to create the user-provided service:

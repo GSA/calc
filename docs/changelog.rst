@@ -1,6 +1,6 @@
-================================
+==========
 Change Log
-================================
+==========
 
 All notable changes to this project will be documented in this file,
 which uses the format described in
