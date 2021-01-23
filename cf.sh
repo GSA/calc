@@ -14,4 +14,8 @@ if [ $CF_INSTANCE_INDEX = "0" ]; then
 
 fi
 echo "------ Starting APP ------"
-gunicorn calc.wsgi:application --timeout 180 --ciphers TLS_RSA_WITH_AES_256_CBC_SHA256 --workers 3 --log-level=debug
+gunicorn calc.wsgi:application \ 
+--timeout 180 \ 
+--ciphers TLS_RSA_WITH_AES_256_CBC_SHA256 \ 
+--workers 3 --log-level=debug \ 
+--worker-class gevent
