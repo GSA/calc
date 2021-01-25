@@ -245,6 +245,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'docs', 'static')
 ]
 
+# TODO: MAY NEED TO CHANGE THIS FOR NEW REDIS!
 RQ_QUEUES = {
     'default': {
         'URL': os.environ['REDIS_URL'],
