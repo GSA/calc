@@ -43,8 +43,11 @@ export function Highlights({
             Median Price
           </h5>
           <h5 className="sd-highlight">
-            $
-            {formatPrice(medianPrices)}
+            ${
+              isNaN(formatPrice(medianPrices))?0:formatPrice(medianPrices)
+            }
+            {/* $
+            {formatPrice(medianPrices)} */}
           </h5>
         </div>
         <div className="standard-deviation-block">
