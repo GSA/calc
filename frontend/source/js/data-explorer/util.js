@@ -14,6 +14,13 @@ export const formatFriendlyPrice = (price) => {
   }
   return formatPriceWithCents(price);
 };
+export const checkforisNaN = (price) => {
+  let returnableValue = price;
+  if (Number.isNaN(price)) {
+    returnableValue = 0;
+  } 
+  return returnableValue;
+};
 
 
 export const getMedian = (arr) => {

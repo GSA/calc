@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 
 import {
   formatPrice,
-  getMedian
+  getMedian,
+  checkforisNaN
 } from '../util';
 
 export function Highlights({
@@ -38,18 +39,15 @@ export function Highlights({
             {formatPrice(avgPrice)}
           </h5>
         </div>
-        <div className="medianblock standard-deviation-block">
+        {/* <div className="medianblock standard-deviation-block">
           <h5 className="standard-deviation-title">
             Median Price
           </h5>
           <h5 className="sd-highlight">
-            ${
-              isNaN(formatPrice(medianPrices))?0:formatPrice(medianPrices)
-            }
-            {/* $
-            {formatPrice(medianPrices)} */}
+            $
+            {checkforisNaN(formatPrice(medianPrices))}
           </h5>
-        </div>
+        </div> */}
         <div className="standard-deviation-block">
           <h5 className="standard-deviation-title">
             Std deviation +1
