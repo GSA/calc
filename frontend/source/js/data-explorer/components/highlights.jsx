@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 
 import {
   formatPrice,
-  getMedian,
-  checkforisNaN
+  // getMedian,
+  // checkforisNaN
 } from '../util';
 
 export function Highlights({
   stdDeviation,
   avgPrice,
-  medianPrices,
+  // medianPrices,
 }) {
   const stdDevMinus = avgPrice - stdDeviation;
   const stdDevPlus = avgPrice + stdDeviation;
@@ -65,14 +65,14 @@ export function Highlights({
 Highlights.propTypes = {
   stdDeviation: PropTypes.number.isRequired,
   avgPrice: PropTypes.number.isRequired,
-  medianPrices: PropTypes.any.isRequired,
+  // medianPrices: PropTypes.any.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     stdDeviation: state.rates.data.first_standard_deviation,
     avgPrice: state.rates.data.average,
-    medianPrices: getMedian(state.rates.data.results.map(n => n['current_price']))
+    // medianPrices: getMedian(state.rates.data.results.map(n => n['current_price']))
   };
 }
 
